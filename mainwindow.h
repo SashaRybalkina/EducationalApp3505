@@ -17,5 +17,16 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    int clickMenuCounter = 0;
+    int clickNounCounter = 0;
+    int clickVerbCounter = 0;
+    int clickAdjectiveCounter = 0;
+
+public slots:
+    void makeHeadlineVisible();
+    void makeNounVisible();
+    void makeVerbVisible();
+    void makeAdjectiveVisible();
+    void makeButtonsVisible();
 };
 #endif // MAINWINDOW_H
