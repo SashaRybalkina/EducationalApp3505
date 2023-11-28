@@ -13,13 +13,14 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->verbList->setVisible(false);
     ui->adjectiveList->setVisible(false);
     ui->headlineList->setVisible(false);
+    ui->headline->setVisible(false);
 
     connect(ui->media, &QPushButton::clicked, this, &MainWindow::makeHeadlineVisible);
     connect(ui->nouns, &QPushButton::clicked, this, &MainWindow::makeNounVisible);
     connect(ui->verbs, &QPushButton::clicked, this, &MainWindow::makeVerbVisible);
     connect(ui->adjectives, &QPushButton::clicked, this, &MainWindow::makeAdjectiveVisible);
 
-    connect(ui->headlineList, &QListWidget::clicked, this, &MainWindow::makeButtonsVisible);
+    connect(ui->headlineList, &QListWidget::itemClicked, this, &MainWindow::makeButtonsVisible);
 }
 
 MainWindow::~MainWindow()
@@ -42,6 +43,7 @@ void MainWindow::makeHeadlineVisible()
     ui->verbList->setVisible(false);
     ui->adjectiveList->setVisible(false);
     ui->headlineList->setVisible(check);
+    ui->headline->setVisible(false);
     clickMenuCounter++;
 }
 
@@ -78,8 +80,17 @@ void MainWindow::makeAdjectiveVisible()
     clickAdjectiveCounter++;
 }
 
-void MainWindow::makeButtonsVisible()
+void MainWindow::makeButtonsVisible(QListWidgetItem *currentSelection)
 {
+    //currentSelection->setHidden(true);
+    currentSelection->setFlags(currentSelection->flags() & ~Qt::ItemIsEnabled);
+    int headlineIndex = arc4random() % headlineBank.size();
+    QString headline = headlineBank[headlineIndex];
+    headlineBank.remove(headlineIndex);
+
+    ui->headline->setVisible(true);
+    ui->headline->setText(headline);
+
     ui->nouns->setVisible(true);
     ui->verbs->setVisible(true);
     ui->adjectives->setVisible(true);
