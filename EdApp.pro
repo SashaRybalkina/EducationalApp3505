@@ -115,7 +115,8 @@ HEADERS += \
     world.h
 
 FORMS += \
-    mainwindow.ui
+    mainwindow.ui \
+    media.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
