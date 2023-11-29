@@ -37,8 +37,10 @@ PhysicsEngine::PhysicsEngine(int num_players, int player_width, int player_heigh
         body->SetUserData(name);
     }
 
+    // TODO: create walls
 }
 
+// TODO: add conversion becuase qt goes top left where box2d uses center
 std::tuple<int, int> PhysicsEngine::pixelCoordinateToB2D(int x, int y)
 {
     // QT has (0, 0) at top left, where as box2d has it at center

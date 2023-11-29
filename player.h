@@ -8,7 +8,10 @@ class Player : public QWidget
     Q_OBJECT
 public:
     explicit Player(std::string name, int x, int y, QWidget *parent = nullptr);
+
     void paintEvent(QPaintEvent *);
+
+    void setLocation(int x, int y);
 
 public slots:
 

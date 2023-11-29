@@ -6,6 +6,7 @@
 #include <QObject>
 #include <QTimer>
 #include <vector>
+#include <map>
 
 
 class World : public QObject
@@ -19,7 +20,7 @@ private:
     QTimer timer;
     int game_width;
     int game_height;
-    std::vector<Player> players;
+    std::map<std::string, Player*> players;
 
 private slots:
     void updateWorld();
