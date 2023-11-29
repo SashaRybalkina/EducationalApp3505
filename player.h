@@ -7,7 +7,7 @@ class Player : public QWidget
 {
     Q_OBJECT
 public:
-    explicit Player(std::string name, int x, int y, QWidget *parent = nullptr);
+    explicit Player(std::string name, int x, int y, int playerWidth, int playerHeight, QWidget *parent = nullptr);
 
     void paintEvent(QPaintEvent *);
 

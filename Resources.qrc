@@ -2,4 +2,7 @@
     <qresource prefix="/people">
         <file>stick_man.png</file>
     </qresource>
+    <qresource prefix="/">
+        <file>person.png</file>
+    </qresource>
 </RCC>

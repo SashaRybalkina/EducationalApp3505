@@ -1,31 +1,44 @@
 #include "world.h"
+#include <QDebug>
 
-World::World(QObject *parent, int game_width, int game_height):
+World::World(int game_width, int game_height, QObject *parent):
     QObject(parent),
     game_width(game_width),
     game_height(game_height),
     timer(this)
 {
+}
+
+void World::setParent(QWidget *parent)
+{
+    this->parent = parent;
+
     // player width/height based on size of sprite
-    QImage image = QImage(":/people/stick_man.png");
-    int player_width = image.width();
-    int player_height = image.height();
-    this->physicsEngine = new PhysicsEngine(10, player_width, player_height, game_width, game_height);
+    QImage image = QImage(":/person.png");
+    int playerWidth = image.width();
+    int playerHeight = image.height();
+    this->physicsEngine = new PhysicsEngine(10, playerWidth, playerHeight, game_width, game_height);
 
     for(const auto& [name, x, y] : physicsEngine->getPlayerLocations())
     {
-        players[name] = new Player(name, x, y);
+        qDebug() << "ran world";
+        Player *player = new Player(name, x, y, playerWidth, playerHeight, parent);  // TODO: add image as parameter
+        player->show();
+        players[name] = player;
     }
 
     connect(&timer, &QTimer::timeout, this, &World::updateWorld);
     timer.start(10);  // 10 ms interval
 }
 
+
 void World::updateWorld()
 {
+    // qDebug() << "world called updateWorld";
     physicsEngine->updateWorld();
     for(const auto& [name, x, y] : physicsEngine->getPlayerLocations())
     {
+        // qDebug() << "ran";
         Player *player = players[name];
         player->setLocation(x, y);
         player->update();  // update triggers a paint event for that player which calls paintEvent
