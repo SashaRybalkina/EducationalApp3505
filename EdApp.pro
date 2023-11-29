@@ -58,6 +58,7 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     physicsengine.cpp \
+    player.cpp \
     world.cpp
 
 HEADERS += \
@@ -110,6 +111,7 @@ HEADERS += \
     Box2D/Rope/b2Rope.h \
     mainwindow.h \
     physicsengine.h \
+    player.h \
     world.h
 
 FORMS += \
