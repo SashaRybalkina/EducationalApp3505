@@ -2,14 +2,15 @@
 #include <QPainter>
 #include <QDebug>
 
-Player::Player(std::string name, int x, int y,  int playerWidth, int playerHeight, QWidget *parent):
+Player::Player(std::string name, int x, int y,  int playerWidth, int playerHeight, int gameWidth, int gameHeight, QWidget *parent):
     QWidget(parent),
     name(name),
     x(x),
     y(y)
 {
-    qDebug() << playerWidth;
-    setFixedSize(1000, 1000); // (playerWidth + 50, playerHeight + 50); // TODO move mobjects to back
+    // qDebug() << playerWidth;
+
+    setFixedSize(gameWidth, gameHeight); // (playerWidth + 50, playerHeight + 50); // TODO move mobjects to back
 }
 
 void Player::setLocation(int x, int y)

@@ -4,14 +4,17 @@
 #include <random>
 
 
-PhysicsEngine::PhysicsEngine(int num_players, int playerWidth, int playerHeight, int game_width, int game_height):
+PhysicsEngine::PhysicsEngine(int num_players, int playerWidth, int playerHeight, int game_width, int game_height,
+                             CallbackType collisionStartCallback, CallbackType collisionEndCallback):
     num_players(num_players),
     game_width(game_width),
     game_height(game_height),
     playerWidth(playerWidth),
-    playerHeight(playerHeight)
+    playerHeight(playerHeight),
+    collisionStartCallback(collisionStartCallback),
+    collisionEndCallback(collisionEndCallback)
 {
-    b2Vec2 gravity(0.0f, 0.0f); // Define world gravity
+    b2Vec2 gravity(0.0f, 0.0f); // Define world without gravity
     this->world = new b2World(gravity);
 
     // create walls
@@ -21,7 +24,7 @@ PhysicsEngine::PhysicsEngine(int num_players, int playerWidth, int playerHeight,
     createWall(0, - game_height / 2, 1, game_height); // Left wall
     createWall(game_width, - game_height / 2, 1, game_height); // Right wall
 
-
+    // create players
     for (int i = 0; i < num_players; i++)
     {
         // create a body
@@ -36,18 +39,63 @@ PhysicsEngine::PhysicsEngine(int num_players, int playerWidth, int playerHeight,
         // Convert pixel dimensions to meters and create dynamic rectangle bound
         b2PolygonShape dynamicBox;
         dynamicBox.SetAsBox(playerWidth / 2.0f, playerHeight / 2.0f);  // divide by 2 because box2d doubles
-
+        // set body traits
         b2FixtureDef fixtureDef;
         fixtureDef.shape = &dynamicBox;
         fixtureDef.density = .005f;
         fixtureDef.friction = 0.4f;
         fixtureDef.restitution = 0.6f; // Bounciness
-
+        // apply traits and name (user data)
         body->CreateFixture(&fixtureDef);
         std::string* name = new std::string(std::to_string(i));  // TODO: better way?
         body->SetUserData(name);
+        // Create a larger sensor fixture for proximity detection for the body
+        b2PolygonShape sensorShape;
+        sensorShape.SetAsBox((playerWidth / 2.0f) + 10.0f, (playerHeight / 2.0f) + 10.0f); // 10 units larger on each side
+        b2FixtureDef sensorFixtureDef;
+        sensorFixtureDef.shape = &sensorShape;
+        sensorFixtureDef.isSensor = true; // Make this fixture a sensor
+        body->CreateFixture(&sensorFixtureDef);
     }
+    // register contact listener with world
+    this->cl = new ContactListener(this);
+    world->SetContactListener(cl);
+}
 
+PhysicsEngine::ContactListener::ContactListener(PhysicsEngine *parent):
+    parent(parent)
+{
+}
+
+void PhysicsEngine::ContactListener::BeginContact(b2Contact* contact) {
+    b2Fixture* fixtureA = contact->GetFixtureA();
+    b2Fixture* fixtureB = contact->GetFixtureB();
+    b2Body* bodyA = fixtureA->GetBody();
+    b2Body* bodyB = fixtureB->GetBody();
+    std::string* nameA = static_cast<std::string*>(bodyA->GetUserData());
+    std::string* nameB = static_cast<std::string*>(bodyB->GetUserData());
+
+    // Check if both fixtures are a sensor
+    if (fixtureA->IsSensor() && fixtureB->IsSensor()) {
+        // Handle proximity enter event
+        parent->collisionStartCallback(*nameA, *nameB);
+    }
+}
+
+void PhysicsEngine::ContactListener::EndContact(b2Contact* contact) {
+    b2Fixture* fixtureA = contact->GetFixtureA();
+    b2Fixture* fixtureB = contact->GetFixtureB();
+    b2Body* bodyA = fixtureA->GetBody();
+    b2Body* bodyB = fixtureB->GetBody();
+    std::string* nameA = static_cast<std::string*>(bodyA->GetUserData());
+    std::string* nameB = static_cast<std::string*>(bodyB->GetUserData());
+
+    // Check if both fixtures are a sensor
+    if (fixtureA->IsSensor() && fixtureB->IsSensor()) {
+        // Handle proximity leave event
+        parent->collisionEndCallback(*nameA, *nameB);
+
+    }
 }
 
 void PhysicsEngine::createWall(float32 x, float32 y, float32 width, float32 height) {
@@ -95,7 +143,7 @@ float randomFloat(float min, float max) {
 
 void PhysicsEngine::updateWorld()
 {
-    // It is generally best to keep the time step and iterations fixed.
+    // It is generally best to keep the time step and iterations fixed
     world->Step(1.0/60.0, 6, 2);
 
     // Iterate over all bodies and apply random forces

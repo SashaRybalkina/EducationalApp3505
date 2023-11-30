@@ -7,6 +7,7 @@
 #include <QTimer>
 #include <vector>
 #include <map>
+#include <set>
 
 
 class World : public QObject
@@ -17,6 +18,10 @@ public:
 
     void setParent(QWidget *parent);
 
+    void collisionStartCallback(std::string player1, std::string player2);
+
+    void collisionEndCallback(std::string player1, std::string player2);
+
 private:
     PhysicsEngine *physicsEngine;
     QTimer timer;
@@ -24,6 +29,7 @@ private:
     int game_height;
     std::map<std::string, Player*> players;
     QWidget *parent;
+    std::set<std::tuple<std::string, std::string>> activeCollisions;
 
 private slots:
     void updateWorld();

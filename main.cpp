@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 
 #include <QApplication>
+#include <QDebug>
 #include <QScreen>
 #include "world.h"
 
@@ -12,6 +13,7 @@ int main(int argc, char *argv[])
     QRect screenGeometry = screen->geometry();
     int width = screenGeometry.width();
     int height = screenGeometry.height();
+    qDebug() << width;
     World world(width, height);
     MainWindow w(world);
     w.show();

@@ -1,5 +1,6 @@
 #include "world.h"
 #include <QDebug>
+#include <functional>
 
 World::World(int game_width, int game_height, QObject *parent):
     QObject(parent),
@@ -17,8 +18,12 @@ void World::setParent(QWidget *parent)
     QImage image = QImage(":/person.png");
     int playerWidth = image.width();
     int playerHeight = image.height();
-    this->physicsEngine = new PhysicsEngine(10, playerWidth, playerHeight, game_width, game_height);
-
+    // bind member method to instance of class
+    auto boundStartCallback = std::bind(&World::collisionStartCallback, this, std::placeholders::_1, std::placeholders::_2);
+    auto boundEndCallback = std::bind(&World::collisionEndCallback, this, std::placeholders::_1, std::placeholders::_2);
+    // create physics engine
+    this->physicsEngine = new PhysicsEngine(10, playerWidth, playerHeight, game_width, game_height, boundStartCallback, boundEndCallback);
+    // create players with intial physics
     for(const auto& [name, x, y] : physicsEngine->getPlayerLocations())
     {
         // qDebug() << "ran world";
@@ -27,7 +32,7 @@ void World::setParent(QWidget *parent)
         player->lower();  // moves to bottom of stack among widgets with same parent
         players[name] = player;
     }
-
+    // set timer to update engine and in turn update world so gui can update
     connect(&timer, &QTimer::timeout, this, &World::updateWorld);
     timer.start(10);  // 10 ms interval
 }
@@ -44,5 +49,13 @@ void World::updateWorld()
         player->setLocation(x, y);
         player->update();  // update triggers a paint event for that player which calls paintEvent
     }
+}
+
+void World::collisionStartCallback(std::string player1, std::string player2) {
+    qDebug() << player1 << player2 << "start";
+}
+
+void World::collisionEndCallback(std::string player1, std::string player2){
+    qDebug() << player1 << player2 << "end";
 }
 
