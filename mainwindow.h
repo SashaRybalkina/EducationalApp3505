@@ -24,7 +24,16 @@ private:
     int clickNounCounter = 0;
     int clickVerbCounter = 0;
     int clickAdjectiveCounter = 0;
-    QList<QString> headlineBank = {"one", "two", "three"};
+    QString currentString = "";
+
+    //<> are nouns, {} are verbs, [] are adjectives
+    QList<QString> headlineBank = {"This morning, a [] VCJim supporter is seen with a [] Kopta supporter, ensuing a [] <>, which caused both individuals to {}."};
+
+    QHash<QString, int> const verbBank = {{"hit", -15}, {"agree", 15}};
+
+    QHash<QString, int> const adjectiveBank = {{"aggressive", -20}, {"friendly", 20},
+    {"hot", 10}, {"cool", 10}, {"dumb", -15}, {"smart", 15}, {"extravagant", -5},
+    {"modest", 5}, {"heroic", 20}, {"villainous", -25}};
 
 public slots:
     void makeHeadlineVisible();
@@ -32,5 +41,7 @@ public slots:
     void makeVerbVisible();
     void makeAdjectiveVisible();
     void makeButtonsVisible(QListWidgetItem *currentSelection);
+    void setString(QListWidgetItem *currentSelection);
+    void editHeadline();
 };
 #endif // MAINWINDOW_H

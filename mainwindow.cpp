@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QDebug>
-
+#include <iostream>
 
 MainWindow::MainWindow(World& world, QWidget *parent)
     : QMainWindow(parent)
@@ -12,7 +12,6 @@ MainWindow::MainWindow(World& world, QWidget *parent)
     world.setParent(this);
     qDebug() << "ran mw";
 
-
     ui->nouns->setVisible(false);
     ui->verbs->setVisible(false);
     ui->adjectives->setVisible(false);
@@ -22,13 +21,17 @@ MainWindow::MainWindow(World& world, QWidget *parent)
     ui->adjectiveList->setVisible(false);
     ui->headlineList->setVisible(false);
     ui->headline->setVisible(false);
+    ui->explanation->setVisible(false);
 
     connect(ui->media, &QPushButton::clicked, this, &MainWindow::makeHeadlineVisible);
     connect(ui->nouns, &QPushButton::clicked, this, &MainWindow::makeNounVisible);
     connect(ui->verbs, &QPushButton::clicked, this, &MainWindow::makeVerbVisible);
     connect(ui->adjectives, &QPushButton::clicked, this, &MainWindow::makeAdjectiveVisible);
 
-    connect(ui->headlineList, &QListWidget::itemClicked, this, &MainWindow::makeButtonsVisible);
+    connect(ui->headlineList, &QListWidget::itemPressed, this, &MainWindow::makeButtonsVisible);
+    connect(ui->nounList, &QListWidget::itemPressed, this, &MainWindow::setString);
+    connect(ui->verbList, &QListWidget::itemPressed, this, &MainWindow::setString);
+    connect(ui->adjectiveList, &QListWidget::itemPressed, this, &MainWindow::setString);
 }
 
 MainWindow::~MainWindow()
@@ -51,7 +54,9 @@ void MainWindow::makeHeadlineVisible()
     ui->verbList->setVisible(false);
     ui->adjectiveList->setVisible(false);
     ui->headlineList->setVisible(check);
+    ui->headlineList->setEnabled(true);
     ui->headline->setVisible(false);
+    ui->explanation->setVisible(false);
     clickMenuCounter++;
 }
 
@@ -90,16 +95,113 @@ void MainWindow::makeAdjectiveVisible()
 
 void MainWindow::makeButtonsVisible(QListWidgetItem *currentSelection)
 {
-    //currentSelection->setHidden(true);
     currentSelection->setFlags(currentSelection->flags() & ~Qt::ItemIsEnabled);
+    ui->headlineList->setEnabled(false);
     int headlineIndex = rand() % headlineBank.size();
     QString headline = headlineBank[headlineIndex];
     headlineBank.remove(headlineIndex);
 
     ui->headline->setVisible(true);
+    ui->explanation->setVisible(true);
     ui->headline->setText(headline);
 
     ui->nouns->setVisible(true);
     ui->verbs->setVisible(true);
     ui->adjectives->setVisible(true);
+
+    editHeadline();
+}
+
+void MainWindow::setString(QListWidgetItem *currentSelection)
+{
+    currentString = currentSelection->text();
+}
+
+void MainWindow::editHeadline()
+{
+    QStringList splitHeadline = (ui->headline->toPlainText()).split(" ");
+    for (int i = 0; i < splitHeadline.size(); i++)
+    {
+        if (splitHeadline[i] == "<>" || splitHeadline[i] == "<>," || splitHeadline[i] == "<>.")
+        {
+            ui->nouns->setEnabled(true);
+            ui->verbs->setEnabled(false);
+            ui->adjectives->setEnabled(false);
+            ui->nounList->setVisible(true);
+            ui->verbList->setVisible(false);
+            ui->adjectiveList->setVisible(false);
+
+            QTimer timer;
+            timer.setSingleShot(true);
+            QEventLoop loop;
+            connect(ui->nounList, &QListWidget::itemPressed, &loop, &QEventLoop::quit);
+            connect(&timer, &QTimer::timeout, &loop, &QEventLoop::quit);
+            timer.start(100000);
+            loop.exec();
+
+            QString extra = "";
+            if (splitHeadline[i].length() == 3)
+            {
+                extra = splitHeadline[i].mid(2,2);
+            }
+
+            splitHeadline[i] = currentString + extra;
+            ui->headline->setText(splitHeadline.join(" "));
+            currentString = "";
+        }
+        else if (splitHeadline[i] == "{}" || splitHeadline[i] == "{}," || splitHeadline[i] == "{}.")
+        {
+            ui->nouns->setEnabled(false);
+            ui->verbs->setEnabled(true);
+            ui->adjectives->setEnabled(false);
+            ui->nounList->setVisible(false);
+            ui->verbList->setVisible(true);
+            ui->adjectiveList->setVisible(false);
+
+            QTimer timer;
+            timer.setSingleShot(true);
+            QEventLoop loop;
+            connect(ui->verbList, &QListWidget::itemPressed, &loop, &QEventLoop::quit);
+            connect(&timer, &QTimer::timeout, &loop, &QEventLoop::quit);
+            timer.start(100000);
+            loop.exec();
+
+            QString extra = "";
+            if (splitHeadline[i].length() == 3)
+            {
+                extra = splitHeadline[i].mid(2,2);
+            }
+
+            splitHeadline[i] = currentString + extra;
+            ui->headline->setText(splitHeadline.join(" "));
+            currentString = "";
+        }
+        else if (splitHeadline[i] == "[]" || splitHeadline[i] == "[]," || splitHeadline[i] == "[].")
+        {
+            ui->nouns->setEnabled(false);
+            ui->verbs->setEnabled(false);
+            ui->adjectives->setEnabled(true);
+            ui->nounList->setVisible(false);
+            ui->verbList->setVisible(false);
+            ui->adjectiveList->setVisible(true);
+
+            QTimer timer;
+            timer.setSingleShot(true);
+            QEventLoop loop;
+            connect(ui->adjectiveList, &QListWidget::itemClicked, &loop, &QEventLoop::quit);
+            connect(&timer, &QTimer::timeout, &loop, &QEventLoop::quit);
+            timer.start(100000);
+            loop.exec();
+
+            QString extra = "";
+            if (splitHeadline[i].length() == 3)
+            {
+                extra = splitHeadline[i].mid(2,2);
+            }
+
+            splitHeadline[i] = currentString + extra;
+            ui->headline->setText(splitHeadline.join(" "));
+            currentString = "";
+        }
+    }
 }

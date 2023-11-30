@@ -145,52 +145,52 @@
     </property>
     <item>
      <property name="text">
-      <string>Word One</string>
+      <string>aggressive</string>
      </property>
     </item>
     <item>
      <property name="text">
-      <string>Word Two</string>
+      <string>friendly</string>
      </property>
     </item>
     <item>
      <property name="text">
-      <string>Word Three</string>
+      <string>hot</string>
      </property>
     </item>
     <item>
      <property name="text">
-      <string>Word Four</string>
+      <string>cool</string>
      </property>
     </item>
     <item>
      <property name="text">
-      <string>Word Five</string>
+      <string>dumb</string>
      </property>
     </item>
     <item>
      <property name="text">
-      <string>Word Six</string>
+      <string>smart</string>
      </property>
     </item>
     <item>
      <property name="text">
-      <string>Word Seven</string>
+      <string>extravagant</string>
      </property>
     </item>
     <item>
      <property name="text">
-      <string>Word Eight</string>
+      <string>modest</string>
      </property>
     </item>
     <item>
      <property name="text">
-      <string>Word Nine</string>
+      <string>heroic</string>
      </property>
     </item>
     <item>
      <property name="text">
-      <string>Word Ten</string>
+      <string>villainous</string>
      </property>
     </item>
    </widget>
@@ -231,42 +231,42 @@
     </property>
     <item>
      <property name="text">
-      <string>Word One</string>
+      <string>hit</string>
      </property>
     </item>
     <item>
      <property name="text">
-      <string>Word Two</string>
+      <string>agree</string>
      </property>
     </item>
     <item>
      <property name="text">
-      <string>Word Three</string>
+      <string>dance</string>
      </property>
     </item>
     <item>
      <property name="text">
-      <string>Word Four</string>
+      <string>die</string>
      </property>
     </item>
     <item>
      <property name="text">
-      <string>Word Five</string>
+      <string>seperate</string>
      </property>
     </item>
     <item>
      <property name="text">
-      <string>Word Six</string>
+      <string>hug</string>
      </property>
     </item>
     <item>
      <property name="text">
-      <string>Word Seven</string>
+      <string>explode</string>
      </property>
     </item>
     <item>
      <property name="text">
-      <string>Word Eight</string>
+      <string>kill</string>
      </property>
     </item>
     <item>
@@ -322,10 +322,10 @@
    <widget class="QTextBrowser" name="headline">
     <property name="geometry">
      <rect>
-      <x>230</x>
-      <y>30</y>
-      <width>301</width>
-      <height>31</height>
+      <x>190</x>
+      <y>80</y>
+      <width>341</width>
+      <height>51</height>
      </rect>
     </property>
     <property name="html">
@@ -335,8 +335,35 @@ p, li { white-space: pre-wrap; }
 hr { height: 1px; border-width: 0; }
 li.unchecked::marker { content: &quot;\2610&quot;; }
 li.checked::marker { content: &quot;\2612&quot;; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'.AppleSystemUIFont'; font-size:13pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'.AppleSystemUIFont'; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="explanation">
+    <property name="geometry">
+     <rect>
+      <x>210</x>
+      <y>20</y>
+      <width>291</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <kerning>true</kerning>
+     </font>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
+    </property>
+    <property name="text">
+     <string>Replace the brackets with words! &lt;&gt; are nouns, {} are verbs, and [] are adjectives!</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+    <property name="wordWrap">
+     <bool>true</bool>
     </property>
    </widget>
    <zorder>nounList</zorder>
@@ -349,6 +376,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
    <zorder>adjectives</zorder>
    <zorder>headline</zorder>
    <zorder>media</zorder>
+   <zorder>explanation</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -356,7 +384,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>21</height>
+     <height>24</height>
     </rect>
    </property>
   </widget>
