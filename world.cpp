@@ -3,9 +3,9 @@
 
 World::World(int game_width, int game_height, QObject *parent):
     QObject(parent),
+    timer(this),
     game_width(game_width),
-    game_height(game_height),
-    timer(this)
+    game_height(game_height)
 {
 }
 
@@ -21,9 +21,10 @@ void World::setParent(QWidget *parent)
 
     for(const auto& [name, x, y] : physicsEngine->getPlayerLocations())
     {
-        qDebug() << "ran world";
-        Player *player = new Player(name, x, y, playerWidth, playerHeight, parent);  // TODO: add image as parameter
+        // qDebug() << "ran world";
+        Player *player = new Player(name, x, y, playerWidth, playerHeight, game_width, game_height, parent);  // TODO: add image as parameter
         player->show();
+        player->lower();  // moves to bottom of stack among widgets with same parent
         players[name] = player;
     }
 

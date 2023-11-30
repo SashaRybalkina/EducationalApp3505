@@ -1,16 +1,17 @@
 #include "physicsengine.h"
 #include <Box2D/Box2D.h>
 #include <string>
+#include <random>
 
 
 PhysicsEngine::PhysicsEngine(int num_players, int playerWidth, int playerHeight, int game_width, int game_height):
     num_players(num_players),
     game_width(game_width),
     game_height(game_height),
-    playerHeight(playerHeight),
-    playerWidth(playerWidth)
+    playerWidth(playerWidth),
+    playerHeight(playerHeight)
 {
-    b2Vec2 gravity(0.0f, -9.8f); // Define world gravity
+    b2Vec2 gravity(0.0f, 0.0f); // Define world gravity
     this->world = new b2World(gravity);
 
     // create walls
@@ -38,9 +39,9 @@ PhysicsEngine::PhysicsEngine(int num_players, int playerWidth, int playerHeight,
 
         b2FixtureDef fixtureDef;
         fixtureDef.shape = &dynamicBox;
-        fixtureDef.density = 1.0f;
-        fixtureDef.friction = 0.3f;
-        fixtureDef.restitution = 0.5f; // Bounciness
+        fixtureDef.density = .005f;
+        fixtureDef.friction = 0.4f;
+        fixtureDef.restitution = 0.6f; // Bounciness
 
         body->CreateFixture(&fixtureDef);
         std::string* name = new std::string(std::to_string(i));  // TODO: better way?
@@ -69,9 +70,6 @@ void PhysicsEngine::createWall(float32 x, float32 y, float32 width, float32 heig
     groundBody->CreateFixture(&groundBox, 0.0f);
 }
 
-
-
-// TODO: add conversion becuase qt goes top left where box2d uses center
 std::tuple<int, int> PhysicsEngine::pixelCoordinateToB2D(int x, int y)
 {
     // QT has (0, 0) at top left, where as box2d has it at center
@@ -88,11 +86,29 @@ std::tuple<int, int> PhysicsEngine::b2DCoordinateToPixel(int x, int y)
     return std::make_tuple(x - (playerWidth / 2), -1 * (y + (playerHeight / 2)));
 }
 
+float randomFloat(float min, float max) {
+    static std::random_device rd;
+    static std::mt19937 gen(rd());
+    std::uniform_real_distribution<> dis(min, max);
+    return dis(gen);
+}
+
 void PhysicsEngine::updateWorld()
 {
     // It is generally best to keep the time step and iterations fixed.
     world->Step(1.0/60.0, 6, 2);
+
+    // Iterate over all bodies and apply random forces
+    for (b2Body* body = world->GetBodyList(); body; body = body->GetNext()) {
+        if (body->GetType() == b2_dynamicBody) {
+            float forceX = randomFloat(-10000.0f, 10000.0f);
+            float forceY = randomFloat(-10000.0f, 10000.0f);
+            b2Vec2 force(forceX, forceY);
+            body->ApplyForceToCenter(force, true);
+        }
+    }
 }
+
 
 std::vector<std::tuple<std::string, int, int>> PhysicsEngine::getPlayerLocations()
 {
