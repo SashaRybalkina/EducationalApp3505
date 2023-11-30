@@ -9,7 +9,7 @@ Player::Player(std::string name, int x, int y,  int playerWidth, int playerHeigh
     y(y)
 {
     qDebug() << playerWidth;
-    setFixedSize(1000, 1000); // (playerWidth + 50, playerHeight + 50);
+    setFixedSize(1000, 1000); // (playerWidth + 50, playerHeight + 50); // TODO move mobjects to back
 }
 
 void Player::setLocation(int x, int y)

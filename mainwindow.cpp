@@ -92,7 +92,7 @@ void MainWindow::makeButtonsVisible(QListWidgetItem *currentSelection)
 {
     //currentSelection->setHidden(true);
     currentSelection->setFlags(currentSelection->flags() & ~Qt::ItemIsEnabled);
-    int headlineIndex = arc4random() % headlineBank.size();
+    int headlineIndex = rand() % headlineBank.size();
     QString headline = headlineBank[headlineIndex];
     headlineBank.remove(headlineIndex);
 
