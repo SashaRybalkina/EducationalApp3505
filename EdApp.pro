@@ -57,6 +57,7 @@ SOURCES += \
     Box2D/Rope/b2Rope.cpp \
     main.cpp \
     mainwindow.cpp \
+    mathengine.cpp \
     physicsengine.cpp \
     player.cpp \
     world.cpp
@@ -110,6 +111,7 @@ HEADERS += \
     Box2D/Dynamics/b2WorldCallbacks.h \
     Box2D/Rope/b2Rope.h \
     mainwindow.h \
+    mathengine.h \
     physicsengine.h \
     player.h \
     world.h
