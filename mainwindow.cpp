@@ -249,13 +249,13 @@ void MainWindow::mouseReleaseEvent(QMouseEvent *event)
 void MainWindow::wheelEvent(QWheelEvent *event)
 {
     const int increment = 10;
-    const int delta = event->angleDelta().y();
-    const int step = (delta > 0) ? increment : -increment;
+    // determine if get smaller or bigger based on scroll direction
+    const int step = (event->angleDelta().y() > 0) ? increment : -increment;
 
+    // ctrl is held
     if (event->modifiers() & Qt::ControlModifier)
     {
-        // ctrl is held
-        int newWidth = qMax(ui->cameraFrame->width() + step, 10);
+        int newWidth = ui->cameraFrame->width() + step;
         if (newWidth > 10)
         {
             ui->cameraFrame->setFixedWidth(newWidth);
@@ -264,8 +264,7 @@ void MainWindow::wheelEvent(QWheelEvent *event)
     }
     else
     {
-        // ctrl not held
-        int newHeight = qMax(ui->cameraFrame->height() + step, 10);
+        int newHeight = ui->cameraFrame->height() + step;
         if (newHeight > 10)
         {
             ui->cameraFrame->setFixedHeight(newHeight);

@@ -14,11 +14,8 @@ public:
     Camera(QFrame *frame, QWidget *parent = nullptr);
     void updatePosition(const QPoint &cursorPos);
     void setRightButtonPressed(bool pressed) { isRightButtonPressed = pressed; }
-    void setPictureLocation(const QPoint &location) { pictureLocation = location;
-                                                      qDebug() << "Camera Location: " << location;
-                                                    }
+    void setPictureLocation(const QPoint &location) { pictureLocation = location;}
 
-protected:
 private:
     QFrame *cameraFrame;
     bool leftButtonPressed;
