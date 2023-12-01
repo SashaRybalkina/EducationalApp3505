@@ -123,6 +123,8 @@ void MainWindow::setString(QListWidgetItem *currentSelection)
 
 void MainWindow::editHeadline()
 {
+    int totalScore = 0;
+    int wordCount = 0;
     QStringList splitHeadline = (ui->headline->toPlainText()).split(" ");
     for (int i = 0; i < splitHeadline.size(); i++)
     {
@@ -150,8 +152,10 @@ void MainWindow::editHeadline()
             }
 
             splitHeadline[i] = currentString + extra;
+            totalScore += nounBank.value(currentString);
             ui->headline->setText(splitHeadline.join(" "));
             currentString = "";
+            wordCount++;
         }
         else if (splitHeadline[i] == "{}" || splitHeadline[i] == "{}," || splitHeadline[i] == "{}.")
         {
@@ -177,8 +181,10 @@ void MainWindow::editHeadline()
             }
 
             splitHeadline[i] = currentString + extra;
+            totalScore += verbBank.value(currentString);
             ui->headline->setText(splitHeadline.join(" "));
             currentString = "";
+            wordCount++;
         }
         else if (splitHeadline[i] == "[]" || splitHeadline[i] == "[]," || splitHeadline[i] == "[].")
         {
@@ -204,10 +210,13 @@ void MainWindow::editHeadline()
             }
 
             splitHeadline[i] = currentString + extra;
+            totalScore += adjectiveBank.value(currentString);
             ui->headline->setText(splitHeadline.join(" "));
             currentString = "";
+            wordCount++;
         }
     }
+    totalScore = totalScore/wordCount;
 }
 void MainWindow::mouseMoveEvent(QMouseEvent *event)
 {
