@@ -1,4 +1,3 @@
-// camera.cpp
 #include "camera.h"
 #include <QMouseEvent>
 

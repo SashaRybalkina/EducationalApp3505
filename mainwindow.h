@@ -9,7 +9,7 @@
 QT_BEGIN_NAMESPACE
 namespace Ui
 {
-    class MainWindow;
+class MainWindow;
 }
 QT_END_NAMESPACE
 
@@ -23,6 +23,8 @@ public:
 
 protected:
     void mouseMoveEvent(QMouseEvent *event) override;
+    void mousePressEvent(QMouseEvent *event) override;
+    void mouseReleaseEvent(QMouseEvent *event) override;
     void wheelEvent(QWheelEvent *event) override;
 
 private:
@@ -41,6 +43,9 @@ private:
     QHash<QString, int> const verbBank = {{"hit", -15}, {"agree", 15}};
 
     QHash<QString, int> const adjectiveBank = {{"aggressive", -20}, {"friendly", 20}, {"hot", 10}, {"cool", 10}, {"dumb", -15}, {"smart", 15}, {"extravagant", -5}, {"modest", 5}, {"heroic", 20}, {"villainous", -25}};
+
+    QString originalFrameStyle;
+    QString changedFrameStyle;
 
 public slots:
     void makeHeadlineVisible();

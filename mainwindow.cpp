@@ -8,8 +8,11 @@ MainWindow::MainWindow(World &world, QWidget *parent)
 {
     ui->setupUi(this);
     world.setParent(this);
+
     camera = new Camera(ui->cameraFrame, this);
-    ui->cameraFrame->setStyleSheet("background-color: rgba(0, 0, 0, 0); border: 1px solid black;");
+    originalFrameStyle = "background-color: rgba(0, 0, 0, 15); border: 1px solid black;";
+    changedFrameStyle = "background-color: rgba(0, 0, 0, 20); border: 2px solid red;";
+    ui->cameraFrame->setStyleSheet(originalFrameStyle);
 
     qDebug() << "ran mw";
 
@@ -216,6 +219,32 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event)
         }
     }
 }
+
+void MainWindow::mousePressEvent(QMouseEvent *event)
+{
+    if (event->button() == Qt::RightButton)
+    {
+        ui->cameraFrame->setStyleSheet(changedFrameStyle);
+        camera->setRightButtonPressed(true);
+    }
+
+    QMainWindow::mousePressEvent(event);
+}
+
+void MainWindow::mouseReleaseEvent(QMouseEvent *event)
+{
+    if (event->button() == Qt::RightButton)
+    {
+        ui->cameraFrame->setStyleSheet(originalFrameStyle);
+        camera->setRightButtonPressed(false);
+
+        const QRect& frameRect = ui->cameraFrame->geometry();
+        camera->setPictureLocation(frameRect.center());
+    }
+
+    QMainWindow::mouseReleaseEvent(event);
+}
+
 
 void MainWindow::wheelEvent(QWheelEvent *event)
 {
