@@ -3,13 +3,14 @@
 #include <QDebug>
 #include <iostream>
 
-MainWindow::MainWindow(World& world, QWidget *parent)
-    : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
-    , world(world)
+MainWindow::MainWindow(World &world, QWidget *parent)
+    : QMainWindow(parent), ui(new Ui::MainWindow), world(world)
 {
     ui->setupUi(this);
     world.setParent(this);
+    camera = new Camera(ui->cameraFrame, this);
+    ui->cameraFrame->setStyleSheet("background-color: rgba(0, 0, 0, 0); border: 1px solid black;");
+
     qDebug() << "ran mw";
 
     ui->nouns->setVisible(false);
@@ -142,7 +143,7 @@ void MainWindow::editHeadline()
             QString extra = "";
             if (splitHeadline[i].length() == 3)
             {
-                extra = splitHeadline[i].mid(2,2);
+                extra = splitHeadline[i].mid(2, 2);
             }
 
             splitHeadline[i] = currentString + extra;
@@ -169,7 +170,7 @@ void MainWindow::editHeadline()
             QString extra = "";
             if (splitHeadline[i].length() == 3)
             {
-                extra = splitHeadline[i].mid(2,2);
+                extra = splitHeadline[i].mid(2, 2);
             }
 
             splitHeadline[i] = currentString + extra;
@@ -196,7 +197,7 @@ void MainWindow::editHeadline()
             QString extra = "";
             if (splitHeadline[i].length() == 3)
             {
-                extra = splitHeadline[i].mid(2,2);
+                extra = splitHeadline[i].mid(2, 2);
             }
 
             splitHeadline[i] = currentString + extra;
@@ -204,4 +205,44 @@ void MainWindow::editHeadline()
             currentString = "";
         }
     }
+}
+void MainWindow::mouseMoveEvent(QMouseEvent *event)
+{
+    if (event->buttons() & Qt::LeftButton)
+    {
+        if (camera && camera->isVisible())
+        {
+            camera->updatePosition(event->pos());
+        }
+    }
+}
+
+void MainWindow::wheelEvent(QWheelEvent *event)
+{
+    const int increment = 10;
+    const int delta = event->angleDelta().y();
+    const int step = (delta > 0) ? increment : -increment;
+
+    if (event->modifiers() & Qt::ControlModifier)
+    {
+        // ctrl is held
+        int newWidth = qMax(ui->cameraFrame->width() + step, 10);
+        if (newWidth > 10)
+        {
+            ui->cameraFrame->setFixedWidth(newWidth);
+            ui->cameraFrame->move(ui->cameraFrame->x() - step / 2, ui->cameraFrame->y());
+        }
+    }
+    else
+    {
+        // ctrl not held
+        int newHeight = qMax(ui->cameraFrame->height() + step, 10);
+        if (newHeight > 10)
+        {
+            ui->cameraFrame->setFixedHeight(newHeight);
+            ui->cameraFrame->move(ui->cameraFrame->x(), ui->cameraFrame->y() - step / 2);
+        }
+    }
+
+    event->accept();
 }

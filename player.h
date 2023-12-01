@@ -21,8 +21,6 @@ private:
     std::string name;
     int x;
     int y;
-
-
 };
 
 #endif // PLAYER_H

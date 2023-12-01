@@ -3,10 +3,14 @@
 
 #include <QMainWindow>
 #include "world.h"
+#include "camera.h"
 #include <QListWidgetItem>
 
 QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindow; }
+namespace Ui
+{
+    class MainWindow;
+}
 QT_END_NAMESPACE
 
 class MainWindow : public QMainWindow
@@ -14,12 +18,17 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    MainWindow(World& world, QWidget *parent = nullptr);
+    MainWindow(World &world, QWidget *parent = nullptr);
     ~MainWindow();
+
+protected:
+    void mouseMoveEvent(QMouseEvent *event) override;
+    void wheelEvent(QWheelEvent *event) override;
 
 private:
     Ui::MainWindow *ui;
     World &world;
+    Camera *camera;
     int clickMenuCounter = 0;
     int clickNounCounter = 0;
     int clickVerbCounter = 0;
@@ -31,9 +40,7 @@ private:
 
     QHash<QString, int> const verbBank = {{"hit", -15}, {"agree", 15}};
 
-    QHash<QString, int> const adjectiveBank = {{"aggressive", -20}, {"friendly", 20},
-    {"hot", 10}, {"cool", 10}, {"dumb", -15}, {"smart", 15}, {"extravagant", -5},
-    {"modest", 5}, {"heroic", 20}, {"villainous", -25}};
+    QHash<QString, int> const adjectiveBank = {{"aggressive", -20}, {"friendly", 20}, {"hot", 10}, {"cool", 10}, {"dumb", -15}, {"smart", 15}, {"extravagant", -5}, {"modest", 5}, {"heroic", 20}, {"villainous", -25}};
 
 public slots:
     void makeHeadlineVisible();

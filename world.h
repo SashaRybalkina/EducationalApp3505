@@ -9,7 +9,6 @@
 #include <map>
 #include <set>
 
-
 class World : public QObject
 {
     Q_OBJECT
@@ -27,13 +26,12 @@ private:
     QTimer timer;
     int game_width;
     int game_height;
-    std::map<std::string, Player*> players;
+    std::map<std::string, Player *> players;
     QWidget *parent;
     std::set<std::tuple<std::string, std::string>> activeCollisions;
 
 private slots:
     void updateWorld();
-
 };
 
 #endif // WORLD_H

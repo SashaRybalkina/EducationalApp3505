@@ -2,11 +2,10 @@
 #include <QPainter>
 #include <QDebug>
 
-Player::Player(std::string name, int x, int y,  int playerWidth, int playerHeight, int gameWidth, int gameHeight, QWidget *parent):
-    QWidget(parent),
-    name(name),
-    x(x),
-    y(y)
+Player::Player(std::string name, int x, int y, int playerWidth, int playerHeight, int gameWidth, int gameHeight, QWidget *parent) : QWidget(parent),
+                                                                                                                                    name(name),
+                                                                                                                                    x(x),
+                                                                                                                                    y(y)
 {
     // qDebug() << playerWidth;
 
@@ -19,10 +18,12 @@ void Player::setLocation(int x, int y)
     this->y = y;
 }
 
-void Player::paintEvent(QPaintEvent *) {
+void Player::paintEvent(QPaintEvent *)
+{
     // qDebug() << "player painted: " << name;
     // Create a painter
-    QPainter painter(this);;
+    QPainter painter(this);
+    ;
     QImage image = QImage(":/person.png");
     painter.drawImage(x, y, image);
     // painter.drawImage(0, 0, image);
