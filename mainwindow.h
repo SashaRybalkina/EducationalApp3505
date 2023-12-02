@@ -21,12 +21,6 @@ public:
     MainWindow(World &world, QWidget *parent = nullptr);
     ~MainWindow();
 
-protected:
-    void mouseMoveEvent(QMouseEvent *event) override;
-    void mousePressEvent(QMouseEvent *event) override;
-    void mouseReleaseEvent(QMouseEvent *event) override;
-    void wheelEvent(QWheelEvent *event) override;
-
 private:
     Ui::MainWindow *ui;
     World &world;
@@ -44,8 +38,6 @@ private:
     QHash<QString, int> const verbBank = {{"hit", -15}, {"agree", 15}, {"dance", 10}, {"die", -20}, {"seperate", 0}, {"hug", 20}, {"explode", -30}, {"kill", -20}, {"eat. A LOT", 0}, {"love", 20}};
     QHash<QString, int> const adjectiveBank = {{"aggressive", -20}, {"friendly", 20}, {"hot", 10}, {"cool", 10}, {"dumb", -15}, {"smart", 15}, {"extravagant", -5}, {"modest", 5}, {"heroic", 20}, {"villainous", -25}};
 
-    QString originalFrameStyle;
-    QString changedFrameStyle;
 
 public slots:
     void makeHeadlineVisible();

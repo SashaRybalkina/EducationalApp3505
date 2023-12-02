@@ -4,24 +4,32 @@
 #include <QObject>
 #include <QWidget>
 #include <QMouseEvent>
-#include <QFrame>
+#include <QWheelEvent>
+#include <QPainter>
 
 class Camera : public QWidget
 {
     Q_OBJECT
 
 public:
-    Camera(QFrame *frame, QWidget *parent = nullptr);
-    void updatePosition(const QPoint &cursorPos);
-    void setRightButtonPressed(bool pressed) { isRightButtonPressed = pressed; }
-    void setPictureLocation(const QPoint &location) { pictureLocation = location;}
+    Camera(QWidget *parent = nullptr);
+
+protected:
+    void paintEvent(QPaintEvent *event) override;
+    void mousePressEvent(QMouseEvent *event) override;
+    void mouseReleaseEvent(QMouseEvent *event) override;
+    void mouseMoveEvent(QMouseEvent *event) override;
+    void wheelEvent(QWheelEvent *event) override;
 
 private:
-    QFrame *cameraFrame;
+    QRect rectangle;
+    QPoint center;
     bool leftButtonPressed;
-    QPoint pictureLocation;
-    bool isRightButtonPressed;
+    bool rightButtonPressed;
+    bool ctrlPressed;
 
+    void updateRectSize(int step);
+    void updateRectPos(const QPoint &pos);
 };
 
 #endif // CAMERA_H

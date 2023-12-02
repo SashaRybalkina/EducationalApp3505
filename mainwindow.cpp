@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include <QDebug>
 #include <iostream>
+#include <QVBoxLayout>
 
 MainWindow::MainWindow(World &world, QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow), world(world)
@@ -9,10 +10,11 @@ MainWindow::MainWindow(World &world, QWidget *parent)
     ui->setupUi(this);
     world.setParent(this);
 
-    camera = new Camera(ui->cameraFrame, this);
-    originalFrameStyle = "background-color: rgba(0, 0, 0, 15); border: 1px solid black;";
-    changedFrameStyle = "background-color: rgba(0, 0, 0, 20); border: 2px solid red;";
-    ui->cameraFrame->setStyleSheet(originalFrameStyle);
+    Camera *camera = new Camera(this);
+    camera->setGeometry(10, 10, 100, 100);
+//    setCentralWidget(camera);
+
+    ui->media->raise();
 
     qDebug() << "ran mw";
 
@@ -217,69 +219,4 @@ void MainWindow::editHeadline()
         }
     }
     totalScore = totalScore/wordCount;
-}
-void MainWindow::mouseMoveEvent(QMouseEvent *event)
-{
-    if (event->buttons() & Qt::LeftButton)
-    {
-        if (camera && camera->isVisible())
-        {
-            camera->updatePosition(event->pos());
-        }
-    }
-}
-
-void MainWindow::mousePressEvent(QMouseEvent *event)
-{
-    if (event->button() == Qt::RightButton)
-    {
-        ui->cameraFrame->setStyleSheet(changedFrameStyle);
-        camera->setRightButtonPressed(true);
-    }
-
-    QMainWindow::mousePressEvent(event);
-}
-
-void MainWindow::mouseReleaseEvent(QMouseEvent *event)
-{
-    if (event->button() == Qt::RightButton)
-    {
-        ui->cameraFrame->setStyleSheet(originalFrameStyle);
-        camera->setRightButtonPressed(false);
-
-        const QRect& frameRect = ui->cameraFrame->geometry();
-        camera->setPictureLocation(frameRect.center());
-    }
-
-    QMainWindow::mouseReleaseEvent(event);
-}
-
-
-void MainWindow::wheelEvent(QWheelEvent *event)
-{
-    const int increment = 10;
-    // determine if get smaller or bigger based on scroll direction
-    const int step = (event->angleDelta().y() > 0) ? increment : -increment;
-
-    // ctrl is held
-    if (event->modifiers() & Qt::ControlModifier)
-    {
-        int newWidth = ui->cameraFrame->width() + step;
-        if (newWidth > 10)
-        {
-            ui->cameraFrame->setFixedWidth(newWidth);
-            ui->cameraFrame->move(ui->cameraFrame->x() - step / 2, ui->cameraFrame->y());
-        }
-    }
-    else
-    {
-        int newHeight = ui->cameraFrame->height() + step;
-        if (newHeight > 10)
-        {
-            ui->cameraFrame->setFixedHeight(newHeight);
-            ui->cameraFrame->move(ui->cameraFrame->x(), ui->cameraFrame->y() - step / 2);
-        }
-    }
-
-    event->accept();
 }
