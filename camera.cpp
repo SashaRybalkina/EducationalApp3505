@@ -1,11 +1,32 @@
 #include "camera.h"
 #include <QPainter>
+#include "player.h"
 
 Camera::Camera(QWidget *parent)
     : QWidget(parent), leftButtonPressed(false), rightButtonPressed(false), ctrlPressed(false)
 {
     rectangle = QRect(0, 0, 100, 100);
     center = rectangle.center();
+}
+
+int Camera::numPlayersInPicture()
+{
+    int count = 0;
+
+//    world->testMethod();
+
+//    qDebug() << world->getPlayers();
+
+    //    for (const auto &[name, player] : world->getPlayers())
+    //    {
+    //        QRect playerRect(player->pos(), player->size());
+    //        if (playerRect.intersects(rectangle))
+    //        {
+    //            count++;
+    //        }
+    //    }
+
+    return count;
 }
 
 void Camera::paintEvent(QPaintEvent *event)
@@ -49,8 +70,13 @@ void Camera::mouseReleaseEvent(QMouseEvent *event)
     else if (event->button() == Qt::RightButton)
     {
         rightButtonPressed = false;
+        pictureLocation = rectangle.center();
+
+        int numPlayers = numPlayersInPicture();
+        qDebug() << "Number of players in picture: " << numPlayers;
+
+        update();
     }
-    update();
 }
 
 void Camera::mouseMoveEvent(QMouseEvent *event)
