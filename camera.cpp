@@ -2,8 +2,8 @@
 #include <QPainter>
 #include "player.h"
 
-Camera::Camera(QWidget *parent)
-    : QWidget(parent), leftButtonPressed(false), rightButtonPressed(false), ctrlPressed(false)
+Camera::Camera(World &world, QWidget *parent)
+    : world(&world), QWidget(parent), leftButtonPressed(false), rightButtonPressed(false), ctrlPressed(false)
 {
     rectangle = QRect(0, 0, 100, 100);
     center = rectangle.center();
@@ -13,21 +13,20 @@ int Camera::numPlayersInPicture()
 {
     int count = 0;
 
-//    world->testMethod();
+    for (const auto &[name, player] : world->getPlayers())
+    {
+        // Use the world coordinates of the player, not the widget position
+        QRect playerRect(QPoint(player->getX(), player->getY()), player->size());
 
-//    qDebug() << world->getPlayers();
-
-    //    for (const auto &[name, player] : world->getPlayers())
-    //    {
-    //        QRect playerRect(player->pos(), player->size());
-    //        if (playerRect.intersects(rectangle))
-    //        {
-    //            count++;
-    //        }
-    //    }
+        if (playerRect.intersects(rectangle))
+        {
+            count++;
+        }
+    }
 
     return count;
 }
+
 
 void Camera::paintEvent(QPaintEvent *event)
 {

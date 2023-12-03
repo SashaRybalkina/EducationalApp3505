@@ -20,8 +20,7 @@ public:
 
     void collisionStartCallback(std::string player1, std::string player2);
     void collisionEndCallback(std::string player1, std::string player2);
-    const std::map<std::string, Player*>& getPlayers() const;
-    void testMethod();
+    const std::map<std::string, Player*>& getPlayers() const{return players;}
 
 private:
     PhysicsEngine *physicsEngine;

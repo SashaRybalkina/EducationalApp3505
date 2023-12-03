@@ -13,7 +13,7 @@ class Camera : public QWidget
     Q_OBJECT
 
 public:
-    Camera(QWidget *parent = nullptr);
+    Camera(World &world, QWidget *parent = nullptr);
     int numPlayersInPicture();
 
 

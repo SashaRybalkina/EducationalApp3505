@@ -10,7 +10,7 @@ MainWindow::MainWindow(World &world, QWidget *parent)
     ui->setupUi(this);
     world.setParent(this);
 
-    Camera *camera = new Camera(this);
+    Camera *camera = new Camera(world, this);
     camera->setGeometry(10, 10, 500, 500);
 //    setCentralWidget(camera);
 
