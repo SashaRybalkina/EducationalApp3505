@@ -3,9 +3,9 @@
 #include <functional>
 
 World::World(int game_width, int game_height, QObject *parent) : QObject(parent),
-                                                                 timer(this),
-                                                                 game_width(game_width),
-                                                                 game_height(game_height)
+    timer(this),
+    game_width(game_width),
+    game_height(game_height)
 {
 }
 
@@ -52,9 +52,27 @@ void World::updateWorld()
 void World::collisionStartCallback(std::string player1, std::string player2)
 {
     qDebug() << player1 << player2 << "start";
+    activeCollisions.insert(std::make_tuple(player1, player2));
 }
 
 void World::collisionEndCallback(std::string player1, std::string player2)
 {
     qDebug() << player1 << player2 << "end";
+    activeCollisions.erase(std::make_tuple(player1, player2));
 }
+
+const std::map<std::string, Player *>& World::getPlayers() const
+{
+    return players;
+}
+
+//void World::testMethod(){
+//    qDebug() << "test called";
+
+//    if (!players.empty()) {
+//        qDebug() << "players is good!";
+//        qDebug() << players.size();
+//    } else {
+//        qDebug() << "players is empty!";
+//    }
+//}

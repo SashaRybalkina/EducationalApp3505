@@ -2,6 +2,7 @@
 #include <Box2D/Box2D.h>
 #include <string>
 #include <random>
+#include <QDebug>
 
 PhysicsEngine::PhysicsEngine(int num_players, int playerWidth, int playerHeight, int game_width, int game_height,
                              CallbackType collisionStartCallback, CallbackType collisionEndCallback) : num_players(num_players),
