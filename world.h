@@ -3,6 +3,7 @@
 
 #include "physicsengine.h"
 #include "player.h"
+#include "mathengine.h""
 #include <QObject>
 #include <QTimer>
 #include <vector>
@@ -23,12 +24,16 @@ public:
 
 private:
     PhysicsEngine *physicsEngine;
+    MathEngine *mathEngine;
     QTimer timer;
     int game_width;
     int game_height;
     std::map<std::string, Player *> players;
     QWidget *parent;
     std::set<std::tuple<std::string, std::string>> activeCollisions;
+
+public slots:
+    void updatePlayers(int totalScore);
 
 private slots:
     void updateWorld();

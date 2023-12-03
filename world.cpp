@@ -49,6 +49,14 @@ void World::updateWorld()
     }
 }
 
+void World::updatePlayers(int totalScore)
+{
+    for (const auto &player : players)
+    {
+        mathEngine->updateAndGetNewY(player.first, totalScore);
+    }
+}
+
 void World::collisionStartCallback(std::string player1, std::string player2)
 {
     qDebug() << player1 << player2 << "start";

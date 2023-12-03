@@ -47,5 +47,8 @@ public slots:
     void makeButtonsVisible(QListWidgetItem *currentSelection);
     void setString(QListWidgetItem *currentSelection);
     void editHeadline();
+
+signals:
+    void getTotalScore(int totalScore);
 };
 #endif // MAINWINDOW_H

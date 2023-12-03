@@ -14,7 +14,14 @@ double MathEngine::updateAndGetNewY(const std::string &key, double delta)
     // Key is present
     if (xValues.find(key) != xValues.end())
     {
-        xValues[key] += delta;
+        if (xValues[key] < 0)
+        {
+            xValues[key] += delta/xValues[key];
+        }
+        else if (xValues[key] > 0)
+        {
+            xValues[key] -= delta/xValues[key];
+        }
     }
 }
 
