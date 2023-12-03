@@ -75,18 +75,3 @@ void World::collisionEndCallback(std::string player1, std::string player2)
     activeCollisions.erase(std::make_tuple(player1, player2));
 }
 
-const std::map<std::string, Player *>& World::getPlayers() const
-{
-    return players;
-}
-
-//void World::testMethod(){
-//    qDebug() << "test called";
-
-//    if (!players.empty()) {
-//        qDebug() << "players is good!";
-//        qDebug() << players.size();
-//    } else {
-//        qDebug() << "players is empty!";
-//    }
-//}

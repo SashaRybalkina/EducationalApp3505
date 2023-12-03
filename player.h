@@ -30,6 +30,9 @@ public:
      */
     void setLocation(int x, int y);
 
+    int getX() const { return x; }
+    int getY() const { return y; }
+
 public slots:
 
 signals:
