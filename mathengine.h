@@ -9,15 +9,32 @@ class MathEngine
 public:
     using CurveFunction = std::function<double(double)>;
 
-    // Constructor that takes a curve function
+    /**
+     * @brief MathEngine - stores current x valeus for keys and updates them and returns 'y' values (scores)
+     * @param curveFunc - the function to use to map input x to score y
+     */
     MathEngine(CurveFunction curveFunc);
 
+    /**
+     * @brief addPlayer - stores x value for key
+     * @param key - of player
+     * @param x - input value for player
+     */
     void addPlayer(std::string key, double x);
 
-    // Method to update and get the new y value based on the key and delta. If delta is positive that means more polarized, negative less polarized
+
+    /**
+     * @brief updateAndGetNewY - update and get the new y value based on the key and delta
+     * @param key - ID for player
+     * @param delta - if delta is positive that means more polarized, negative less polarized. Exp: if pass in 2 and the player has x of -2 there x will be -4
+     * @return y score
+     */
     double updateAndGetNewY(const std::string &key, double delta);
 
-    // Optional: Method to set a new curve function
+    /**
+     * @brief setCurveFunction - set a new curve func
+     * @param newCurveFunc - new func
+     */
     void setCurveFunction(CurveFunction newCurveFunc);
 
 private:

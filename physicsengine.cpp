@@ -4,10 +4,18 @@
 #include <random>
 #include <QDebug>
 
-PhysicsEngine::PhysicsEngine(int num_players, int playerWidth, int playerHeight, int game_width, int game_height,
-                             CallbackType collisionStartCallback, CallbackType collisionEndCallback) : num_players(num_players),
-                                                                                                       game_width(game_width),
-                                                                                                       game_height(game_height),
+float randomFloat(float min, float max)
+{
+    static std::random_device rd;
+    static std::mt19937 gen(rd());
+    std::uniform_real_distribution<> dis(min, max);
+    return dis(gen);
+}
+
+PhysicsEngine::PhysicsEngine(float32 numPlayers, float32 playerWidth, float32 playerHeight, float32 gameWidth, float32 gameHeight,
+                             CallbackType collisionStartCallback, CallbackType collisionEndCallback) : numPlayers(numPlayers),
+                                                                                                       gameWidth(gameWidth),
+                                                                                                       gameHeight(gameHeight),
                                                                                                        playerWidth(playerWidth),
                                                                                                        playerHeight(playerHeight),
                                                                                                        collisionStartCallback(collisionStartCallback),
@@ -18,19 +26,19 @@ PhysicsEngine::PhysicsEngine(int num_players, int playerWidth, int playerHeight,
 
     // create walls
     // gameWidth and gameHeight are the dimensions of simulation world in QT gui
-    createWall(game_width / 2, 0, game_width, 1);             // Top wall
-    createWall(game_width / 2, -game_height, game_width, 1);  // Bottom wall
-    createWall(0, -game_height / 2, 1, game_height);          // Left wall
-    createWall(game_width, -game_height / 2, 1, game_height); // Right wall
+    createWall(gameWidth / 2, 0, gameWidth, 1);             // Top wall
+    createWall(gameWidth / 2, -gameHeight, gameWidth, 1);  // Bottom wall
+    createWall(0, -gameHeight / 2, 1, gameHeight);          // Left wall
+    createWall(gameWidth, -gameHeight / 2, 1, gameHeight); // Right wall
 
     // create players
-    for (int i = 0; i < num_players; i++)
+    for (int i = 0; i < numPlayers; i++)
     {
         // create a body
         b2BodyDef bodyDef;
         bodyDef.type = b2_dynamicBody;
-        int x = rand() % game_width;
-        int y = rand() % game_height;
+        float32 x = randomFloat(0, gameWidth);
+        float32 y = randomFloat(0, gameHeight);
         std::tie(x, y) = pixelCoordinateToB2D(x, y); // unpack
         bodyDef.position.Set(x, y);
         // get made body from world
@@ -120,28 +128,20 @@ void PhysicsEngine::createWall(float32 x, float32 y, float32 width, float32 heig
     groundBody->CreateFixture(&groundBox, 0.0f);
 }
 
-std::tuple<int, int> PhysicsEngine::pixelCoordinateToB2D(int x, int y)
+std::tuple<float32, float32> PhysicsEngine::pixelCoordinateToB2D(float32 x, float32 y)
 {
     // QT has (0, 0) at top left, where as box2d has it at center
-    // x = x - game_width / 2; // shift x = 0 to center rather than left side
-    // y = -1 * (y - game_height / 2); // shfit y = 0 to center rather than top, then invert coordinates
+    // x = x - gameWidth / 2; // shift x = 0 to center rather than left side
+    // y = -1 * (y - gameHeight / 2); // shfit y = 0 to center rather than top, then invert coordinates
     return std::make_tuple(x + (playerWidth / 2), -y - (playerHeight / 2));
 }
 
-std::tuple<int, int> PhysicsEngine::b2DCoordinateToPixel(int x, int y)
+std::tuple<float32, float32> PhysicsEngine::b2DCoordinateToPixel(float32 x, float32 y)
 {
     // inverse of pixelCoordinateToB2D
-    // x = x + game_width / 2;
-    // y = (-1 * y) + (game_height / 2);
+    // x = x + gameWidth / 2;
+    // y = (-1 * y) + (gameHeight / 2);
     return std::make_tuple(x - (playerWidth / 2), -1 * (y + (playerHeight / 2)));
-}
-
-float randomFloat(float min, float max)
-{
-    static std::random_device rd;
-    static std::mt19937 gen(rd());
-    std::uniform_real_distribution<> dis(min, max);
-    return dis(gen);
 }
 
 void PhysicsEngine::updateWorld()
@@ -162,9 +162,9 @@ void PhysicsEngine::updateWorld()
     }
 }
 
-std::vector<std::tuple<std::string, int, int>> PhysicsEngine::getPlayerLocations()
+std::vector<std::tuple<std::string, float32, float32>> PhysicsEngine::getPlayerLocations()
 {
-    std::vector<std::tuple<std::string, int, int>> locations;
+    std::vector<std::tuple<std::string, float32, float32>> locations;
     for (b2Body *body = world->GetBodyList(); body; body = body->GetNext())
     {
         b2Vec2 position = body->GetPosition();
@@ -175,7 +175,7 @@ std::vector<std::tuple<std::string, int, int>> PhysicsEngine::getPlayerLocations
         if (name)
         { // check if has name cause walls also objects but without names
             // convert coordinates
-            int x, y;
+            float32 x, y;
             std::tie(x, y) = b2DCoordinateToPixel(position.x, position.y);
             locations.push_back(std::make_tuple(*name, x, y));
         }

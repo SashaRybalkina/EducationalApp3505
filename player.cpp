@@ -23,7 +23,6 @@ void Player::paintEvent(QPaintEvent *)
     // qDebug() << "player painted: " << name;
     // Create a painter
     QPainter painter(this);
-    ;
     QImage image = QImage(":/person.png");
     painter.drawImage(x, y, image);
     // painter.drawImage(0, 0, image);

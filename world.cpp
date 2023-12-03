@@ -2,14 +2,14 @@
 #include <QDebug>
 #include <functional>
 
-World::World(int game_width, int game_height, QObject *parent) : QObject(parent),
+World::World(int gameWidth, int gameHeight, QObject *parent) : QObject(parent),
     timer(this),
-    game_width(game_width),
-    game_height(game_height)
+    gameWidth(gameWidth),
+    gameHeight(gameHeight)
 {
 }
 
-void World::setParent(QWidget *parent)
+void World::startWorld(QWidget *parent)
 {
     this->parent = parent;
 
@@ -21,12 +21,12 @@ void World::setParent(QWidget *parent)
     auto boundStartCallback = std::bind(&World::collisionStartCallback, this, std::placeholders::_1, std::placeholders::_2);
     auto boundEndCallback = std::bind(&World::collisionEndCallback, this, std::placeholders::_1, std::placeholders::_2);
     // create physics engine
-    this->physicsEngine = new PhysicsEngine(10, playerWidth, playerHeight, game_width, game_height, boundStartCallback, boundEndCallback);
+    this->physicsEngine = new PhysicsEngine(10, playerWidth, playerHeight, gameWidth, gameHeight, boundStartCallback, boundEndCallback);
     // create players with intial physics
     for (const auto &[name, x, y] : physicsEngine->getPlayerLocations())
     {
         // qDebug() << "ran world";
-        Player *player = new Player(name, x, y, playerWidth, playerHeight, game_width, game_height, parent); // TODO: add image as parameter
+        Player *player = new Player(name, x, y, playerWidth, playerHeight, gameWidth, gameHeight, parent); // TODO: add image as parameter
         player->show();
         player->lower(); // moves to bottom of stack among widgets with same parent
         players[name] = player;
@@ -45,7 +45,13 @@ void World::updateWorld()
         // qDebug() << "ran";
         Player *player = players[name];
         player->setLocation(x, y);
-        player->update(); // update triggers a paint event for that player which calls paintEvent
+        //player->update(); // update triggers a paint event for that player which calls paintEvent
+    }
+
+    // After all locations are updated, then trigger paint events for all players
+    for (auto &[name, player] : players)
+    {
+        player->update(); // This will now trigger paintEvent for each player
     }
 }
 
