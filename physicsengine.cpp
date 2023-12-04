@@ -26,9 +26,9 @@ PhysicsEngine::PhysicsEngine(float32 numPlayers, float32 playerWidth, float32 pl
 
     // create walls
     // gameWidth and gameHeight are the dimensions of simulation world in QT gui
-    createWall(gameWidth / 2, 0, gameWidth, 1);             // Top wall
+    createWall(gameWidth / 2, 0, gameWidth, 1);            // Top wall
     createWall(gameWidth / 2, -gameHeight, gameWidth, 1);  // Bottom wall
-    createWall(0, -gameHeight / 2, 1, gameHeight);          // Left wall
+    createWall(0, -gameHeight / 2, 1, gameHeight);         // Left wall
     createWall(gameWidth, -gameHeight / 2, 1, gameHeight); // Right wall
 
     // create players

@@ -6,10 +6,11 @@
 #include <QMouseEvent>
 #include <QWheelEvent>
 #include <QPainter>
-#include "world.h"
 #include <tuple>
 #include <iostream>
 #include <cmath>
+#include "world.h"
+#include "player.h"
 
 class Camera : public QWidget
 {
@@ -18,8 +19,7 @@ class Camera : public QWidget
 public:
     Camera(World &world, QWidget *parent = nullptr);
     std::map<std::string, Player *> getPlayersInPicture();
-    std::tuple<Player*, Player*> getClosestInteracting();
-
+    std::tuple<Player *, Player *> getClosestInteracting();
 
 protected:
     void paintEvent(QPaintEvent *event) override;

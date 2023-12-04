@@ -220,6 +220,6 @@ void MainWindow::editHeadline()
             wordCount++;
         }
     }
-    totalScore = totalScore/wordCount;
+    totalScore = totalScore / wordCount;
     emit getTotalScore(totalScore);
 }

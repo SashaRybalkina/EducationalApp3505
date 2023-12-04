@@ -4,7 +4,6 @@
 #include <tuple>
 #include <functional>
 
-
 class PhysicsEngine
 {
 public:
@@ -71,7 +70,6 @@ private:
     CallbackType collisionStartCallback;
     CallbackType collisionEndCallback;
 
-
     class ContactListener : public b2ContactListener
     {
     public:
@@ -84,12 +82,13 @@ private:
          * @brief BeginContact - handles sensor detection
          * @param contact - collision start info
          */
-        void BeginContact(b2Contact* contact) override;
+        void BeginContact(b2Contact *contact) override;
         /**
          * @brief EndContact - handles sensor detection
          * @param contact - collision end info
          */
-        void EndContact(b2Contact* contact) override;
+        void EndContact(b2Contact *contact) override;
+
     private:
         PhysicsEngine *parent;
     };

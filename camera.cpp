@@ -1,6 +1,4 @@
 #include "camera.h"
-#include <QPainter>
-#include "player.h"
 
 Camera::Camera(World &world, QWidget *parent)
     : world(&world), QWidget(parent), leftButtonPressed(false), rightButtonPressed(false), ctrlPressed(false)
@@ -24,36 +22,38 @@ std::map<std::string, Player *> Camera::getPlayersInPicture()
     }
 
     qDebug() << "Players in picture: ";
-    for (const auto& [name, player] : playersInPicture){qDebug() << name;}
+    for (const auto &[name, player] : playersInPicture)
+    {
+        qDebug() << name;
+    }
 
     return playersInPicture;
 }
 
-
-std::tuple<Player*, Player*> Camera::getClosestInteracting()
+std::tuple<Player *, Player *> Camera::getClosestInteracting()
 {
-    const std::set<std::tuple<std::string, std::string>>& collisions = world->getActiveCollisions();
+    const std::set<std::tuple<std::string, std::string>> &collisions = world->getActiveCollisions();
     playersInPicture = getPlayersInPicture();
 
-    Player* closestInteractingPlayer1 = nullptr;
-    Player* closestInteractingPlayer2 = nullptr;
+    Player *closestInteractingPlayer1 = nullptr;
+    Player *closestInteractingPlayer2 = nullptr;
     double minDistance = std::numeric_limits<double>::max();
 
-    for (const auto& [player1, player2] : collisions)
+    for (const auto &[player1, player2] : collisions)
     {
         // Check if both players are in the map returned from getPlayersInPicture()
         if (playersInPicture.find(player1) != playersInPicture.end() &&
-                playersInPicture.find(player2) != playersInPicture.end())
+            playersInPicture.find(player2) != playersInPicture.end())
         {
-            Player* interactingPlayer1 = playersInPicture[player1];
-            Player* interactingPlayer2 = playersInPicture[player2];
+            Player *interactingPlayer1 = playersInPicture[player1];
+            Player *interactingPlayer2 = playersInPicture[player2];
 
             // Calculate distance of interaction from center of picture
             pictureLocation = rectangle.center();
             double distance = std::hypot(interactingPlayer1->getX() - pictureLocation.x(),
                                          interactingPlayer1->getY() - pictureLocation.y()) +
-                    std::hypot(interactingPlayer2->getX() - pictureLocation.x(),
-                               interactingPlayer2->getY() - pictureLocation.y());
+                              std::hypot(interactingPlayer2->getX() - pictureLocation.x(),
+                                         interactingPlayer2->getY() - pictureLocation.y());
 
             // Update closest interaction
             if (distance < minDistance)
@@ -79,10 +79,13 @@ void Camera::paintEvent(QPaintEvent *event)
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing);
 
-    if (rightButtonPressed) {
+    if (rightButtonPressed)
+    {
         painter.setBrush(QBrush(QColor(0, 0, 0, 20)));
         painter.setPen(QPen(QColor(255, 0, 0), 2));
-    } else {
+    }
+    else
+    {
         painter.setBrush(QBrush(QColor(0, 0, 0, 10)));
         painter.setPen(QPen(QColor(0, 0, 0), 2));
     }
@@ -115,8 +118,14 @@ void Camera::mouseReleaseEvent(QMouseEvent *event)
         rightButtonPressed = false;
 
         auto [player1, player2] = getClosestInteracting();
-        if (player1 && player2){qDebug() << "Players in closest interaction: " << player1->getName() << " and " << player2->getName();}
-        else{qDebug() << "No players in picture are interacting";}
+        if (player1 && player2)
+        {
+            qDebug() << "Players in closest interaction: " << player1->getName() << " and " << player2->getName();
+        }
+        else
+        {
+            qDebug() << "No players in picture are interacting";
+        }
 
         update();
     }

@@ -3,9 +3,9 @@
 #include <functional>
 
 World::World(int gameWidth, int gameHeight, QObject *parent) : QObject(parent),
-    timer(this),
-    gameWidth(gameWidth),
-    gameHeight(gameHeight)
+                                                               timer(this),
+                                                               gameWidth(gameWidth),
+                                                               gameHeight(gameHeight)
 {
 }
 
@@ -45,7 +45,7 @@ void World::updateWorld()
         // qDebug() << "ran";
         Player *player = players[name];
         player->setLocation(x, y);
-        //player->update(); // update triggers a paint event for that player which calls paintEvent
+        // player->update(); // update triggers a paint event for that player which calls paintEvent
     }
 
     // After all locations are updated, then trigger paint events for all players
@@ -65,13 +65,12 @@ void World::updatePlayers(int totalScore)
 
 void World::collisionStartCallback(std::string player1, std::string player2)
 {
-//    qDebug() << player1 << player2 << "start";
+    //    qDebug() << player1 << player2 << "start";
     activeCollisions.insert(std::make_tuple(player1, player2));
 }
 
 void World::collisionEndCallback(std::string player1, std::string player2)
 {
-//    qDebug() << player1 << player2 << "end";
+    //    qDebug() << player1 << player2 << "end";
     activeCollisions.erase(std::make_tuple(player1, player2));
 }
-

@@ -22,7 +22,6 @@ public:
      */
     void addPlayer(std::string key, double x);
 
-
     /**
      * @brief updateAndGetNewY - update and get the new y value based on the key and delta
      * @param key - ID for player

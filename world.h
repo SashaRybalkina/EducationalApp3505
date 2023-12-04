@@ -39,8 +39,8 @@ public:
      * @param player2 - in collision
      */
     void collisionEndCallback(std::string player1, std::string player2);
-    const std::map<std::string, Player*>& getPlayers() const{return players;}
-    const std::set<std::tuple<std::string, std::string>>& getActiveCollisions() const {return activeCollisions;}
+    const std::map<std::string, Player *> &getPlayers() const { return players; }
+    const std::set<std::tuple<std::string, std::string>> &getActiveCollisions() const { return activeCollisions; }
 
 public slots:
     void updatePlayers(int totalScore);
@@ -55,8 +55,6 @@ private:
 
     std::map<std::string, Player *> players;
     std::set<std::tuple<std::string, std::string>> activeCollisions;
-
-
 
 private slots:
     /**

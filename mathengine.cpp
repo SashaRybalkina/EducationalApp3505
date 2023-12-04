@@ -16,11 +16,11 @@ double MathEngine::updateAndGetNewY(const std::string &key, double delta)
     {
         if (xValues[key] < 0)
         {
-            xValues[key] += delta/xValues[key];
+            xValues[key] += delta / xValues[key];
         }
         else if (xValues[key] > 0)
         {
-            xValues[key] -= delta/xValues[key];
+            xValues[key] -= delta / xValues[key];
         }
     }
 }
