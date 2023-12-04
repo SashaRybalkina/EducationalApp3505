@@ -59,13 +59,13 @@ void World::updatePlayers(int totalScore)
 
 void World::collisionStartCallback(std::string player1, std::string player2)
 {
-    qDebug() << player1 << player2 << "start";
+//    qDebug() << player1 << player2 << "start";
     activeCollisions.insert(std::make_tuple(player1, player2));
 }
 
 void World::collisionEndCallback(std::string player1, std::string player2)
 {
-    qDebug() << player1 << player2 << "end";
+//    qDebug() << player1 << player2 << "end";
     activeCollisions.erase(std::make_tuple(player1, player2));
 }
 

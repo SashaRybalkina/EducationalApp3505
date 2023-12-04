@@ -13,6 +13,7 @@ public:
 
     int getX() const { return x; }
     int getY() const { return y; }
+    std::string getName() const { return name; }
 
 public slots:
 

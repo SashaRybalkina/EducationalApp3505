@@ -21,6 +21,7 @@ public:
     void collisionStartCallback(std::string player1, std::string player2);
     void collisionEndCallback(std::string player1, std::string player2);
     const std::map<std::string, Player*>& getPlayers() const{return players;}
+    const std::set<std::tuple<std::string, std::string>>& getActiveCollisions() const {return activeCollisions;}
 
 private:
     PhysicsEngine *physicsEngine;
@@ -28,8 +29,9 @@ private:
     QTimer timer;
     int game_width;
     int game_height;
-    std::map<std::string, Player *> players;
     QWidget *parent;
+
+    std::map<std::string, Player *> players;
     std::set<std::tuple<std::string, std::string>> activeCollisions;
 
 public slots:

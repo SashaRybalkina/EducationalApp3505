@@ -7,6 +7,9 @@
 #include <QWheelEvent>
 #include <QPainter>
 #include "world.h"
+#include <tuple>
+#include <iostream>
+#include <cmath>
 
 class Camera : public QWidget
 {
@@ -14,7 +17,8 @@ class Camera : public QWidget
 
 public:
     Camera(World &world, QWidget *parent = nullptr);
-    int numPlayersInPicture();
+    std::map<std::string, Player *> getPlayersInPicture();
+    std::tuple<Player*, Player*> getClosestInteracting();
 
 
 protected:
@@ -36,6 +40,8 @@ private:
 
     void updateRectSize(int step);
     void updateRectPos(const QPoint &pos);
+
+    std::map<std::string, Player *> playersInPicture;
 };
 
 #endif // CAMERA_H
