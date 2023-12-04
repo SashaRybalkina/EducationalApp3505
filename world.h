@@ -51,7 +51,6 @@ private:
     QTimer timer;
     int gameWidth;
     int gameHeight;
-    std::map<std::string, Player *> players;
     QWidget *parent;
 
     std::map<std::string, Player *> players;
