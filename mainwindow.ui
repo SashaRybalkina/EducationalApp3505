@@ -194,7 +194,7 @@
      </property>
     </item>
    </widget>
-   <widget class="QPushButton" name="verbs">
+   <widget class="QPushButton" name="verbsButton">
     <property name="geometry">
      <rect>
       <x>560</x>
@@ -280,7 +280,7 @@
      </property>
     </item>
    </widget>
-   <widget class="QPushButton" name="nouns">
+   <widget class="QPushButton" name="nounsButton">
     <property name="geometry">
      <rect>
       <x>460</x>
@@ -293,7 +293,7 @@
      <string>Nouns</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="adjectives">
+   <widget class="QPushButton" name="adjectivesButton">
     <property name="geometry">
      <rect>
       <x>660</x>
@@ -306,7 +306,7 @@
      <string>Adjectives</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="media">
+   <widget class="QPushButton" name="mediaButton">
     <property name="geometry">
      <rect>
       <x>680</x>
@@ -319,7 +319,7 @@
      <string>Media</string>
     </property>
    </widget>
-   <widget class="QTextBrowser" name="headline">
+   <widget class="QTextBrowser" name="headlineTextBox">
     <property name="geometry">
      <rect>
       <x>190</x>
@@ -339,7 +339,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'.AppleSystemUIFont'; font-size:13pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
-   <widget class="QLabel" name="explanation">
+   <widget class="QLabel" name="explanationLabel">
     <property name="geometry">
      <rect>
       <x>210</x>
@@ -369,14 +369,14 @@ li.checked::marker { content: &quot;\2612&quot;; }
    <zorder>nounList</zorder>
    <zorder>headlineList</zorder>
    <zorder>adjectiveList</zorder>
-   <zorder>verbs</zorder>
+   <zorder>verbsButton</zorder>
    <zorder>headlineLabel</zorder>
    <zorder>verbList</zorder>
-   <zorder>nouns</zorder>
-   <zorder>adjectives</zorder>
-   <zorder>headline</zorder>
-   <zorder>media</zorder>
-   <zorder>explanation</zorder>
+   <zorder>nounsButton</zorder>
+   <zorder>adjectivesButton</zorder>
+   <zorder>headlineTextBox</zorder>
+   <zorder>mediaButton</zorder>
+   <zorder>explanationLabel</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

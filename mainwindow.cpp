@@ -14,25 +14,25 @@ MainWindow::MainWindow(World &world, QWidget *parent)
     camera->setGeometry(10, 10, 500, 500);
     //    setCentralWidget(camera);
 
-    ui->media->raise();
+    ui->mediaButton->raise();
 
     qDebug() << "ran mw";
 
-    ui->nouns->setVisible(false);
-    ui->verbs->setVisible(false);
-    ui->adjectives->setVisible(false);
+    ui->nounsButton->setVisible(false);
+    ui->verbsButton->setVisible(false);
+    ui->adjectivesButton->setVisible(false);
     ui->headlineLabel->setVisible(false);
     ui->nounList->setVisible(false);
     ui->verbList->setVisible(false);
     ui->adjectiveList->setVisible(false);
     ui->headlineList->setVisible(false);
-    ui->headline->setVisible(false);
-    ui->explanation->setVisible(false);
+    ui->headlineTextBox->setVisible(false);
+    ui->explanationLabel->setVisible(false);
 
-    connect(ui->media, &QPushButton::clicked, this, &MainWindow::makeHeadlineVisible);
-    connect(ui->nouns, &QPushButton::clicked, this, &MainWindow::makeNounVisible);
-    connect(ui->verbs, &QPushButton::clicked, this, &MainWindow::makeVerbVisible);
-    connect(ui->adjectives, &QPushButton::clicked, this, &MainWindow::makeAdjectiveVisible);
+    connect(ui->mediaButton, &QPushButton::clicked, this, &MainWindow::makeHeadlineVisible);
+    connect(ui->nounsButton, &QPushButton::clicked, this, &MainWindow::makeNounVisible);
+    connect(ui->verbsButton, &QPushButton::clicked, this, &MainWindow::makeVerbVisible);
+    connect(ui->adjectivesButton, &QPushButton::clicked, this, &MainWindow::makeAdjectiveVisible);
 
     connect(ui->headlineList, &QListWidget::itemPressed, this, &MainWindow::makeButtonsVisible);
     connect(ui->nounList, &QListWidget::itemPressed, this, &MainWindow::setString);
@@ -54,17 +54,17 @@ void MainWindow::makeHeadlineVisible()
     {
         check = true;
     }
-    ui->nouns->setVisible(false);
-    ui->verbs->setVisible(false);
-    ui->adjectives->setVisible(false);
+    ui->nounsButton->setVisible(false);
+    ui->verbsButton->setVisible(false);
+    ui->adjectivesButton->setVisible(false);
     ui->headlineLabel->setVisible(check);
     ui->nounList->setVisible(false);
     ui->verbList->setVisible(false);
     ui->adjectiveList->setVisible(false);
     ui->headlineList->setVisible(check);
     ui->headlineList->setEnabled(true);
-    ui->headline->setVisible(false);
-    ui->explanation->setVisible(false);
+    ui->headlineTextBox->setVisible(false);
+    ui->explanationLabel->setVisible(false);
     clickMenuCounter++;
 }
 
@@ -109,13 +109,13 @@ void MainWindow::makeButtonsVisible(QListWidgetItem *currentSelection)
     QString headline = headlineBank[headlineIndex];
     headlineBank.remove(headlineIndex);
 
-    ui->headline->setVisible(true);
-    ui->explanation->setVisible(true);
-    ui->headline->setText(headline);
+    ui->headlineTextBox->setVisible(true);
+    ui->explanationLabel->setVisible(true);
+    ui->headlineTextBox->setText(headline);
 
-    ui->nouns->setVisible(true);
-    ui->verbs->setVisible(true);
-    ui->adjectives->setVisible(true);
+    ui->nounsButton->setVisible(true);
+    ui->verbsButton->setVisible(true);
+    ui->adjectivesButton->setVisible(true);
 
     editHeadline();
 }
@@ -129,14 +129,14 @@ void MainWindow::editHeadline()
 {
     int totalScore = 0;
     int wordCount = 0;
-    QStringList splitHeadline = (ui->headline->toPlainText()).split(" ");
+    QStringList splitHeadline = (ui->headlineTextBox->toPlainText()).split(" ");
     for (int i = 0; i < splitHeadline.size(); i++)
     {
         if (splitHeadline[i] == "<>" || splitHeadline[i] == "<>," || splitHeadline[i] == "<>.")
         {
-            ui->nouns->setEnabled(true);
-            ui->verbs->setEnabled(false);
-            ui->adjectives->setEnabled(false);
+            ui->nounsButton->setEnabled(true);
+            ui->verbsButton->setEnabled(false);
+            ui->adjectivesButton->setEnabled(false);
             ui->nounList->setVisible(true);
             ui->verbList->setVisible(false);
             ui->adjectiveList->setVisible(false);
@@ -157,15 +157,15 @@ void MainWindow::editHeadline()
 
             splitHeadline[i] = currentString + extra;
             totalScore += nounBank.value(currentString);
-            ui->headline->setText(splitHeadline.join(" "));
+            ui->headlineTextBox->setText(splitHeadline.join(" "));
             currentString = "";
             wordCount++;
         }
         else if (splitHeadline[i] == "{}" || splitHeadline[i] == "{}," || splitHeadline[i] == "{}.")
         {
-            ui->nouns->setEnabled(false);
-            ui->verbs->setEnabled(true);
-            ui->adjectives->setEnabled(false);
+            ui->nounsButton->setEnabled(false);
+            ui->verbsButton->setEnabled(true);
+            ui->adjectivesButton->setEnabled(false);
             ui->nounList->setVisible(false);
             ui->verbList->setVisible(true);
             ui->adjectiveList->setVisible(false);
@@ -186,15 +186,15 @@ void MainWindow::editHeadline()
 
             splitHeadline[i] = currentString + extra;
             totalScore += verbBank.value(currentString);
-            ui->headline->setText(splitHeadline.join(" "));
+            ui->headlineTextBox->setText(splitHeadline.join(" "));
             currentString = "";
             wordCount++;
         }
         else if (splitHeadline[i] == "[]" || splitHeadline[i] == "[]," || splitHeadline[i] == "[].")
         {
-            ui->nouns->setEnabled(false);
-            ui->verbs->setEnabled(false);
-            ui->adjectives->setEnabled(true);
+            ui->nounsButton->setEnabled(false);
+            ui->verbsButton->setEnabled(false);
+            ui->adjectivesButton->setEnabled(true);
             ui->nounList->setVisible(false);
             ui->verbList->setVisible(false);
             ui->adjectiveList->setVisible(true);
@@ -215,7 +215,7 @@ void MainWindow::editHeadline()
 
             splitHeadline[i] = currentString + extra;
             totalScore += adjectiveBank.value(currentString);
-            ui->headline->setText(splitHeadline.join(" "));
+            ui->headlineTextBox->setText(splitHeadline.join(" "));
             currentString = "";
             wordCount++;
         }
