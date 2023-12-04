@@ -8,7 +8,7 @@ MainWindow::MainWindow(World &world, QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow), world(world)
 {
     ui->setupUi(this);
-    world.setParent(this);
+    world.startWorld(this);
 
     Camera *camera = new Camera(world, this);
     camera->setGeometry(10, 10, 500, 500);

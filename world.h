@@ -14,30 +14,55 @@ class World : public QObject
 {
     Q_OBJECT
 public:
-    World(int game_width, int game_height, QObject *parent = nullptr);
+    /**
+     * @brief World - holds the players the physics engine modeling their movment and the math engien calculating scores
+     * @param gameWidth - screen width in pixels
+     * @param gameHeight - screen height in pixels
+     * @param parent - parent object
+     */
+    World(int gameWidth, int gameHeight, QObject *parent = nullptr);
+    /**
+     * @brief startWorld - creates player objects and adds their ids to the physics engine
+     * @param parent - the main widget, need so player objects have the parent scope
+     */
+    void startWorld(QWidget *parent);
 
-    void setParent(QWidget *parent);
-
+    /**
+     * @brief collisionStartCallback - handles collision event from physis engine
+     * @param player1 - in collision
+     * @param player2 - in collision
+     */
     void collisionStartCallback(std::string player1, std::string player2);
+    /**
+     * @brief collisionEndCallback - handles collision end event from physis engine
+     * @param player1 - in collision
+     * @param player2 - in collision
+     */
     void collisionEndCallback(std::string player1, std::string player2);
     const std::map<std::string, Player*>& getPlayers() const{return players;}
     const std::set<std::tuple<std::string, std::string>>& getActiveCollisions() const {return activeCollisions;}
+
+public slots:
+    void updatePlayers(int totalScore);
 
 private:
     PhysicsEngine *physicsEngine;
     MathEngine *mathEngine;
     QTimer timer;
-    int game_width;
-    int game_height;
+    int gameWidth;
+    int gameHeight;
+    std::map<std::string, Player *> players;
     QWidget *parent;
 
     std::map<std::string, Player *> players;
     std::set<std::tuple<std::string, std::string>> activeCollisions;
 
-public slots:
-    void updatePlayers(int totalScore);
+
 
 private slots:
+    /**
+     * @brief updateWorld - moves the physics engine one step, gets back new locations, updates players, and redraws them
+     */
     void updateWorld();
 };
 
