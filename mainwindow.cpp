@@ -149,11 +149,11 @@ void MainWindow::editHeadlineSimplifier(QString bracket, QListWidget *list, QStr
         }
         else if (currentString == "dance" || currentString  == "agree" || currentString  == "seperate" || currentString  == "die")
         {
-            currentString  == currentString  + " with";
+            currentString  = currentString  + " with";
         }
         else if (currentString  == "eat. A LOT")
         {
-            currentString  == currentString  + " of";
+            currentString  = currentString  + " of";
         }
     }
     else
@@ -204,7 +204,7 @@ void MainWindow::editHeadline()
             ui->verbList->setVisible(true);
             ui->adjectiveList->setVisible(false);
 
-            editHeadlineSimplifier("<", ui->verbList, splitHeadline, wordCount, totalScore, verbBank, i);
+            editHeadlineSimplifier("{", ui->verbList, splitHeadline, wordCount, totalScore, verbBank, i);
         }
         else if (splitHeadline[i] == "[]" || splitHeadline[i] == "[]," || splitHeadline[i] == "[].")
         {
@@ -215,7 +215,7 @@ void MainWindow::editHeadline()
             ui->verbList->setVisible(false);
             ui->adjectiveList->setVisible(true);
 
-            editHeadlineSimplifier("<", ui->adjectiveList, splitHeadline, wordCount, totalScore, adjectiveBank, i);
+            editHeadlineSimplifier("[", ui->adjectiveList, splitHeadline, wordCount, totalScore, adjectiveBank, i);
         }
     }
 
