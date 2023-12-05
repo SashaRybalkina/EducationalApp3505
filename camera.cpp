@@ -3,19 +3,41 @@
 Camera::Camera(World &world, QWidget *parent)
     : world(&world), QWidget(parent), leftButtonPressed(false), rightButtonPressed(false), ctrlPressed(false)
 {
-    rectangle = QRect(0, 0, 100, 100);
-    center = rectangle.center();
+//    rectangle = QRect(0, 0, 100, 100);
+    resize(100, 100);
+
 }
 
 std::map<std::string, Player *> Camera::getPlayersInPicture()
 {
+//    playersInPicture.clear();
+
+//    for (const auto &[name, player] : world->getPlayers())
+//    {
+//        QRect playerRect(player->getX(), player->getY(), player->width(), player->height());
+
+//        if (rectangle.intersects(playerRect))
+//        {
+//            playersInPicture[name] = player;
+//        }
+//    }
+
+//    qDebug() << "Players in picture: ";
+//    for (const auto &[name, player] : playersInPicture)
+//    {
+//        qDebug() << name;
+//    }
+
+//    return playersInPicture;
+
     playersInPicture.clear();
 
     for (const auto &[name, player] : world->getPlayers())
     {
         QRect playerRect(player->getX(), player->getY(), player->width(), player->height());
 
-        if (rectangle.intersects(playerRect))
+        // Use the widget's dimensions directly instead of 'rectangle'
+        if (QRect(0, 0, width(), height()).intersects(playerRect))
         {
             playersInPicture[name] = player;
         }
@@ -32,65 +54,123 @@ std::map<std::string, Player *> Camera::getPlayersInPicture()
 
 std::tuple<Player *, Player *> Camera::getClosestInteracting()
 {
+//    const std::set<std::tuple<std::string, std::string>> &collisions = world->getActiveCollisions();
+//    playersInPicture = getPlayersInPicture();
+
+//    Player *closestInteractingPlayer1 = nullptr;
+//    Player *closestInteractingPlayer2 = nullptr;
+//    double minDistance = std::numeric_limits<double>::max();
+
+//    for (const auto &[player1, player2] : collisions)
+//    {
+//        // Check if both players are in the map returned from getPlayersInPicture()
+//        if (playersInPicture.find(player1) != playersInPicture.end() &&
+//                playersInPicture.find(player2) != playersInPicture.end())
+//        {
+//            Player *interactingPlayer1 = playersInPicture[player1];
+//            Player *interactingPlayer2 = playersInPicture[player2];
+
+//            // Calculate distance of interaction from center of picture
+//            pictureLocation = rectangle.center();
+//            double distance = std::hypot(interactingPlayer1->getX() - pictureLocation.x(),
+//                                         interactingPlayer1->getY() - pictureLocation.y()) +
+//                    std::hypot(interactingPlayer2->getX() - pictureLocation.x(),
+//                               interactingPlayer2->getY() - pictureLocation.y());
+
+//            // Update closest interaction
+//            if (distance < minDistance)
+//            {
+//                minDistance = distance;
+//                closestInteractingPlayer1 = interactingPlayer1;
+//                closestInteractingPlayer2 = interactingPlayer2;
+//            }
+//        }
+//    }
+
+//    if (closestInteractingPlayer1 && closestInteractingPlayer2)
+//    {
+//        return std::make_tuple(closestInteractingPlayer1, closestInteractingPlayer2);
+//    }
+//    return std::make_tuple(nullptr, nullptr);
     const std::set<std::tuple<std::string, std::string>> &collisions = world->getActiveCollisions();
-    playersInPicture = getPlayersInPicture();
+     playersInPicture = getPlayersInPicture();
 
-    Player *closestInteractingPlayer1 = nullptr;
-    Player *closestInteractingPlayer2 = nullptr;
-    double minDistance = std::numeric_limits<double>::max();
+     Player *closestInteractingPlayer1 = nullptr;
+     Player *closestInteractingPlayer2 = nullptr;
+     double minDistance = std::numeric_limits<double>::max();
 
-    for (const auto &[player1, player2] : collisions)
-    {
-        // Check if both players are in the map returned from getPlayersInPicture()
-        if (playersInPicture.find(player1) != playersInPicture.end() &&
-            playersInPicture.find(player2) != playersInPicture.end())
-        {
-            Player *interactingPlayer1 = playersInPicture[player1];
-            Player *interactingPlayer2 = playersInPicture[player2];
+     // Use the widget's dimensions directly to calculate the center
+     QPoint pictureLocation(width() / 2, height() / 2);
 
-            // Calculate distance of interaction from center of picture
-            pictureLocation = rectangle.center();
-            double distance = std::hypot(interactingPlayer1->getX() - pictureLocation.x(),
-                                         interactingPlayer1->getY() - pictureLocation.y()) +
-                              std::hypot(interactingPlayer2->getX() - pictureLocation.x(),
-                                         interactingPlayer2->getY() - pictureLocation.y());
+     for (const auto &[player1, player2] : collisions)
+     {
+         // Check if both players are in the map returned from getPlayersInPicture()
+         if (playersInPicture.find(player1) != playersInPicture.end() &&
+                 playersInPicture.find(player2) != playersInPicture.end())
+         {
+             Player *interactingPlayer1 = playersInPicture[player1];
+             Player *interactingPlayer2 = playersInPicture[player2];
 
-            // Update closest interaction
-            if (distance < minDistance)
-            {
-                minDistance = distance;
-                closestInteractingPlayer1 = interactingPlayer1;
-                closestInteractingPlayer2 = interactingPlayer2;
-            }
-        }
-    }
+             // Calculate distance of interaction from center of picture
+             double distance = std::hypot(interactingPlayer1->getX() - pictureLocation.x(),
+                                          interactingPlayer1->getY() - pictureLocation.y()) +
+                     std::hypot(interactingPlayer2->getX() - pictureLocation.x(),
+                                interactingPlayer2->getY() - pictureLocation.y());
 
-    if (closestInteractingPlayer1 && closestInteractingPlayer2)
-    {
-        return std::make_tuple(closestInteractingPlayer1, closestInteractingPlayer2);
-    }
-    return std::make_tuple(nullptr, nullptr);
+             // Update closest interaction
+             if (distance < minDistance)
+             {
+                 minDistance = distance;
+                 closestInteractingPlayer1 = interactingPlayer1;
+                 closestInteractingPlayer2 = interactingPlayer2;
+             }
+         }
+     }
+
+     if (closestInteractingPlayer1 && closestInteractingPlayer2)
+     {
+         return std::make_tuple(closestInteractingPlayer1, closestInteractingPlayer2);
+     }
+     return std::make_tuple(nullptr, nullptr);
 }
 
 void Camera::paintEvent(QPaintEvent *event)
 {
+//    Q_UNUSED(event);
+
+//    QPainter painter(this);
+//    painter.setRenderHint(QPainter::Antialiasing);
+
+//    if (rightButtonPressed)
+//    {
+//        painter.setBrush(QBrush(QColor(0, 0, 0, 20)));
+//        painter.setPen(QPen(QColor(255, 0, 0), 2));
+//    }
+//    else
+//    {
+//        painter.setBrush(QBrush(QColor(0, 0, 0, 10)));
+//        painter.setPen(QPen(QColor(0, 0, 0), 2));
+//    }
+
+//    painter.drawRect(rectangle);
     Q_UNUSED(event);
 
-    QPainter painter(this);
-    painter.setRenderHint(QPainter::Antialiasing);
+        QPainter painter(this);
+        painter.setRenderHint(QPainter::Antialiasing);
 
-    if (rightButtonPressed)
-    {
-        painter.setBrush(QBrush(QColor(0, 0, 0, 20)));
-        painter.setPen(QPen(QColor(255, 0, 0), 2));
-    }
-    else
-    {
-        painter.setBrush(QBrush(QColor(0, 0, 0, 10)));
-        painter.setPen(QPen(QColor(0, 0, 0), 2));
-    }
+        if (rightButtonPressed)
+        {
+            painter.setBrush(QBrush(QColor(0, 0, 0, 20)));
+            painter.setPen(QPen(QColor(255, 0, 0), 2));
+        }
+        else
+        {
+            painter.setBrush(QBrush(QColor(0, 0, 0, 10)));
+            painter.setPen(QPen(QColor(0, 0, 0), 2));
+        }
 
-    painter.drawRect(rectangle);
+        // Use the widget's position directly
+        painter.drawRect(QRect(0, 0, width(), height()));
 }
 
 void Camera::mousePressEvent(QMouseEvent *event)
@@ -98,7 +178,6 @@ void Camera::mousePressEvent(QMouseEvent *event)
     if (event->button() == Qt::LeftButton)
     {
         leftButtonPressed = true;
-        updateRectPos(event->pos());
     }
     else if (event->button() == Qt::RightButton)
     {
@@ -133,47 +212,63 @@ void Camera::mouseReleaseEvent(QMouseEvent *event)
 
 void Camera::mouseMoveEvent(QMouseEvent *event)
 {
+//    if (leftButtonPressed)
+//    {
+//        move(event->pos());
+//    }
+//    update();
     if (leftButtonPressed)
     {
-        updateRectPos(event->pos());
+        // Move the widget itself
+        move(event->pos()/* - QPoint(width() / 2, height() / 2)*/);
     }
     update();
 }
 
 void Camera::wheelEvent(QWheelEvent *event)
 {
+//    const int increment = 10;
+//    const int step = (event->angleDelta().y() > 0) ? increment : -increment;
+
+//    if (event->modifiers() & Qt::ControlModifier)
+//    {
+//        int newWidth = rectangle.width() + step;
+//        if (newWidth > 10)
+//        {
+//            rectangle.setWidth(newWidth);
+//        }
+//    }
+//    else
+//    {
+//        int newHeight = rectangle.height() + step;
+//        if (newHeight > 10)
+//        {
+//            rectangle.setHeight(newHeight);
+//        }
+//    }
+//    resize(rectangle.size());
+//    update();
+//    event->accept();
+
     const int increment = 10;
     const int step = (event->angleDelta().y() > 0) ? increment : -increment;
 
     if (event->modifiers() & Qt::ControlModifier)
     {
-        int newWidth = rectangle.width() + step;
+        int newWidth = width() + step;
         if (newWidth > 10)
         {
-            rectangle.setWidth(newWidth);
-            rectangle.moveCenter(center);
+            setFixedWidth(newWidth);
         }
     }
     else
     {
-        updateRectSize(step);
+        int newHeight = height() + step;
+        if (newHeight > 10)
+        {
+            setFixedHeight(newHeight);
+        }
     }
     update();
     event->accept();
-}
-
-void Camera::updateRectSize(int step)
-{
-    int newHeight = rectangle.height() + step;
-    if (newHeight > 10)
-    {
-        rectangle.setHeight(newHeight);
-        rectangle.moveCenter(center);
-    }
-}
-
-void Camera::updateRectPos(const QPoint &pos)
-{
-    rectangle.moveCenter(pos);
-    center = rectangle.center();
 }

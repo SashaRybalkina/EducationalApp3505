@@ -47,6 +47,8 @@ public slots:
     void setString(QListWidgetItem *currentSelection);
     void editHeadline();
 
+
+
 signals:
     void getTotalScore(int totalScore);
 };

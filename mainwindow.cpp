@@ -11,7 +11,10 @@ MainWindow::MainWindow(World &world, QWidget *parent)
     world.startWorld(this);
 
     Camera *camera = new Camera(world, this);
-    camera->setGeometry(10, 10, 500, 500);
+//    QRect cameraRect = camera->getCameraRectangle();
+//    camera->setGeometry(cameraRect.x(), cameraRect.y(), cameraRect.width(), cameraRect.height());
+    QRect cameraRect(0, 0, camera->width(), camera->height()); // Adjust with appropriate values
+    camera->setGeometry(cameraRect);
     //    setCentralWidget(camera);
 
     ui->mediaButton->raise();
@@ -223,3 +226,4 @@ void MainWindow::editHeadline()
     totalScore = totalScore / wordCount;
     emit getTotalScore(totalScore);
 }
+

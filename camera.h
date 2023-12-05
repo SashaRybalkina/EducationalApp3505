@@ -20,6 +20,7 @@ public:
     Camera(World &world, QWidget *parent = nullptr);
     std::map<std::string, Player *> getPlayersInPicture();
     std::tuple<Player *, Player *> getClosestInteracting();
+//    QRect getCameraRectangle() const {return rectangle;}
 
 protected:
     void paintEvent(QPaintEvent *event) override;
@@ -30,16 +31,12 @@ protected:
 
 private:
     World *world;
-    QRect rectangle;
-    QPoint center;
+//    QRect rectangle;
     QPoint pictureLocation;
 
     bool leftButtonPressed;
     bool rightButtonPressed;
     bool ctrlPressed;
-
-    void updateRectSize(int step);
-    void updateRectPos(const QPoint &pos);
 
     std::map<std::string, Player *> playersInPicture;
 };
