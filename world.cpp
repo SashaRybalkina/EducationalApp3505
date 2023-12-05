@@ -1,12 +1,18 @@
 #include "world.h"
 #include <QDebug>
 #include <functional>
+#include <cmath>
 
 World::World(int gameWidth, int gameHeight, QObject *parent) : QObject(parent),
                                                                timer(this),
                                                                gameWidth(gameWidth),
                                                                gameHeight(gameHeight)
-{
+{ 
+    auto mathFunc = [](double x) {
+        return std::tanh(x) * 20.0;
+    };
+
+    mathEngine = new MathEngine(mathFunc);
 }
 
 void World::startWorld(QWidget *parent)
@@ -27,6 +33,7 @@ void World::startWorld(QWidget *parent)
     {
         // qDebug() << "ran world";
         Player *player = new Player(name, x, y, playerWidth, playerHeight, gameWidth, gameHeight, parent); // TODO: add image as parameter
+        mathEngine->addPlayer(std::to_string(0), 0);
         player->show();
         player->lower(); // moves to bottom of stack among widgets with same parent
         players[name] = player;
