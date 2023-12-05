@@ -13,8 +13,10 @@ MainWindow::MainWindow(World &world, QWidget *parent)
     Camera *camera = new Camera(world, this);
 //    QRect cameraRect = camera->getCameraRectangle();
 //    camera->setGeometry(cameraRect.x(), cameraRect.y(), cameraRect.width(), cameraRect.height());
-    //QRect cameraRect(0, 0, camera->width(), camera->height()); // Adjust with appropriate values
-    // camera->setGeometry(cameraRect);
+
+//    QRect cameraRect(0, 0, camera->width(), camera->height()); // Adjust with appropriate values
+//    camera->setGeometry(cameraRect);
+
     //    setCentralWidget(camera);
 
     ui->mediaButton->raise();
@@ -185,6 +187,14 @@ void MainWindow::editHeadline()
             if (splitHeadline[i].length() == 3)
             {
                 extra = splitHeadline[i].mid(2, 2);
+            }
+            else if (splitHeadline[i] == "dance" || splitHeadline[i] == "agree" || splitHeadline[i] == "seperate" || splitHeadline[i] == "die")
+            {
+                splitHeadline[i] == splitHeadline[i] + " with";
+            }
+            else if (splitHeadline[i] == "eat. A LOT")
+            {
+                splitHeadline[i] == splitHeadline[i] + " of";
             }
 
             splitHeadline[i] = currentString + extra;

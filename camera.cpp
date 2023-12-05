@@ -179,6 +179,9 @@ void Camera::mousePressEvent(QMouseEvent *event)
     if (event->button() == Qt::LeftButton)
     {
         leftButtonPressed = true;
+
+        dragStartPosition = event->pos();
+                dragStartWidgetPosition = pos();
     }
     else if (event->button() == Qt::RightButton)
     {
@@ -215,18 +218,26 @@ void Camera::mouseReleaseEvent(QMouseEvent *event)
 
 void Camera::mouseMoveEvent(QMouseEvent *event)
 {
-//    if (leftButtonPressed)
-//    {
-//        move(event->pos());
-//    }
-//    update();
     if (leftButtonPressed)
     {
-        // Move the widget itself
         move(event->pos()/* - QPoint(width() / 2, height() / 2)*/);
+        qDebug() << "Cursor pos: " << event->pos();
+        qDebug() << "Widget pos: " << pos();
     }
-    // qDebug() << "mouse move";
-    // update();
+    update();
+
+//    if (leftButtonPressed)
+//       {
+//           // Calculate the offset between the current cursor position and the initial click position
+//           QPoint offset = event->pos() - dragStartPosition;
+
+//           // Calculate the new position based on the initial click position and the offset
+//           QPoint newPosition = dragStartWidgetPosition + offset;
+
+//           // Set the new position for the widget
+//           move(newPosition);
+//       }
+//       update();
 }
 
 void Camera::wheelEvent(QWheelEvent *event)

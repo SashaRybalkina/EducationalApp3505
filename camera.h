@@ -38,6 +38,9 @@ private:
     bool rightButtonPressed;
     bool ctrlPressed;
 
+    QPoint dragStartPosition;
+      QPoint dragStartWidgetPosition;
+
     std::map<std::string, Player *> playersInPicture;
 };
 
