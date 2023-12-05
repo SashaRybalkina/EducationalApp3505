@@ -11,11 +11,11 @@ MainWindow::MainWindow(World &world, QWidget *parent)
     world.startWorld(this);
 
     Camera *camera = new Camera(world, this);
-//    QRect cameraRect = camera->getCameraRectangle();
-//    camera->setGeometry(cameraRect.x(), cameraRect.y(), cameraRect.width(), cameraRect.height());
+    //    QRect cameraRect = camera->getCameraRectangle();
+    //    camera->setGeometry(cameraRect.x(), cameraRect.y(), cameraRect.width(), cameraRect.height());
 
-//    QRect cameraRect(0, 0, camera->width(), camera->height()); // Adjust with appropriate values
-//    camera->setGeometry(cameraRect);
+    //    QRect cameraRect(0, 0, camera->width(), camera->height()); // Adjust with appropriate values
+    //    camera->setGeometry(cameraRect);
 
     //    setCentralWidget(camera);
 
@@ -130,6 +130,53 @@ void MainWindow::setString(QListWidgetItem *currentSelection)
     currentString = currentSelection->text();
 }
 
+void MainWindow::editHeadlineSimplifier(QString bracket, QListWidget *list, QStringList &splitHeadline, int &wordCount, int &totalScore, QHash<QString, int> const bank, int index)
+{
+    QTimer timer;
+    timer.setSingleShot(true);
+    QEventLoop loop;
+    connect(list, &QListWidget::itemPressed, &loop, &QEventLoop::quit);
+    connect(&timer, &QTimer::timeout, &loop, &QEventLoop::quit);
+    timer.start(100000);
+    loop.exec();
+
+    QString extra = "";
+    if (bracket == '{')
+    {
+        if (splitHeadline[index].length() == 3)
+        {
+            extra = splitHeadline[index].mid(2, 2);
+        }
+        else if (currentString == "dance" || currentString  == "agree" || currentString  == "seperate" || currentString  == "die")
+        {
+            currentString  == currentString  + " with";
+        }
+        else if (currentString  == "eat. A LOT")
+        {
+            currentString  == currentString  + " of";
+        }
+    }
+    else
+    {
+        if (splitHeadline[index].length() == 3)
+        {
+            extra = splitHeadline[index].mid(2, 2);
+        }
+    }
+
+    splitHeadline[index] = currentString + extra;
+
+    if (splitHeadline[index-1] == "a" && (splitHeadline[index].mid(0, 1) == 'a' || splitHeadline[index].mid(0, 1) == 'o' || splitHeadline[index].mid(0, 1) == 'i' || splitHeadline[index].mid(0, 1) == 'e'))
+    {
+        splitHeadline[index-1] = "an";
+    }
+
+    totalScore += bank.value(currentString);
+    ui->headlineTextBox->setText(splitHeadline.join(" "));
+    currentString = "";
+    wordCount++;
+}
+
 void MainWindow::editHeadline()
 {
     int totalScore = 0;
@@ -146,25 +193,7 @@ void MainWindow::editHeadline()
             ui->verbList->setVisible(false);
             ui->adjectiveList->setVisible(false);
 
-            QTimer timer;
-            timer.setSingleShot(true);
-            QEventLoop loop;
-            connect(ui->nounList, &QListWidget::itemPressed, &loop, &QEventLoop::quit);
-            connect(&timer, &QTimer::timeout, &loop, &QEventLoop::quit);
-            timer.start(100000);
-            loop.exec();
-
-            QString extra = "";
-            if (splitHeadline[i].length() == 3)
-            {
-                extra = splitHeadline[i].mid(2, 2);
-            }
-
-            splitHeadline[i] = currentString + extra;
-            totalScore += nounBank.value(currentString);
-            ui->headlineTextBox->setText(splitHeadline.join(" "));
-            currentString = "";
-            wordCount++;
+            editHeadlineSimplifier("<", ui->nounList, splitHeadline, wordCount, totalScore, nounBank, i);
         }
         else if (splitHeadline[i] == "{}" || splitHeadline[i] == "{}," || splitHeadline[i] == "{}.")
         {
@@ -175,33 +204,7 @@ void MainWindow::editHeadline()
             ui->verbList->setVisible(true);
             ui->adjectiveList->setVisible(false);
 
-            QTimer timer;
-            timer.setSingleShot(true);
-            QEventLoop loop;
-            connect(ui->verbList, &QListWidget::itemPressed, &loop, &QEventLoop::quit);
-            connect(&timer, &QTimer::timeout, &loop, &QEventLoop::quit);
-            timer.start(100000);
-            loop.exec();
-
-            QString extra = "";
-            if (splitHeadline[i].length() == 3)
-            {
-                extra = splitHeadline[i].mid(2, 2);
-            }
-            else if (splitHeadline[i] == "dance" || splitHeadline[i] == "agree" || splitHeadline[i] == "seperate" || splitHeadline[i] == "die")
-            {
-                splitHeadline[i] == splitHeadline[i] + " with";
-            }
-            else if (splitHeadline[i] == "eat. A LOT")
-            {
-                splitHeadline[i] == splitHeadline[i] + " of";
-            }
-
-            splitHeadline[i] = currentString + extra;
-            totalScore += verbBank.value(currentString);
-            ui->headlineTextBox->setText(splitHeadline.join(" "));
-            currentString = "";
-            wordCount++;
+            editHeadlineSimplifier("<", ui->verbList, splitHeadline, wordCount, totalScore, verbBank, i);
         }
         else if (splitHeadline[i] == "[]" || splitHeadline[i] == "[]," || splitHeadline[i] == "[].")
         {
@@ -212,28 +215,10 @@ void MainWindow::editHeadline()
             ui->verbList->setVisible(false);
             ui->adjectiveList->setVisible(true);
 
-            QTimer timer;
-            timer.setSingleShot(true);
-            QEventLoop loop;
-            connect(ui->adjectiveList, &QListWidget::itemClicked, &loop, &QEventLoop::quit);
-            connect(&timer, &QTimer::timeout, &loop, &QEventLoop::quit);
-            timer.start(100000);
-            loop.exec();
-
-            QString extra = "";
-            if (splitHeadline[i].length() == 3)
-            {
-                extra = splitHeadline[i].mid(2, 2);
-            }
-
-            splitHeadline[i] = currentString + extra;
-            totalScore += adjectiveBank.value(currentString);
-            ui->headlineTextBox->setText(splitHeadline.join(" "));
-            currentString = "";
-            wordCount++;
+            editHeadlineSimplifier("<", ui->adjectiveList, splitHeadline, wordCount, totalScore, adjectiveBank, i);
         }
     }
+
     totalScore = totalScore / wordCount;
     emit getTotalScore(totalScore);
 }
-
