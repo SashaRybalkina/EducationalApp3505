@@ -13,8 +13,8 @@ MainWindow::MainWindow(World &world, QWidget *parent)
     Camera *camera = new Camera(world, this);
 //    QRect cameraRect = camera->getCameraRectangle();
 //    camera->setGeometry(cameraRect.x(), cameraRect.y(), cameraRect.width(), cameraRect.height());
-    QRect cameraRect(0, 0, camera->width(), camera->height()); // Adjust with appropriate values
-    camera->setGeometry(cameraRect);
+    //QRect cameraRect(0, 0, camera->width(), camera->height()); // Adjust with appropriate values
+    // camera->setGeometry(cameraRect);
     //    setCentralWidget(camera);
 
     ui->mediaButton->raise();

@@ -4,7 +4,8 @@ Camera::Camera(World &world, QWidget *parent)
     : world(&world), QWidget(parent), leftButtonPressed(false), rightButtonPressed(false), ctrlPressed(false)
 {
 //    rectangle = QRect(0, 0, 100, 100);
-    resize(100, 100);
+    // resize(100, 100);
+    qDebug() << "camera created";
 
 }
 
@@ -183,6 +184,7 @@ void Camera::mousePressEvent(QMouseEvent *event)
     {
         rightButtonPressed = true;
     }
+    qDebug() << "mousePressEvent";
     update();
 }
 
@@ -191,6 +193,7 @@ void Camera::mouseReleaseEvent(QMouseEvent *event)
     if (event->button() == Qt::LeftButton)
     {
         leftButtonPressed = false;
+        qDebug() << "mouse release left button";
     }
     else if (event->button() == Qt::RightButton)
     {
@@ -222,11 +225,13 @@ void Camera::mouseMoveEvent(QMouseEvent *event)
         // Move the widget itself
         move(event->pos()/* - QPoint(width() / 2, height() / 2)*/);
     }
-    update();
+    // qDebug() << "mouse move";
+    // update();
 }
 
 void Camera::wheelEvent(QWheelEvent *event)
 {
+    qDebug() << "wheel";
 //    const int increment = 10;
 //    const int step = (event->angleDelta().y() > 0) ? increment : -increment;
 
