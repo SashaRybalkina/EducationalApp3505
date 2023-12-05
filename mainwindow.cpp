@@ -186,6 +186,14 @@ void MainWindow::editHeadline()
             {
                 extra = splitHeadline[i].mid(2, 2);
             }
+            else if (splitHeadline[i] == "dance" || splitHeadline[i] == "agree" || splitHeadline[i] == "seperate" || splitHeadline[i] == "die")
+            {
+                splitHeadline[i] == splitHeadline[i] + " with";
+            }
+            else if (splitHeadline[i] == "eat. A LOT")
+            {
+                splitHeadline[i] == splitHeadline[i] + " of";
+            }
 
             splitHeadline[i] = currentString + extra;
             totalScore += verbBank.value(currentString);
