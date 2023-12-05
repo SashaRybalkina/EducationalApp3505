@@ -4,7 +4,7 @@ Camera::Camera(World &world, QWidget *parent)
     : world(&world), QWidget(parent), leftButtonPressed(false), rightButtonPressed(false), ctrlPressed(false)
 {
 //    rectangle = QRect(0, 0, 100, 100);
-    // resize(100, 100);
+    resize(100, 100);
     qDebug() << "camera created";
 
 }
@@ -220,7 +220,7 @@ void Camera::mouseMoveEvent(QMouseEvent *event)
 {
     if (leftButtonPressed)
     {
-        move(event->pos()/* - QPoint(width() / 2, height() / 2)*/);
+        move(this->pos() + event->pos()/* - QPoint(width() / 2, height() / 2)*/);
         qDebug() << "Cursor pos: " << event->pos();
         qDebug() << "Widget pos: " << pos();
     }
