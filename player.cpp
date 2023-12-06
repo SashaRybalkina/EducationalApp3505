@@ -21,10 +21,11 @@ void Player::setLocation(int x, int y)
 void Player::paintEvent(QPaintEvent *)
 {
     // qDebug() << "player painted: " << name;
-    // Create a painter
     QPainter painter(this);
     QImage image = QImage(":/person.png");
     painter.drawImage(x, y, image);
+    playerWidth = image.width();
+    playerHeight = image.height();
     // painter.drawImage(0, 0, image);
     // qDebug() << image;
     painter.end();

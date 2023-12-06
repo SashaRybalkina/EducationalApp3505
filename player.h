@@ -32,7 +32,10 @@ public:
 
     int getX() const { return x; }
     int getY() const { return y; }
+
     std::string getName() const { return name; }
+    int playerWidth;
+    int playerHeight;
 
 public slots:
 
@@ -42,6 +45,7 @@ private:
     std::string name;
     int x;
     int y;
+
 };
 
 #endif // PLAYER_H
