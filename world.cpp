@@ -30,7 +30,7 @@ void World::startWorld(QWidget *parent)
     auto boundEndCallback = std::bind(&World::collisionEndCallback, this, std::placeholders::_1, std::placeholders::_2);
 
     // create physics engine
-    this->physicsEngine = new PhysicsEngine(1, playerWidth, playerHeight, 500, 500, boundStartCallback, boundEndCallback);
+    this->physicsEngine = new PhysicsEngine(10, playerWidth, playerHeight, 500, 500, boundStartCallback, boundEndCallback);
     //    this->physicsEngine = new PhysicsEngine(10, playerWidth, playerHeight, gameWidth, gameHeight, boundStartCallback, boundEndCallback);
 
     // create players with intial physics
