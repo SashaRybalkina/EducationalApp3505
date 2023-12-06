@@ -43,7 +43,7 @@ public:
     const std::set<std::tuple<std::string, std::string>> &getActiveCollisions() const { return activeCollisions; }
 
 public slots:
-    void updatePlayers(int totalScore);
+    void updatePlayers(int totalScore, int index);
 
 private:
     PhysicsEngine *physicsEngine;

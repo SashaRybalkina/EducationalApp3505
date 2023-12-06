@@ -29,13 +29,19 @@ private:
     int clickVerbCounter = 0;
     int clickAdjectiveCounter = 0;
     QString currentString = "";
+    int indexTracker = 0;
 
     //<> are nouns, {} are verbs, [] are adjectives
-    QList<QString> headlineBank = {"This morning, a [] VCJim supporter is seen with a [] Kopta supporter, ensuing a [] <>, which caused both individuals to {}.",
-                                   "The blasphemy! A [] Kopta supporter is planning a <> with a [] VCJim supporter, and many are expecting a <> to happen next.",
-                                   "A message leak has exposed the [] intentions of a VCJim supporter to {} a Kopta supporter, and the Kopta supporter will {} the VCJim supporter in turn.",
-                                   "Oh my! Did me just catch a <>, <>, or a <> between the two opposing sides? Either way, this will be a <> of the century.",
-                                   "A <> last night has caused the two opposing sides to {} one another, creating a [] sense of a <> in the local area."};
+    QList<QString> headlineBank = {"1 At 5 pm, a <> is captured between a Kopta supporter and a VCJim supporter, with the Kopta supporter determined to {}, and VCJim supporter determined to {}.",
+                                   "2 This morning, a [] VCJim supporter is seen with a [] Kopta supporter, ensuing a [] <>, which caused both individuals to {}.",
+                                   "3 The blasphemy! A [] Apple user is planning a <> with a [] Android user, and many are expecting a <> to happen next.",
+                                   "4 A <> last night has caused Apple users and Android users to {} one another, creating a [] sense of a <> in the local area.",
+                                   "5 A message leak has exposed the [] intentions of a U of U student to {} a BYU student, and the BYU student will {} the U of U student in turn.",
+                                   "6 Oh my! Did me just catch a <>, <>, or a <> between the U of U students and the BYU students? Either way, this will be a <> of the century.",
+                                   "7 It looks like VCJim supporters have teamed up with Apple users to {} both Kopta supporters and Android users with a <>.",
+                                   "8 A [] U of U student is seen at a nearby park with a [] Kopta supporter, seemingly planning a <> against all BYU students and VCJim supporters.",
+                                   "9 Can you believe it? Now BYU students are teaming up with Apple users to {} U of U students and Android users.",
+                                   "10 It's a full-blown <>! Now all parties are creating a [] <>, something never before seen in history."};
 
     QHash<QString, int> const nounBank = {{"fight", -15}, {"feast", 10}, {"war", -20}, {"love", 20}, {"celebration", 20}, {"argument", -10}, {"protest", -15}, {"battle of the GODS", 1000}, {"conversation", 10}, {"movie night", 15}};
     QHash<QString, int> const verbBank = {{"hit", -15}, {"agree", 15}, {"dance", 10}, {"die", -20}, {"seperate", 0}, {"hug", 20}, {"explode", -30}, {"kill", -20}, {"eat. A LOT", 0}, {"love", 20}};
@@ -52,6 +58,6 @@ public slots:
     void editHeadlineSimplifier(QString bracket, QListWidget *list, QStringList &splitHeadline, int &wordCount, int &totalScore, QHash<QString, int> const bank, int index);
 
 signals:
-    void getTotalScore(int totalScore);
+    void getTotalScore(int totalScore, int indexTracker);
 };
 #endif // MAINWINDOW_H

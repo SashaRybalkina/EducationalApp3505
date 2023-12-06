@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
+    <width>1193</width>
     <height>600</height>
    </rect>
   </property>
@@ -17,7 +17,7 @@
    <widget class="QListWidget" name="nounList">
     <property name="geometry">
      <rect>
-      <x>460</x>
+      <x>860</x>
       <y>260</y>
       <width>101</width>
       <height>192</height>
@@ -77,7 +77,7 @@
    <widget class="QListWidget" name="headlineList">
     <property name="geometry">
      <rect>
-      <x>550</x>
+      <x>950</x>
       <y>30</y>
       <width>121</width>
       <height>192</height>
@@ -137,7 +137,7 @@
    <widget class="QListWidget" name="adjectiveList">
     <property name="geometry">
      <rect>
-      <x>660</x>
+      <x>1060</x>
       <y>260</y>
       <width>101</width>
       <height>192</height>
@@ -197,7 +197,7 @@
    <widget class="QPushButton" name="verbsButton">
     <property name="geometry">
      <rect>
-      <x>560</x>
+      <x>960</x>
       <y>230</y>
       <width>100</width>
       <height>32</height>
@@ -210,7 +210,7 @@
    <widget class="QLabel" name="headlineLabel">
     <property name="geometry">
      <rect>
-      <x>550</x>
+      <x>950</x>
       <y>0</y>
       <width>121</width>
       <height>21</height>
@@ -223,7 +223,7 @@
    <widget class="QListWidget" name="verbList">
     <property name="geometry">
      <rect>
-      <x>560</x>
+      <x>960</x>
       <y>260</y>
       <width>101</width>
       <height>192</height>
@@ -283,7 +283,7 @@
    <widget class="QPushButton" name="nounsButton">
     <property name="geometry">
      <rect>
-      <x>460</x>
+      <x>860</x>
       <y>230</y>
       <width>100</width>
       <height>32</height>
@@ -296,7 +296,7 @@
    <widget class="QPushButton" name="adjectivesButton">
     <property name="geometry">
      <rect>
-      <x>660</x>
+      <x>1060</x>
       <y>230</y>
       <width>100</width>
       <height>32</height>
@@ -309,7 +309,7 @@
    <widget class="QTextBrowser" name="headlineTextBox">
     <property name="geometry">
      <rect>
-      <x>190</x>
+      <x>590</x>
       <y>80</y>
       <width>341</width>
       <height>151</height>
@@ -329,7 +329,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
    <widget class="QLabel" name="explanationLabel">
     <property name="geometry">
      <rect>
-      <x>210</x>
+      <x>610</x>
       <y>20</y>
       <width>281</width>
       <height>51</height>
@@ -359,8 +359,8 @@ li.checked::marker { content: &quot;\2612&quot;; }
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
-     <height>24</height>
+     <width>1193</width>
+     <height>22</height>
     </rect>
    </property>
   </widget>

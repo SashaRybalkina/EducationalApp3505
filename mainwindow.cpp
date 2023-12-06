@@ -88,7 +88,8 @@ void MainWindow::makeButtonsVisible(QListWidgetItem *currentSelection)
     currentSelection->setFlags(currentSelection->flags() & ~Qt::ItemIsEnabled);
     ui->headlineList->setEnabled(false);
     int headlineIndex = rand() % headlineBank.size();
-    QString headline = headlineBank[headlineIndex];
+    QString headline = headlineBank[headlineIndex].mid(2, headlineBank[headlineIndex].length());
+    indexTracker = headlineBank[headlineIndex].mid(0, 1).toInt();
     headlineBank.remove(headlineIndex);
 
     ui->headlineTextBox->setVisible(true);
@@ -161,7 +162,7 @@ void MainWindow::editHeadline()
     QStringList splitHeadline = (ui->headlineTextBox->toPlainText()).split(" ");
     for (int i = 0; i < splitHeadline.size(); i++)
     {
-        if (splitHeadline[i] == "<>" || splitHeadline[i] == "<>," || splitHeadline[i] == "<>.")
+        if (splitHeadline[i] == "<>" || splitHeadline[i] == "<>," || splitHeadline[i] == "<>." || splitHeadline[i] == "<>!")
         {
             ui->nounsButton->setEnabled(true);
             ui->verbsButton->setEnabled(false);
@@ -197,7 +198,7 @@ void MainWindow::editHeadline()
     }
 
     totalScore = totalScore / wordCount;
-    emit getTotalScore(totalScore);
+    emit getTotalScore(totalScore, indexTracker);
     ui->nounsButton->setVisible(false);
     ui->verbsButton->setVisible(false);
     ui->adjectivesButton->setVisible(false);
