@@ -137,13 +137,13 @@ void MainWindow::editHeadlineSimplifier(QString bracket, QListWidget *list, QStr
         {
             extra = splitHeadline[index].mid(2, 2);
         }
-        else if (currentString == "dance" || currentString  == "agree" || currentString  == "seperate" || currentString  == "die")
+        else if (currentString == "dance" || currentString == "agree" || currentString == "seperate" || currentString == "die")
         {
-            currentString  = currentString  + " with";
+            currentString = currentString + " with";
         }
-        else if (currentString  == "eat. A LOT")
+        else if (currentString == "eat. A LOT")
         {
-            currentString  = currentString  + " of";
+            currentString = currentString + " of";
         }
     }
     else
@@ -156,9 +156,9 @@ void MainWindow::editHeadlineSimplifier(QString bracket, QListWidget *list, QStr
 
     splitHeadline[index] = currentString + extra;
 
-    if (splitHeadline[index-1] == "a" && (splitHeadline[index].mid(0, 1) == 'a' || splitHeadline[index].mid(0, 1) == 'o' || splitHeadline[index].mid(0, 1) == 'i' || splitHeadline[index].mid(0, 1) == 'e'))
+    if (splitHeadline[index - 1] == "a" && (splitHeadline[index].mid(0, 1) == 'a' || splitHeadline[index].mid(0, 1) == 'o' || splitHeadline[index].mid(0, 1) == 'i' || splitHeadline[index].mid(0, 1) == 'e'))
     {
-        splitHeadline[index-1] = "an";
+        splitHeadline[index - 1] = "an";
     }
 
     totalScore += bank.value(currentString);

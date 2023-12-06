@@ -36,8 +36,7 @@ private:
                                    "The blasphemy! A [] Kopta supporter is planning a <> with a [] VCJim supporter, and many are expecting a <> to happen next.",
                                    "A message leak has exposed the [] intentions of a VCJim supporter to {} a Kopta supporter, and the Kopta supporter will {} the VCJim supporter in turn.",
                                    "Oh my! Did me just catch a <>, <>, or a <> between the two opposing sides? Either way, this will be a <> of the century.",
-                                   "A <> last night has caused the two opposing sides to {} one another, creating a [] sense of a <> in the local area."
-                                    };
+                                   "A <> last night has caused the two opposing sides to {} one another, creating a [] sense of a <> in the local area."};
 
     QHash<QString, int> const nounBank = {{"fight", -15}, {"feast", 10}, {"war", -20}, {"love", 20}, {"celebration", 20}, {"argument", -10}, {"protest", -15}, {"battle of the GODS", 1000}, {"conversation", 10}, {"movie night", 15}};
     QHash<QString, int> const verbBank = {{"hit", -15}, {"agree", 15}, {"dance", 10}, {"die", -20}, {"seperate", 0}, {"hug", 20}, {"explode", -30}, {"kill", -20}, {"eat. A LOT", 0}, {"love", 20}};

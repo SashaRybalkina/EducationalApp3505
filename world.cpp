@@ -4,11 +4,12 @@
 #include <cmath>
 
 World::World(int gameWidth, int gameHeight, QObject *parent) : QObject(parent),
-    timer(this),
-    gameWidth(gameWidth),
-    gameHeight(gameHeight)
-{ 
-    auto mathFunc = [](double x) {
+                                                               timer(this),
+                                                               gameWidth(gameWidth),
+                                                               gameHeight(gameHeight)
+{
+    auto mathFunc = [](double x)
+    {
         return std::tanh(x) * 20.0;
     };
 

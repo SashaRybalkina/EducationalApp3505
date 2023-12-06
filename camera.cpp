@@ -52,8 +52,8 @@ std::tuple<Player *, Player *> Camera::getClosestInteracting()
             // Calculate distance of interaction from center of picture
             double distance = std::hypot(interactingPlayer1->getX() - pictureLocation.x(),
                                          interactingPlayer1->getY() - pictureLocation.y()) +
-                    std::hypot(interactingPlayer2->getX() - pictureLocation.x(),
-                               interactingPlayer2->getY() - pictureLocation.y());
+                              std::hypot(interactingPlayer2->getX() - pictureLocation.x(),
+                                         interactingPlayer2->getY() - pictureLocation.y());
 
             // Update closest interaction
             if (distance < minDistance)
