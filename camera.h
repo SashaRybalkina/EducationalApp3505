@@ -12,23 +12,62 @@
 #include "world.h"
 #include "player.h"
 
+/**
+ * @brief The Camera class
+ */
 class Camera : public QWidget
 {
     Q_OBJECT
 
 public:
+    /**
+     * @brief Camera -
+     * @param world
+     * @param parent
+     */
     Camera(World &world, QWidget *parent = nullptr);
+    /**
+     * @brief getPlayersInPicture
+     * @return
+     */
     std::map<std::string, Player *> getPlayersInPicture();
+    /**
+     * @brief getClosestInteracting
+     * @return
+     */
     std::tuple<Player *, Player *> getClosestInteracting();
 
 protected:
+    /**
+     * @brief paintEvent
+     * @param event
+     */
     void paintEvent(QPaintEvent *event) override;
+    /**
+     * @brief mousePressEvent
+     * @param event
+     */
     void mousePressEvent(QMouseEvent *event) override;
+    /**
+     * @brief mouseReleaseEvent
+     * @param event
+     */
     void mouseReleaseEvent(QMouseEvent *event) override;
+    /**
+     * @brief mouseMoveEvent
+     * @param event
+     */
     void mouseMoveEvent(QMouseEvent *event) override;
+    /**
+     * @brief wheelEvent
+     * @param event
+     */
     void wheelEvent(QWheelEvent *event) override;
 
 signals:
+    /**
+     * @brief triggerHeadline
+     */
     void triggerHeadline();
 
 private:
