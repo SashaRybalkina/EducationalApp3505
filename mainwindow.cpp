@@ -10,7 +10,6 @@ MainWindow::MainWindow(World &world, QWidget *parent)
     ui->setupUi(this);
     world.startWorld(this);
     camera = new Camera(world, this);
-    ui->mediaButton->raise();
     qDebug() << "ran mw";
 
     ui->nounsButton->setVisible(false);
@@ -24,7 +23,6 @@ MainWindow::MainWindow(World &world, QWidget *parent)
     ui->headlineTextBox->setVisible(false);
     ui->explanationLabel->setVisible(false);
 
-    connect(ui->mediaButton, &QPushButton::clicked, this, &MainWindow::makeHeadlineVisible);
     connect(camera, &Camera::triggerHeadline, this, &MainWindow::makeHeadlineVisible);
 
     connect(ui->nounsButton, &QPushButton::clicked, this, &MainWindow::makeNounVisible);
@@ -46,23 +44,10 @@ MainWindow::~MainWindow()
 
 void MainWindow::makeHeadlineVisible()
 {
-    bool check = false;
-    if (clickMenuCounter % 2 == 0)
-    {
-        check = true;
-    }
-    ui->nounsButton->setVisible(false);
-    ui->verbsButton->setVisible(false);
-    ui->adjectivesButton->setVisible(false);
-    ui->headlineLabel->setVisible(check);
-    ui->nounList->setVisible(false);
-    ui->verbList->setVisible(false);
-    ui->adjectiveList->setVisible(false);
-    ui->headlineList->setVisible(check);
+    ui->headlineLabel->setVisible(true);
+    ui->headlineList->setVisible(true);
     ui->headlineList->setEnabled(true);
-    ui->headlineTextBox->setVisible(false);
-    ui->explanationLabel->setVisible(false);
-    clickMenuCounter++;
+    ui->headlineTextBox->setVisible(true);
 }
 
 void MainWindow::makeNounVisible()
@@ -213,4 +198,14 @@ void MainWindow::editHeadline()
 
     totalScore = totalScore / wordCount;
     emit getTotalScore(totalScore);
+    ui->nounsButton->setVisible(false);
+    ui->verbsButton->setVisible(false);
+    ui->adjectivesButton->setVisible(false);
+    ui->headlineLabel->setVisible(false);
+    ui->nounList->setVisible(false);
+    ui->verbList->setVisible(false);
+    ui->adjectiveList->setVisible(false);
+    ui->headlineList->setVisible(false);
+    ui->headlineList->setEnabled(false);
+    ui->explanationLabel->setVisible(false);
 }

@@ -25,7 +25,6 @@ private:
     Ui::MainWindow *ui;
     World &world;
     Camera *camera;
-    int clickMenuCounter = 0;
     int clickNounCounter = 0;
     int clickVerbCounter = 0;
     int clickAdjectiveCounter = 0;
