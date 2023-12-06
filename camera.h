@@ -78,7 +78,7 @@ private:
     bool rightButtonPressed;
     bool ctrlPressed;
 
-    std::map<std::string, Player *> playersInPicture;
+    std::map<std::string, Player *> playersInPic;
 };
 
 #endif // CAMERA_H

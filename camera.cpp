@@ -8,7 +8,7 @@ Camera::Camera(World &world, QWidget *parent)
 
 std::map<std::string, Player *> Camera::getPlayersInPicture()
 {
-    playersInPicture.clear();
+    playersInPic.clear();
 
     // Check if camera intersects players
     for (const auto &[name, player] : world->getPlayers())
@@ -17,58 +17,61 @@ std::map<std::string, Player *> Camera::getPlayersInPicture()
         QRect cameraRect(this->pos().x(), this->pos().y(), width(), height());
         if (cameraRect.intersects(playerRect))
         {
-            playersInPicture[name] = player;
+            playersInPic[name] = player;
         }
     }
 
     qDebug() << "Players in picture: ";
-    for (const auto &[name, player] : playersInPicture)
+    for (const auto &[name, player] : playersInPic)
     {
         qDebug() << name;
     }
 
-    return playersInPicture;
+    return playersInPic;
 }
 
 std::tuple<Player *, Player *> Camera::getClosestInteracting()
 {
     const std::set<std::tuple<std::string, std::string>> &collisions = world->getActiveCollisions();
 
-    Player *closestInteractingPlayer1 = nullptr;
-    Player *closestInteractingPlayer2 = nullptr;
+    Player *closestP1 = nullptr;
+    Player *closestP2 = nullptr;
     double minDistance = std::numeric_limits<double>::max();
 
-    QPoint pictureLocation(width() / 2, height() / 2);
+    // Middle of picture
+    QPoint picLocation(this->pos().x() + width() / 2, this->pos().y() + height() / 2);
 
-    playersInPicture = getPlayersInPicture();
+    playersInPic = getPlayersInPicture();
     for (const auto &[player1, player2] : collisions)
     {
         // If both players are in the picture
-        if (playersInPicture.find(player1) != playersInPicture.end() && playersInPicture.find(player2) != playersInPicture.end())
+        if (playersInPic.find(player1) != playersInPic.end() && playersInPic.find(player2) != playersInPic.end())
         {
-            Player *interactingPlayer1 = playersInPicture[player1];
-            Player *interactingPlayer2 = playersInPicture[player2];
+            Player *p1 = playersInPic[player1];
+            Player *p2 = playersInPic[player2];
 
             // Calculate distance of interaction from center of picture
-            double distance = std::hypot((interactingPlayer1->getX() + interactingPlayer1->playerWidth / 2) - pictureLocation.x(),
-                                         (interactingPlayer1->getY() + interactingPlayer1->playerHeight / 2) - pictureLocation.y()) +
-                    std::hypot((interactingPlayer2->getX() + interactingPlayer2->playerWidth / 2) - pictureLocation.x(),
-                               (interactingPlayer2->getY()  + interactingPlayer2->playerHeight / 2) - pictureLocation.y());
+            double p1Dist = std::hypot((p1->getX() + p1->playerWidth / 2) - picLocation.x(),
+                                       (p1->getY() + p1->playerHeight / 2) - picLocation.y());
+            double p2Dist = std::hypot((p2->getX() + p2->playerWidth / 2) - picLocation.x(),
+                                       (p2->getY()  + p2->playerHeight / 2) - picLocation.y());
+            double distance = p1Dist + p2Dist;
 
             // Update closest interaction
             if (distance < minDistance)
             {
                 minDistance = distance;
-                closestInteractingPlayer1 = interactingPlayer1;
-                closestInteractingPlayer2 = interactingPlayer2;
+                closestP1 = p1;
+                closestP2 = p2;
             }
         }
     }
 
-    if (closestInteractingPlayer1 && closestInteractingPlayer2)
+    // If found a closest interaction, return the players
+    if (closestP1 && closestP2)
     {
         emit triggerHeadline();
-        return std::make_tuple(closestInteractingPlayer1, closestInteractingPlayer2);
+        return std::make_tuple(closestP1, closestP2);
     }
     return std::make_tuple(nullptr, nullptr);
 }
