@@ -64,6 +64,7 @@ std::tuple<Player *, Player *> Camera::getClosestInteracting()
             }
         }
     }
+    emit triggerHeadline();
 
     if (closestInteractingPlayer1 && closestInteractingPlayer2)
     {
@@ -102,7 +103,6 @@ void Camera::mousePressEvent(QMouseEvent *event)
     {
         rightButtonPressed = true;
     }
-    //    qDebug() << "mousePressEvent";
     update();
 }
 
@@ -111,7 +111,6 @@ void Camera::mouseReleaseEvent(QMouseEvent *event)
     if (event->button() == Qt::LeftButton)
     {
         leftButtonPressed = false;
-        //        qDebug() << "mouse release left button";
     }
     else if (event->button() == Qt::RightButton)
     {

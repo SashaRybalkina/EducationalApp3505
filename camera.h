@@ -28,6 +28,9 @@ protected:
     void mouseMoveEvent(QMouseEvent *event) override;
     void wheelEvent(QWheelEvent *event) override;
 
+signals:
+    void triggerHeadline();
+
 private:
     World *world;
     QPoint pictureLocation;
