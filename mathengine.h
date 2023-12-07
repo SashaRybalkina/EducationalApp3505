@@ -2,6 +2,7 @@
 #define MATHENGINE_H
 #include <functional>
 #include <string>
+#include <QHash>
 #include <map>
 
 class MathEngine
@@ -20,7 +21,7 @@ public:
      * @param key - of player
      * @param x - input value for player
      */
-    void addPlayer(std::string key, double x);
+    void addPlayer(std::string key, std::string values);
 
     /**
      * @brief updateAndGetNewY - update and get the new y value based on the key and delta
@@ -28,7 +29,7 @@ public:
      * @param delta - if delta is positive that means more polarized, negative less polarized. Exp: if pass in 2 and the player has x of -2 there x will be -4
      * @return y score
      */
-    double updateAndGetNewY(const std::string &key, double delta);
+    double updateAndGetNewY(const std::string &key, double delta, int index);
 
     /**
      * @brief setCurveFunction - set a new curve func
@@ -38,7 +39,8 @@ public:
 
 private:
     CurveFunction curve;
-    std::map<std::string, double> xValues; // Map to store x values associated with keys (players)
+    QHash<std::string, std::string> xValues; // Map to store x values associated with keys (players)
+    void updateXValues(QStringList &values, double delta, int start, int end);
 };
 
 #endif // MATHENGINE_H

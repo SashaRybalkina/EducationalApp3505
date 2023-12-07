@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>1193</width>
+    <height>755</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,8 +17,8 @@
    <widget class="QListWidget" name="nounList">
     <property name="geometry">
      <rect>
-      <x>460</x>
-      <y>260</y>
+      <x>880</x>
+      <y>270</y>
       <width>101</width>
       <height>192</height>
      </rect>
@@ -77,8 +77,8 @@
    <widget class="QListWidget" name="headlineList">
     <property name="geometry">
      <rect>
-      <x>550</x>
-      <y>30</y>
+      <x>970</x>
+      <y>40</y>
       <width>121</width>
       <height>192</height>
      </rect>
@@ -137,8 +137,8 @@
    <widget class="QListWidget" name="adjectiveList">
     <property name="geometry">
      <rect>
-      <x>660</x>
-      <y>260</y>
+      <x>1080</x>
+      <y>270</y>
       <width>101</width>
       <height>192</height>
      </rect>
@@ -197,8 +197,8 @@
    <widget class="QPushButton" name="verbsButton">
     <property name="geometry">
      <rect>
-      <x>560</x>
-      <y>230</y>
+      <x>980</x>
+      <y>240</y>
       <width>100</width>
       <height>32</height>
      </rect>
@@ -210,8 +210,8 @@
    <widget class="QLabel" name="headlineLabel">
     <property name="geometry">
      <rect>
-      <x>550</x>
-      <y>0</y>
+      <x>970</x>
+      <y>10</y>
       <width>121</width>
       <height>21</height>
      </rect>
@@ -223,8 +223,8 @@
    <widget class="QListWidget" name="verbList">
     <property name="geometry">
      <rect>
-      <x>560</x>
-      <y>260</y>
+      <x>980</x>
+      <y>270</y>
       <width>101</width>
       <height>192</height>
      </rect>
@@ -283,8 +283,8 @@
    <widget class="QPushButton" name="nounsButton">
     <property name="geometry">
      <rect>
-      <x>460</x>
-      <y>230</y>
+      <x>880</x>
+      <y>240</y>
       <width>100</width>
       <height>32</height>
      </rect>
@@ -296,8 +296,8 @@
    <widget class="QPushButton" name="adjectivesButton">
     <property name="geometry">
      <rect>
-      <x>660</x>
-      <y>230</y>
+      <x>1080</x>
+      <y>240</y>
       <width>100</width>
       <height>32</height>
      </rect>
@@ -309,8 +309,8 @@
    <widget class="QTextBrowser" name="headlineTextBox">
     <property name="geometry">
      <rect>
-      <x>190</x>
-      <y>80</y>
+      <x>610</x>
+      <y>90</y>
       <width>341</width>
       <height>151</height>
      </rect>
@@ -329,8 +329,8 @@ li.checked::marker { content: &quot;\2612&quot;; }
    <widget class="QLabel" name="explanationLabel">
     <property name="geometry">
      <rect>
-      <x>210</x>
-      <y>20</y>
+      <x>630</x>
+      <y>30</y>
       <width>281</width>
       <height>51</height>
      </rect>
@@ -353,14 +353,34 @@ li.checked::marker { content: &quot;\2612&quot;; }
      <bool>true</bool>
     </property>
    </widget>
+   <widget class="QTextBrowser" name="result">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>10</y>
+      <width>1091</width>
+      <height>661</height>
+     </rect>
+    </property>
+    <property name="html">
+     <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;meta charset=&quot;utf-8&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+hr { height: 1px; border-width: 0; }
+li.unchecked::marker { content: &quot;\2610&quot;; }
+li.checked::marker { content: &quot;\2612&quot;; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'.AppleSystemUIFont'; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
-     <height>24</height>
+     <width>1193</width>
+     <height>22</height>
     </rect>
    </property>
   </widget>
