@@ -45,12 +45,26 @@ public:
 public slots:
     void updatePlayers(int totalScore);
 
+signals:
+    /**
+     * @brief displayInteraction
+     * @param point
+     */
+    void displayInteraction(QPoint point, std::string interaction, std::string ID);
+    /**
+     * @brief removeInteraction
+     * @param ID
+     */
+    void removeInteraction(std::string ID);
+
 private:
     PhysicsEngine *physicsEngine;
     MathEngine *mathEngine;
     QTimer timer;
     int gameWidth;
     int gameHeight;
+    int playerHeight;
+    int playerWidth;
     QWidget *parent;
 
     std::map<std::string, Player *> players;

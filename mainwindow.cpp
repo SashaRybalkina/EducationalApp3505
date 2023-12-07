@@ -3,6 +3,7 @@
 #include <QDebug>
 #include <iostream>
 #include <QVBoxLayout>
+#include <map>
 
 MainWindow::MainWindow(World &world, QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow), world(world)
@@ -12,6 +13,7 @@ MainWindow::MainWindow(World &world, QWidget *parent)
     camera = new Camera(world, this);
     qDebug() << "ran mw";
 
+    //std::map<std::string, QLabel> interactionDrawings;  // () assumes it is func, add to .h
     ui->nounsButton->setVisible(false);
     ui->verbsButton->setVisible(false);
     ui->adjectivesButton->setVisible(false);
@@ -35,6 +37,8 @@ MainWindow::MainWindow(World &world, QWidget *parent)
     connect(ui->adjectiveList, &QListWidget::itemPressed, this, &MainWindow::setString);
 
     connect(this, &MainWindow::getTotalScore, &world, &World::updatePlayers);
+    connect(&world, &World::displayInteraction, this, &MainWindow::displayInteraction);
+    connect(&world, &World::removeInteraction, this, &MainWindow::removeInteraction);
 }
 
 MainWindow::~MainWindow()
@@ -208,4 +212,26 @@ void MainWindow::editHeadline()
     ui->headlineList->setVisible(false);
     ui->headlineList->setEnabled(false);
     ui->explanationLabel->setVisible(false);
+}
+
+void MainWindow::displayInteraction(QPoint point, std::string interaction, std::string ID) {
+    // Create new label
+    QLabel* label = new QLabel(this);
+    label->setText(QString::fromStdString(interaction));
+    label->move(point);
+    // Set the font to be bold and larger
+    QFont font = label->font();
+    font.setBold(true); // Make the font bold
+    font.setPointSize(font.pointSize() + 4); // Increase the font size by 4 points
+    label->setFont(font);
+    label->show();
+    // Store the label in the map
+    interactionDrawings[ID] = label;
+}
+
+void MainWindow::removeInteraction(std::string ID)
+{
+    QLabel* label = interactionDrawings[ID];
+    interactionDrawings.erase(ID);
+    delete label;
 }

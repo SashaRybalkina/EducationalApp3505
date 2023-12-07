@@ -5,6 +5,7 @@
 #include "world.h"
 #include "camera.h"
 #include <QListWidgetItem>
+#include <QLabel>
 
 QT_BEGIN_NAMESPACE
 namespace Ui
@@ -40,6 +41,8 @@ private:
     QHash<QString, int> const nounBank = {{"fight", -15}, {"feast", 10}, {"war", -20}, {"love", 20}, {"celebration", 20}, {"argument", -10}, {"protest", -15}, {"battle of the GODS", 1000}, {"conversation", 10}, {"movie night", 15}};
     QHash<QString, int> const verbBank = {{"hit", -15}, {"agree", 15}, {"dance", 10}, {"die", -20}, {"seperate", 0}, {"hug", 20}, {"explode", -30}, {"kill", -20}, {"eat. A LOT", 0}, {"love", 20}};
     QHash<QString, int> const adjectiveBank = {{"aggressive", -20}, {"friendly", 20}, {"hot", 10}, {"cool", 10}, {"dumb", -15}, {"smart", 15}, {"extravagant", -5}, {"modest", 5}, {"heroic", 20}, {"villainous", -25}};
+    std::map<std::string, QLabel*> interactionDrawings;
+
 
 public slots:
     void makeHeadlineVisible();
@@ -50,6 +53,15 @@ public slots:
     void setString(QListWidgetItem *currentSelection);
     void editHeadline();
     void editHeadlineSimplifier(QString bracket, QListWidget *list, QStringList &splitHeadline, int &wordCount, int &totalScore, QHash<QString, int> const bank, int index);
+    /**
+     * @brief drawInteraction
+     */
+    void displayInteraction(QPoint point, std::string interaction, std::string ID);
+    /**
+     * @brief removeInteraction
+     * @param ID
+     */
+    void removeInteraction(std::string ID);
 
 signals:
     void getTotalScore(int totalScore);

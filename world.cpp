@@ -22,8 +22,8 @@ void World::startWorld(QWidget *parent)
 
     // player width/height based on size of sprite
     QImage image = QImage(":/person.png");
-    int playerWidth = image.width();
-    int playerHeight = image.height();
+    this->playerWidth = image.width();
+    this->playerHeight = image.height();
 
     // bind member method to instance of class
     auto boundStartCallback = std::bind(&World::collisionStartCallback, this, std::placeholders::_1, std::placeholders::_2);
@@ -79,10 +79,17 @@ void World::collisionStartCallback(std::string player1, std::string player2)
 {
     //    qDebug() << player1 << player2 << "start";
     activeCollisions.insert(std::make_tuple(player1, player2));
+
+    Player *p1 = players[player1];
+    Player *p2 = players[player2];
+    QPoint display_loc = QPoint((p1->getX() + p2->getX() + playerWidth) / 2, (p1->getY() + p2->getY() + playerHeight) / 2);  // ph/2 for each player so * 2 gets ph
+    emit displayInteraction(display_loc, "test", player1+player2);
 }
 
 void World::collisionEndCallback(std::string player1, std::string player2)
 {
     //    qDebug() << player1 << player2 << "end";
     activeCollisions.erase(std::make_tuple(player1, player2));
+    emit removeInteraction(player1+player2);
 }
+
