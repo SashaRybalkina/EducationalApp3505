@@ -28,5 +28,17 @@ void Player::paintEvent(QPaintEvent *)
     playerHeight = image.height();
     // painter.drawImage(0, 0, image);
     // qDebug() << image;
+    // Set the painter to draw text in green
+    QPen pen(Qt::green);
+    painter.setPen(pen);
+    // Set the font if you want to change the size or style
+    QFont font = painter.font();
+    // font.setPointSize(); // Set the font size if needed
+    // font.setBold(true); // Set the font to bold if needed
+    painter.setFont(font);
+    // Draw the text centered on the player image
+    QRect textRect(x, y, playerWidth, playerHeight);
+    painter.drawText(textRect, Qt::AlignCenter, QString::fromStdString(name));
+
     painter.end();
 }
