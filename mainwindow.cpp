@@ -22,6 +22,7 @@ MainWindow::MainWindow(World &world, QWidget *parent)
     ui->headlineList->setVisible(false);
     ui->headlineTextBox->setVisible(false);
     ui->explanationLabel->setVisible(false);
+    ui->result->setVisible(false);
 
     connect(camera, &Camera::triggerHeadline, this, &MainWindow::makeHeadlineVisible);
 
@@ -209,4 +210,8 @@ void MainWindow::editHeadline()
     ui->headlineList->setVisible(false);
     ui->headlineList->setEnabled(false);
     ui->explanationLabel->setVisible(false);
+    if (headlineBank.size() == 0)
+    {
+        ui->result->setVisible(true);
+    }
 }
