@@ -40,7 +40,6 @@ void World::startWorld(QWidget *parent)
         QString values = "";
         QString str;
         values += str.setNum(rand() % -50 + 50) + " "; values += str.setNum(rand() % -50 + 50) + " "; str.setNum(rand() % -50 + 50);
-        //values(rand() % -50 + 50); values.push_back(rand() % -50 + 50); values.push_back(rand() % -50 + 50);
         mathEngine->addPlayer(name, values.toStdString());
         player->show();
         player->lower(); // moves to bottom of stack among widgets with same parent

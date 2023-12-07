@@ -40,6 +40,7 @@ public:
 private:
     CurveFunction curve;
     QHash<std::string, std::string> xValues; // Map to store x values associated with keys (players)
+    void updateXValues(QStringList &values, double delta, int start, int end);
 };
 
 #endif // MATHENGINE_H
