@@ -1,7 +1,7 @@
 #include "camera.h"
 
 Camera::Camera(World &world, QWidget *parent)
-    : world(&world), QWidget(parent), leftButtonPressed(false), rightButtonPressed(false), ctrlPressed(false)
+    : world(&world), QWidget(parent), leftButtonPressed(false), rightButtonPressed(false)
 {
     resize(100, 100);
 }
@@ -54,7 +54,7 @@ std::tuple<Player *, Player *> Camera::getClosestInteracting()
             double p1Dist = std::hypot((p1->getX() + p1->playerWidth / 2) - picLocation.x(),
                                        (p1->getY() + p1->playerHeight / 2) - picLocation.y());
             double p2Dist = std::hypot((p2->getX() + p2->playerWidth / 2) - picLocation.x(),
-                                       (p2->getY()  + p2->playerHeight / 2) - picLocation.y());
+                                       (p2->getY() + p2->playerHeight / 2) - picLocation.y());
             double distance = p1Dist + p2Dist;
 
             // Update closest interaction
