@@ -26,6 +26,17 @@ MainWindow::MainWindow(World &world, QWidget *parent)
     ui->explanationLabel->setVisible(false);
     ui->result->setVisible(false);
 
+    QStringList testList = {"Results!",
+                            "Throughout the game, you got to shape the world and the way that the characters felt about "
+                            "eachother through the use of media. You have made several wording choices that either made "
+                            "specific sides act more antagonistic towards eachother, or find a middle ground. At the end "
+                            "of the day, it did not matter what the real interaction was between the people whose picture "
+                            "you took for the headline, since the way that the interaction was painted held all of the "
+                            "power in manipulating the environment. This is how real-life media works as well, with many "
+                            "news articles often using partial lies and specific wording to get a specific agenda across.", "Here is how you influenced the environment:"};
+    QString testText = testList.join("\n\n");
+    ui->result->setText(testText);
+
     connect(camera, &Camera::triggerHeadline, this, &MainWindow::makeHeadlineVisible);
 
     connect(ui->nounsButton, &QPushButton::clicked, ui->nounList, &QListWidget::setVisible);
