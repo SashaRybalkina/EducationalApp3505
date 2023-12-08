@@ -84,14 +84,18 @@ public slots:
      */
     void editHeadlineSimplifier(QString bracket, QListWidget *list, QStringList &splitHeadline, int &wordCount, int &totalScore, QHash<QString, int> const bank, int index);
     /**
-     * @brief drawInteraction
+     * @brief displayInteraction - displays the 'interactiton' label at the point of collision and stores the label in interactionDrawings
+     * @param point - where the collision occured (center point between the two players)
+     * @param interaction - label for interaction being had
+     * @param ID -unique id of the collision
      */
-    void displayInteraction(QPoint point, std::string interaction, std::string ID);
+    void displayInteraction(QPoint point, std::string interaction, std::string player1,  std::string player2);
     /**
-     * @brief removeInteraction
-     * @param ID
+     * @brief removeInteraction - remove itneraciton from screen
+     * @param player1 - id
+     * @param player2 - id
      */
-    void removeInteraction(std::string ID);
+    void removeInteraction(std::string player1,  std::string player2);
 
 signals:
     /**

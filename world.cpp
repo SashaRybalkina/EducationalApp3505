@@ -3,10 +3,11 @@
 #include <functional>
 #include <cmath>
 
-World::World(int gameWidth, int gameHeight, QObject *parent) : QObject(parent),
+World::World(int gameWidth, int gameHeight, std::array<std::tuple<std::string, int>, 4> interactions, QObject *parent) : QObject(parent),
     timer(this),
     gameWidth(gameWidth),
-    gameHeight(gameHeight)
+    gameHeight(gameHeight),
+    interactions(interactions)
 {
     auto mathFunc = [](double x)
     {
@@ -82,17 +83,21 @@ void World::collisionStartCallback(std::string player1, std::string player2)
 {
     //    qDebug() << player1 << player2 << "start";
     activeCollisions.insert(std::make_tuple(player1, player2));
-
     Player *p1 = players[player1];
     Player *p2 = players[player2];
-    QPoint display_loc = QPoint((p1->getX() + p2->getX() + playerWidth) / 2, (p1->getY() + p2->getY() + playerHeight) / 2);  // ph/2 for each player so * 2 gets ph
-    emit displayInteraction(display_loc, "test", player1+player2);
+    QPoint displayLoc = QPoint((p1->getX() + p2->getX() + playerWidth) / 2, (p1->getY() + p2->getY() + playerHeight) / 2);  // ph/2 for each player so * 2 gets ph
+    std::string interaction;
+    int scoreDelta;
+    std::tie(interaction, scoreDelta) = interactions[rand() % interactions.size()];
+    emit displayInteraction(displayLoc, interaction, player1, player2);
+
+//    mathEngine->updateAndGetNewY(p1->getName(), score_delta, );
 }
 
 void World::collisionEndCallback(std::string player1, std::string player2)
 {
     //    qDebug() << player1 << player2 << "end";
     activeCollisions.erase(std::make_tuple(player1, player2));
-    emit removeInteraction(player1+player2);
+    emit removeInteraction(player1, player2);
 }
 

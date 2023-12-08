@@ -9,6 +9,7 @@
 #include <vector>
 #include <map>
 #include <set>
+#include <array>
 
 class World : public QObject
 {
@@ -20,7 +21,7 @@ public:
      * @param gameHeight - screen height in pixels
      * @param parent - parent object
      */
-    World(int gameWidth, int gameHeight, QObject *parent = nullptr);
+    World(int gameWidth, int gameHeight, std::array<std::tuple<std::string, int>, 4> interactions, QObject *parent = nullptr);
     /**
      * @brief startWorld - creates player objects and adds their ids to the physics engine
      * @param parent - the main widget, need so player objects have the parent scope
@@ -52,15 +53,19 @@ public slots:
 
 signals:
     /**
-     * @brief displayInteraction
-     * @param point
+     * @brief displayInteraction - tells mainWindow to display itneraciton type
+     * @param point - to draw interaction
+     * @param interaction - type of itneraciton happening
+     * @param player1 - id
+     * @param player2 - id
      */
-    void displayInteraction(QPoint point, std::string interaction, std::string ID);
+    void displayInteraction(QPoint point, std::string interaction, std::string player1,  std::string player2);
     /**
-     * @brief removeInteraction
-     * @param ID
+     * @brief removeInteraction - tells mainWIndow to remove interaction
+     * @param player1 - id
+     * @param player2 - id
      */
-    void removeInteraction(std::string ID);
+    void removeInteraction(std::string player1,  std::string player2);
 
 private:
     PhysicsEngine *physicsEngine;
@@ -74,6 +79,7 @@ private:
 
     std::map<std::string, Player *> players;
     std::set<std::tuple<std::string, std::string>> activeCollisions;
+    const std::array<std::tuple<std::string, int>, 4> interactions;
 
 private slots:
     /**

@@ -198,23 +198,42 @@ void MainWindow::editHeadline()
     }
 }
 
-void MainWindow::displayInteraction(QPoint point, std::string interaction, std::string ID) {
+// pick color for label based on interaction type (interactions past into world in main)
+void setColor(QLabel *label, std::string interaction) {
+    if (interaction == "shake hands") {
+        label->setStyleSheet("QLabel { color : green; }");
+    }
+    else if (interaction == "discussion") {
+        label->setStyleSheet("QLabel { color : darkgreen; }");    }
+    else if (interaction == "slander") {
+        label->setStyleSheet("QLabel { color : red; }");
+    }
+    else if (interaction == "fight") {
+        label->setStyleSheet("QLabel { color : darkred; }");
+    }
+}
+
+void MainWindow::displayInteraction(QPoint point, std::string interaction, std::string player1,  std::string player2) {
     // Create new label
     QLabel* label = new QLabel(this);
-    label->setText(QString::fromStdString(interaction));
+    label->setText(QString::fromStdString(interaction + " " + player1 + "&" + player2));
     label->move(point);
     // Set the font to be bold and larger
     QFont font = label->font();
     font.setBold(true); // Make the font bold
     font.setPointSize(font.pointSize() + 4); // Increase the font size by 4 points
+    setColor(label, interaction);
     label->setFont(font);
+    label->adjustSize();
     label->show();
     // Store the label in the map
+    std::string ID = player1 + player2;
     interactionDrawings[ID] = label;
 }
 
-void MainWindow::removeInteraction(std::string ID)
+void MainWindow::removeInteraction(std::string player1,  std::string player2)
 {
+    std::string ID = player1 + player2;
     QLabel* label = interactionDrawings[ID];
     interactionDrawings.erase(ID);
     delete label;

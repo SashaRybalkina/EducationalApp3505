@@ -9,9 +9,9 @@ class Player : public QWidget
 public:
     /**
      * @brief Player - holds player info
-     * @param name
-     * @param x
-     * @param y
+     * @param name - id of player
+     * @param x - positioin on screen
+     * @param y - positioin on screen
      * @param playerWidth
      * @param playerHeight
      * @param gameWidth
