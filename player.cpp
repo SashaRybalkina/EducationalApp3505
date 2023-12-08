@@ -18,6 +18,11 @@ void Player::setLocation(int x, int y)
     this->y = y;
 }
 
+void Player::setScores(std::array<double, 3> scores)
+{
+    this->scores = scores;
+}
+
 void Player::paintEvent(QPaintEvent *)
 {
     // qDebug() << "player painted: " << name;

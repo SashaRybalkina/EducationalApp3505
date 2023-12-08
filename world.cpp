@@ -2,6 +2,8 @@
 #include <QDebug>
 #include <functional>
 #include <cmath>
+#include <random>
+
 
 World::World(int gameWidth, int gameHeight, std::array<std::tuple<std::string, int>, 4> interactions, QObject *parent) : QObject(parent),
     timer(this),
@@ -34,12 +36,15 @@ void World::startWorld(QWidget *parent)
     this->physicsEngine = new PhysicsEngine(10, playerWidth, playerHeight, gameWidth, gameHeight, boundStartCallback, boundEndCallback);
 
     // create players with intial physics
+    std::random_device rd;  // Obtain a random number from hardware
+    std::mt19937 gen(rd()); // Seed the generator
+    std::uniform_real_distribution<> distr(-20.0, 20.0); // Define the range
     for (const auto &[name, x, y] : physicsEngine->getPlayerLocations())
     {
         // qDebug() << "ran world";
         Player *player = new Player(name, x, y, playerWidth, playerHeight, gameWidth, gameHeight, parent); // TODO: add image as parameter
-        std::vector<double> values;
-        values.push_back(rand() % -50 + 50); values.push_back(rand() % -50 + 50); values.push_back(rand() % -50 + 50);
+        std::array<double, 3> values;
+        values = {distr(gen), distr(gen), distr(gen)};  // 3 random nums (-20, 20)
         mathEngine->addPlayer(name, values);
         player->show();
         player->lower(); // moves to bottom of stack among widgets with same parent
@@ -74,7 +79,7 @@ void World::updatePlayers(int totalScore, int index)
 {
     for (const auto &player : players)
     {
-        mathEngine->updateAndGetNewY(player.first, totalScore, index);
+        player.second->setScores(mathEngine->updateAndGetNewY(player.first, totalScore, index));
     }
 }
 

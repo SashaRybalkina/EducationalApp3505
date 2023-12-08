@@ -49,6 +49,7 @@ MainWindow::MainWindow(World &world, QWidget *parent)
     connect(ui->adjectiveList, &QListWidget::itemPressed, this, &MainWindow::setString);
 
     connect(this, &MainWindow::getTotalScore, &world, &World::updatePlayers);
+
     connect(&world, &World::displayInteraction, this, &MainWindow::displayInteraction);
     connect(&world, &World::removeInteraction, this, &MainWindow::removeInteraction);
 }

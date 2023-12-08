@@ -4,15 +4,15 @@ MathEngine::MathEngine(CurveFunction curveFunc) : curve(curveFunc)
 {
 }
 
-void MathEngine::addPlayer(std::string key, std::vector<double> values)
+void MathEngine::addPlayer(std::string key, std::array<double, 3> values)
 {
     xValues[key] = values;
 }
 
-std::vector<double> MathEngine::updateAndGetNewY(const std::string &key, double delta, int index)
+std::array<double, 3> MathEngine::updateAndGetNewY(const std::string &key, double delta, int index)
 {
     // Key is present
-    std::vector<double> &values = xValues[key];
+    std::array<double, 3> &values = xValues[key];
     if (xValues.find(key) != xValues.end())
     {
         //Changes all Kopta vs VCJim values
@@ -52,15 +52,15 @@ std::vector<double> MathEngine::updateAndGetNewY(const std::string &key, double 
             updateXValues(values, delta, 0, values.size());
         }
         //xValues[key] = values;
-        std::vector<double> yValues;
-        yValues.push_back(curve(xValues[key][0]));
-        yValues.push_back(curve(xValues[key][1]));
-        yValues.push_back(curve(xValues[key][2]));
+        std::array<double, 3> yValues;
+        yValues[0] = curve(xValues[key][0]);
+        yValues[1] = curve(xValues[key][1]);
+        yValues[2] = curve(xValues[key][2]);
         return yValues;
     }
 }
 
-void MathEngine::updateXValues(std::vector<double> &values, double delta, int start, int end)
+void MathEngine::updateXValues(std::array<double, 3> &values, double delta, int start, int end)
 {
     for (int i = start; i < end; i++)
     {

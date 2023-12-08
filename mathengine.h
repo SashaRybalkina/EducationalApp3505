@@ -21,7 +21,7 @@ public:
      * @param key - of player
      * @param values - x values for player
      */
-    void addPlayer(std::string key, std::vector<double> values);
+    void addPlayer(std::string key, std::array<double, 3> values);
 
     /**
      * @brief updateAndGetNewY - update and get the new y value based on the key and delta
@@ -30,7 +30,7 @@ public:
      * @param index - used for only updating specific player stats
      * @return y score
      */
-    std::vector<double> updateAndGetNewY(const std::string &key, double delta, int index);
+    std::array<double, 3> updateAndGetNewY(const std::string &key, double delta, int index);
 
     /**
      * @brief setCurveFunction - set a new curve func
@@ -40,8 +40,9 @@ public:
 
 private:
     CurveFunction curve;
-    std::map<std::string, std::vector<double>> xValues; // Map to store x values associated with keys (players)
-    void updateXValues(std::vector<double> &values, double delta, int start, int end);
+    // 0 kopta_jim 1 apple_android 2 uofu_byu
+    std::map<std::string, std::array<double, 3>> xValues; // Map to store x values associated with keys (players)
+    void updateXValues(std::array<double, 3> &values, double delta, int start, int end);
 };
 
 #endif // MATHENGINE_H

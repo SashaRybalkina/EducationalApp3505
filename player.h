@@ -2,6 +2,7 @@
 #define PLAYER_H
 
 #include <QWidget>
+#include <array>
 
 class Player : public QWidget
 {
@@ -29,6 +30,7 @@ public:
      * @param y - on screen (top left)
      */
     void setLocation(int x, int y);
+    void setScores(std::array<double, 3> scores);
 
     int getX() const { return x; }
     int getY() const { return y; }
@@ -45,6 +47,8 @@ private:
     std::string name;
     int x;
     int y;
+    // 0 kopta_jim 1 apple_android 2 uofu_byu
+    std::array<double, 3> scores;
 };
 
 #endif // PLAYER_H
