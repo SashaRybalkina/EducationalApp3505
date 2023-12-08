@@ -46,6 +46,17 @@ private:
     QHash<QString, int> const verbBank = {{"hit", -15}, {"agree", 15}, {"dance", 10}, {"die", -20}, {"seperate", 0}, {"hug", 20}, {"explode", -30}, {"kill", -20}, {"eat. A LOT", 0}, {"love", 20}};
     QHash<QString, int> const adjectiveBank = {{"aggressive", -20}, {"friendly", 20}, {"hot", 10}, {"cool", 10}, {"dumb", -15}, {"smart", 15}, {"extravagant", -5}, {"modest", 5}, {"heroic", 20}, {"villainous", -25}};
     std::map<std::string, QLabel*> interactionDrawings;
+    std::vector<std::vector<QString>> resultList;
+    std::array<int, 3> scoreList;
+    QStringList statementList = {"Results!",
+                                 "Throughout the game, you got to shape the world and the way that the characters felt about "
+                                 "eachother through the use of media. You have made several wording choices that either made "
+                                 "specific sides act more antagonistic towards eachother, or find a middle ground. At the end "
+                                 "of the day, it did not matter what the real interaction was between the people whose picture "
+                                 "you took for the headline, since the way that the interaction was painted held all of the "
+                                 "power in manipulating the environment. This is how real-life media works as well, with many "
+                                 "news articles often using partial lies and specific wording to get a specific agenda across.",
+                                 "Here is how you influenced the environment:", "", "", ""};
 
 public slots:
     /**
