@@ -3,9 +3,9 @@
 #include <QDebug>
 
 Player::Player(std::string name, int x, int y, int playerWidth, int playerHeight, int gameWidth, int gameHeight, QWidget *parent) : QWidget(parent),
-                                                                                                                                    name(name),
-                                                                                                                                    x(x),
-                                                                                                                                    y(y)
+    name(name),
+    x(x),
+    y(y)
 {
     // qDebug() << playerWidth;
 
@@ -26,14 +26,19 @@ void Player::setScores(std::array<double, 3> scores)
 
 void Player::paintEvent(QPaintEvent *)
 {
-    // qDebug() << "player painted: " << name;
     QPainter painter(this);
-    QImage image = QImage(":/person.png");
+
+    // Find correct sprite based on player characteristics
+    QString imagePath = "images/"
+            + QString(scores[0] > 0 ? "kopta" : (scores[0] < 0 ? "jim" : "zero"))
+            + QString(scores[1] > 0 ? "Apple" : (scores[1] < 0 ? "Android" : "Zero"))
+            + QString(scores[2] > 0 ? "Uu" : (scores[2] < 0 ? "Byu" : "Zero"))
+            + ".png";
+    QImage image(imagePath);
+
     painter.drawImage(x, y, image);
     playerWidth = image.width();
     playerHeight = image.height();
-    // painter.drawImage(0, 0, image);
-    // qDebug() << image;
     // Set the painter to draw text in green
     QPen pen(Qt::green);
     painter.setPen(pen);
@@ -42,6 +47,7 @@ void Player::paintEvent(QPaintEvent *)
     // font.setPointSize(); // Set the font size if needed
     // font.setBold(true); // Set the font to bold if needed
     painter.setFont(font);
+
     // Draw the text centered on the player image
     QRect textRect(x, y, playerWidth, playerHeight);
     painter.drawText(textRect, Qt::AlignCenter, QString::fromStdString(name));
