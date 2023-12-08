@@ -53,6 +53,9 @@ std::vector<double> MathEngine::updateAndGetNewY(const std::string &key, double 
         }
         //xValues[key] = values;
         std::vector<double> yValues;
+        yValues.push_back(curve(xValues[key][0]));
+        yValues.push_back(curve(xValues[key][1]));
+        yValues.push_back(curve(xValues[key][2]));
         return yValues;
     }
 }
