@@ -38,10 +38,9 @@ void World::startWorld(QWidget *parent)
     {
         // qDebug() << "ran world";
         Player *player = new Player(name, x, y, playerWidth, playerHeight, gameWidth, gameHeight, parent); // TODO: add image as parameter
-        QString values = "";
-        QString str;
-        values += str.setNum(rand() % -50 + 50) + " "; values += str.setNum(rand() % -50 + 50) + " "; str.setNum(rand() % -50 + 50);
-        mathEngine->addPlayer(name, values.toStdString());
+        std::vector<double> values;
+        values.push_back(rand() % -50 + 50); values.push_back(rand() % -50 + 50); values.push_back(rand() % -50 + 50);
+        mathEngine->addPlayer(name, values);
         player->show();
         player->lower(); // moves to bottom of stack among widgets with same parent
         players[name] = player;

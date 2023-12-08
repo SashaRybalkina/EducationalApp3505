@@ -21,7 +21,7 @@ public:
      * @param key - of player
      * @param values - x values for player
      */
-    void addPlayer(std::string key, std::string values);
+    void addPlayer(std::string key, std::vector<double> values);
 
     /**
      * @brief updateAndGetNewY - update and get the new y value based on the key and delta
@@ -30,7 +30,7 @@ public:
      * @param index - used for only updating specific player stats
      * @return y score
      */
-    double updateAndGetNewY(const std::string &key, double delta, int index);
+    std::vector<double> updateAndGetNewY(const std::string &key, double delta, int index);
 
     /**
      * @brief setCurveFunction - set a new curve func
@@ -40,8 +40,8 @@ public:
 
 private:
     CurveFunction curve;
-    QHash<std::string, std::string> xValues; // Map to store x values associated with keys (players)
-    void updateXValues(QStringList &values, double delta, int start, int end);
+    std::map<std::string, std::vector<double>> xValues; // Map to store x values associated with keys (players)
+    void updateXValues(std::vector<double> &values, double delta, int start, int end);
 };
 
 #endif // MATHENGINE_H
