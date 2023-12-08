@@ -20,6 +20,7 @@ void Player::setLocation(int x, int y)
 
 void Player::setScores(std::array<double, 3> scores)
 {
+    qDebug() << "ran set scores";
     this->scores = scores;
 }
 

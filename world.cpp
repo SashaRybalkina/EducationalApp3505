@@ -90,12 +90,16 @@ void World::collisionStartCallback(std::string player1, std::string player2)
     Player *p1 = players[player1];
     Player *p2 = players[player2];
     QPoint displayLoc = QPoint((p1->getX() + p2->getX() + playerWidth) / 2, (p1->getY() + p2->getY() + playerHeight) / 2);  // ph/2 for each player so * 2 gets ph
+    // generate interaction type and itneraciton delta
     std::string interaction;
     int scoreDelta;
     std::tie(interaction, scoreDelta) = interactions[rand() % interactions.size()];
+    // apply math of interaciton and emit interaction for display
+    p1->setScores(mathEngine->updateAndGetNewY(p1->getName(), scoreDelta, 10));
+    p2->setScores(mathEngine->updateAndGetNewY(p2->getName(), scoreDelta, 10));
+    qDebug() << "collision scores set";
     emit displayInteraction(displayLoc, interaction, player1, player2);
 
-//    mathEngine->updateAndGetNewY(p1->getName(), score_delta, );
 }
 
 void World::collisionEndCallback(std::string player1, std::string player2)
