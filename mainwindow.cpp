@@ -26,17 +26,6 @@ MainWindow::MainWindow(World &world, QWidget *parent)
     ui->explanationLabel->setVisible(false);
     ui->result->setVisible(false);
 
-    QStringList testList = {"Results!",
-                            "Throughout the game, you got to shape the world and the way that the characters felt about "
-                            "eachother through the use of media. You have made several wording choices that either made "
-                            "specific sides act more antagonistic towards eachother, or find a middle ground. At the end "
-                            "of the day, it did not matter what the real interaction was between the people whose picture "
-                            "you took for the headline, since the way that the interaction was painted held all of the "
-                            "power in manipulating the environment. This is how real-life media works as well, with many "
-                            "news articles often using partial lies and specific wording to get a specific agenda across.", "Here is how you influenced the environment:"};
-    QString testText = testList.join("\n\n");
-    ui->result->setText(testText);
-
     connect(camera, &Camera::triggerHeadline, this, &MainWindow::makeHeadlineVisible);
 
     connect(ui->nounsButton, &QPushButton::clicked, ui->nounList, &QListWidget::setVisible);
@@ -52,6 +41,16 @@ MainWindow::MainWindow(World &world, QWidget *parent)
 
     connect(&world, &World::displayInteraction, this, &MainWindow::displayInteraction);
     connect(&world, &World::removeInteraction, this, &MainWindow::removeInteraction);
+
+    std::vector<QString> firstResult;
+    std::vector<QString> secondResult;
+    std::vector<QString> thirdResult;
+
+    firstResult = {"You mostly made VCJim and Kopta supporters oppose each other. Your total score is ", "You mostly had little or no affect on VCJim and Kopta supporters. Your total score is ", "You mostly helped VCJim and Kopta supporters find a middle ground! Your total score is "};
+    secondResult = {"You mostly made Android and Apple users oppose each other. Your total score is ", "You mostly had little or no affect on Android and Apple users. Your total score is ", "You mostly helped Android and Apple users find a middle ground! Your total score is "};
+    thirdResult = {"You mostly made BYU and U of U students oppose each other. Your total score is ", "You mostly had little or no affect on BYU and U of U students. Your total score is ", "You mostly helped BYU and U of U students find a middle ground! Your total score is "};
+
+    resultList.push_back(firstResult); resultList.push_back(secondResult); resultList.push_back(thirdResult);
 }
 
 MainWindow::~MainWindow()
@@ -182,7 +181,24 @@ void MainWindow::editHeadline()
     }
 
     totalScore = totalScore / wordCount;
+    //indexTracker is the number associated with the headline. It indicates which x values need to be updated.
     emit getTotalScore(totalScore, indexTracker);
+
+    //There are three different scores, a score for Kopta vs VCJim, a score for Apple vs Android, and a score for U of U vs BYU.
+    //These scores are at at index 0, index 1, and index 2 in the list respectively.
+    if (indexTracker == 1 || indexTracker == 2 || indexTracker == 7 || indexTracker == 8 || indexTracker == 10)
+    {
+        scoreList[0] += totalScore;
+    }
+    else if (indexTracker == 3 || indexTracker == 4 || indexTracker == 7 || indexTracker == 9 || indexTracker == 10)
+    {
+        scoreList[1] += totalScore;
+    }
+    else if (indexTracker == 5 || indexTracker == 6 || indexTracker == 8 || indexTracker == 9 || indexTracker == 10)
+    {
+        scoreList[2] += totalScore;
+    }
+
     ui->nounsButton->setVisible(false);
     ui->verbsButton->setVisible(false);
     ui->adjectivesButton->setVisible(false);
@@ -193,9 +209,32 @@ void MainWindow::editHeadline()
     ui->headlineList->setVisible(false);
     ui->headlineList->setEnabled(false);
     ui->explanationLabel->setVisible(false);
+
     if (headlineBank.size() == 0)
     {
+        //This sets up the result screen. There are three results that need to be specified based on their
+        //respective scores and the scores themselves need to be displayed as well.
+        QString str;
+        for (int i = 0; i < scoreList.size(); i++)
+        {
+            if (-200 <= scoreList[i] <= -20)
+            {
+                statementList[i+3] = resultList[i][0] + str.setNum(scoreList[i]);
+            }
+            else if (20 <= scoreList[i] <= 200)
+            {
+                statementList[i+3] = resultList[i][2] + str.setNum(scoreList[i]);
+            }
+            else if (-20 < scoreList[i] < 20)
+            {
+                statementList[i+3] = resultList[i][1] + str.setNum(scoreList[i]);
+            }
+        }
+
         ui->result->setVisible(true);
+
+        QString statementText = statementList.join("\n\n");
+        ui->result->setText(statementText);
     }
 }
 
