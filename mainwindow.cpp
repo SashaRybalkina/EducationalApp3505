@@ -28,9 +28,9 @@ MainWindow::MainWindow(World &world, QWidget *parent)
 
     connect(camera, &Camera::triggerHeadline, this, &MainWindow::makeHeadlineVisible);
 
-    connect(ui->nounsButton, &QPushButton::clicked, this, &MainWindow::makeNounVisible);
-    connect(ui->verbsButton, &QPushButton::clicked, this, &MainWindow::makeVerbVisible);
-    connect(ui->adjectivesButton, &QPushButton::clicked, this, &MainWindow::makeAdjectiveVisible);
+    connect(ui->nounsButton, &QPushButton::clicked, ui->nounList, &QListWidget::setVisible);
+    connect(ui->verbsButton, &QPushButton::clicked, ui->verbList, &QListWidget::setVisible);
+    connect(ui->adjectivesButton, &QPushButton::clicked, ui->adjectiveList, &QListWidget::setVisible);
 
     connect(ui->headlineList, &QListWidget::itemPressed, this, &MainWindow::makeButtonsVisible);
     connect(ui->nounList, &QListWidget::itemPressed, this, &MainWindow::setString);
@@ -53,39 +53,6 @@ void MainWindow::makeHeadlineVisible()
     ui->headlineList->setVisible(true);
     ui->headlineList->setEnabled(true);
     ui->headlineTextBox->setVisible(true);
-}
-
-void MainWindow::makeNounVisible()
-{
-    bool check = false;
-    if (clickNounCounter % 2 == 0)
-    {
-        check = true;
-    }
-    ui->nounList->setVisible(check);
-    clickNounCounter++;
-}
-
-void MainWindow::makeVerbVisible()
-{
-    bool check = false;
-    if (clickVerbCounter % 2 == 0)
-    {
-        check = true;
-    }
-    ui->verbList->setVisible(check);
-    clickVerbCounter++;
-}
-
-void MainWindow::makeAdjectiveVisible()
-{
-    bool check = false;
-    if (clickAdjectiveCounter % 2 == 0)
-    {
-        check = true;
-    }
-    ui->adjectiveList->setVisible(check);
-    clickAdjectiveCounter++;
 }
 
 void MainWindow::makeButtonsVisible(QListWidgetItem *currentSelection)

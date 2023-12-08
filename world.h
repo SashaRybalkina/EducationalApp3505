@@ -43,6 +43,11 @@ public:
     const std::set<std::tuple<std::string, std::string>> &getActiveCollisions() const { return activeCollisions; }
 
 public slots:
+    /**
+     * @brief updatePlayers uses the math engine to update specific stats of all players.
+     * @param totalScore - the score to increment/decrement the stats by
+     * @param index - helps specify the stats that need to be updated
+     */
     void updatePlayers(int totalScore, int index);
 
 signals:

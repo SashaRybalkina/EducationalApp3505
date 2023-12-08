@@ -17,9 +17,9 @@ public:
     MathEngine(CurveFunction curveFunc);
 
     /**
-     * @brief addPlayer - stores x value for key
+     * @brief addPlayer - stores x values for key
      * @param key - of player
-     * @param x - input value for player
+     * @param values - x values for player
      */
     void addPlayer(std::string key, std::string values);
 
@@ -27,6 +27,7 @@ public:
      * @brief updateAndGetNewY - update and get the new y value based on the key and delta
      * @param key - ID for player
      * @param delta - if delta is positive that means more polarized, negative less polarized. Exp: if pass in 2 and the player has x of -2 there x will be -4
+     * @param index - used for only updating specific player stats
      * @return y score
      */
     double updateAndGetNewY(const std::string &key, double delta, int index);
