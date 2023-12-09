@@ -31,5 +31,6 @@
         <file>images/zeroZeroByu.png</file>
         <file>images/zeroZeroUu.png</file>
         <file>images/zeroZeroZero.png</file>
+        <file>background.jpg</file>
     </qresource>
 </RCC>
