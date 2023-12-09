@@ -45,12 +45,12 @@ PhysicsEngine::PhysicsEngine(float32 numPlayers, float32 playerWidth, float32 pl
         b2Body *body = world->CreateBody(&bodyDef);
         // Convert pixel dimensions to meters and create dynamic rectangle bound
         b2PolygonShape dynamicBox;
-        dynamicBox.SetAsBox(playerWidth / 2.0f, playerHeight / 2.0f); // divide by 2 because box2d doubles
+        dynamicBox.SetAsBox(playerWidth / 2.0f - 20, playerHeight / 2.0f - 20); // divide by 2 because box2d doubles // added -15 to compress hopefully itneract logner
         // set body traits
         b2FixtureDef fixtureDef;
         fixtureDef.shape = &dynamicBox;
         fixtureDef.density = .005f;
-        fixtureDef.friction = 0.4f;
+        fixtureDef.friction = 1.0f;
         fixtureDef.restitution = 0.6f; // Bounciness
         // apply traits and name (user data)
         body->CreateFixture(&fixtureDef);
