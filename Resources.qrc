@@ -1,8 +1,4 @@
 <RCC>
-    <qresource prefix="/people">
-        <file>stick_man.png</file>
-    </qresource>
-    <qresource prefix="/">
-        <file>person.png</file>
-    </qresource>
+    <qresource prefix="/people"/>
+    <qresource prefix="/"/>
 </RCC>

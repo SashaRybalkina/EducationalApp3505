@@ -24,7 +24,7 @@ void World::startWorld(QWidget *parent)
     this->parent = parent;
 
     // player width/height based on size of sprite
-    QImage image = QImage(":/person.png");
+    QImage image = QImage(":/zeroZeroZero.png");
     this->playerWidth = image.width();
     this->playerHeight = image.height();
 
