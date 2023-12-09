@@ -11,6 +11,9 @@
 #include <set>
 #include <array>
 
+/**
+ * @brief The World class represents the area where players can interact
+ */
 class World : public QObject
 {
     Q_OBJECT
@@ -22,6 +25,7 @@ public:
      * @param parent - parent object
      */
     World(int gameWidth, int gameHeight, std::array<std::tuple<std::string, int>, 4> interactions, QObject *parent = nullptr);
+
     /**
      * @brief startWorld - creates player objects and adds their ids to the physics engine
      * @param parent - the main widget, need so player objects have the parent scope
@@ -34,14 +38,25 @@ public:
      * @param player2 - in collision
      */
     void collisionStartCallback(std::string player1, std::string player2);
+
     /**
      * @brief collisionEndCallback - handles collision end event from physis engine
      * @param player1 - in collision
      * @param player2 - in collision
      */
     void collisionEndCallback(std::string player1, std::string player2);
+
+    /**
+     * @brief getPlayers - getter for players map
+     * @return map of players
+     */
     const std::map<std::string, Player *> &getPlayers() const { return players; }
-    const std::set<std::tuple<std::string, std::string>> &getActiveCollisions() const { return activeCollisions; }
+
+    /**
+     * @brief getActiveCollisions - getter for current interactions
+     * @return set that represents current interactions
+     */
+    const std::set<std::tuple<std::string, std::string>> &getActiveCollisions() const { return currentInteractions; }
 
 public slots:
     /**
@@ -59,13 +74,14 @@ signals:
      * @param player1 - id
      * @param player2 - id
      */
-    void displayInteraction(QPoint point, std::string interaction, std::string player1,  std::string player2);
+    void displayInteraction(QPoint point, std::string interaction, std::string player1, std::string player2);
+
     /**
      * @brief removeInteraction - tells mainWIndow to remove interaction
      * @param player1 - id
      * @param player2 - id
      */
-    void removeInteraction(std::string player1,  std::string player2);
+    void removeInteraction(std::string player1, std::string player2);
 
 private:
     PhysicsEngine *physicsEngine;
@@ -78,7 +94,7 @@ private:
     QWidget *parent;
 
     std::map<std::string, Player *> players;
-    std::set<std::tuple<std::string, std::string>> activeCollisions;
+    std::set<std::tuple<std::string, std::string>> currentInteractions;
     const std::array<std::tuple<std::string, int>, 4> interactions;
 
 private slots:

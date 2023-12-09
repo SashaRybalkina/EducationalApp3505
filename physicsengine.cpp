@@ -2,7 +2,6 @@
 #include <Box2D/Box2D.h>
 #include <string>
 #include <random>
-#include <QDebug>
 
 float randomFloat(float min, float max)
 {
@@ -24,47 +23,51 @@ PhysicsEngine::PhysicsEngine(float32 numPlayers, float32 playerWidth, float32 pl
     b2Vec2 gravity(0.0f, 0.0f); // Define world without gravity
     this->world = new b2World(gravity);
 
-    // create walls
+    // Create walls
     // gameWidth and gameHeight are the dimensions of simulation world in QT gui
     createWall(gameWidth / 2, 0, gameWidth, 1);            // Top wall
     createWall(gameWidth / 2, -gameHeight, gameWidth, 1);  // Bottom wall
     createWall(0, -gameHeight / 2, 1, gameHeight);         // Left wall
     createWall(gameWidth, -gameHeight / 2, 1, gameHeight); // Right wall
 
-    // create players
+    // Create players
     for (int i = 0; i < numPlayers; i++)
     {
-        // create a body
         b2BodyDef bodyDef;
         bodyDef.type = b2_dynamicBody;
         float32 x = randomFloat(0, gameWidth);
         float32 y = randomFloat(0, gameHeight);
         std::tie(x, y) = pixelCoordinateToB2D(x, y); // unpack
         bodyDef.position.Set(x, y);
-        // get made body from world
+
+        // Get made body from world
         b2Body *body = world->CreateBody(&bodyDef);
+
         // Convert pixel dimensions to meters and create dynamic rectangle bound
         b2PolygonShape dynamicBox;
-        dynamicBox.SetAsBox(playerWidth / 2.0f - 20, playerHeight / 2.0f - 20); // divide by 2 because box2d doubles // added -15 to compress hopefully itneract logner
+        dynamicBox.SetAsBox(playerWidth / 2.0f - 20, playerHeight / 2.0f - 20); // divide by 2 because box2d doubles
+
         // set body traits
         b2FixtureDef fixtureDef;
         fixtureDef.shape = &dynamicBox;
         fixtureDef.density = .005f;
         fixtureDef.friction = 1.0f;
         fixtureDef.restitution = 0.6f; // Bounciness
-        // apply traits and name (user data)
+
+        // Apply traits and name (user data)
         body->CreateFixture(&fixtureDef);
-        std::string *name = new std::string(std::to_string(i)); // TODO: better way?
+        std::string *name = new std::string(std::to_string(i));
         body->SetUserData(name);
+
         // Create a larger sensor fixture for proximity detection for the body
         b2PolygonShape sensorShape;
         sensorShape.SetAsBox((playerWidth / 2.0f) + 10.0f, (playerHeight / 2.0f) + 10.0f); // 10 units larger on each side
         b2FixtureDef sensorFixtureDef;
         sensorFixtureDef.shape = &sensorShape;
-        sensorFixtureDef.isSensor = true; // Make this fixture a sensor
+        sensorFixtureDef.isSensor = true;
         body->CreateFixture(&sensorFixtureDef);
     }
-    // register contact listener with world
+    // Register contact listener with world
     this->cl = new ContactListener(this);
     world->SetContactListener(cl);
 }
@@ -138,7 +141,7 @@ std::tuple<float32, float32> PhysicsEngine::pixelCoordinateToB2D(float32 x, floa
 
 std::tuple<float32, float32> PhysicsEngine::b2DCoordinateToPixel(float32 x, float32 y)
 {
-    // inverse of pixelCoordinateToB2D
+    // Inverse of pixelCoordinateToB2D
     // x = x + gameWidth / 2;
     // y = (-1 * y) + (gameHeight / 2);
     return std::make_tuple(x - (playerWidth / 2), -1 * (y + (playerHeight / 2)));
@@ -173,8 +176,8 @@ std::vector<std::tuple<std::string, float32, float32>> PhysicsEngine::getPlayerL
         std::string *name = static_cast<std::string *>(body->GetUserData());
 
         if (name)
-        { // check if has name cause walls also objects but without names
-            // convert coordinates
+        { // Check if has name cause walls also objects but without names
+            // Convert coordinates
             float32 x, y;
             std::tie(x, y) = b2DCoordinateToPixel(position.x, position.y);
             locations.push_back(std::make_tuple(*name, x, y));

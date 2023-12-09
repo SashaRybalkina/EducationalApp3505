@@ -21,12 +21,6 @@ std::map<std::string, Player *> Camera::getPlayersInPicture()
         }
     }
 
-    qDebug() << "Players in picture: ";
-    for (const auto &[name, player] : playersInPic)
-    {
-        qDebug() << name;
-    }
-
     return playersInPic;
 }
 
@@ -120,14 +114,6 @@ void Camera::mouseReleaseEvent(QMouseEvent *event)
         rightButtonPressed = false;
 
         auto [player1, player2] = getClosestInteracting();
-        if (player1 && player2)
-        {
-            qDebug() << "Players in closest interaction: " << player1->getName() << " and " << player2->getName();
-        }
-        else
-        {
-            qDebug() << "No players in picture are interacting";
-        }
 
         update();
     }
@@ -139,14 +125,12 @@ void Camera::mouseMoveEvent(QMouseEvent *event)
     {
         // widget position + cursor position
         move((this->pos() + event->pos()) - QPoint(width() / 2, height() / 2));
-        //        qDebug() << "Cursor pos: " << event->pos();
-        //        qDebug() << "Widget pos: " << pos();
     }
     update();
 }
 
 void Camera::wheelEvent(QWheelEvent *event)
-{    
+{
     const int increment = 10;
     const int step = (event->angleDelta().y() > 0) ? increment : -increment;
 

@@ -1,6 +1,5 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include <QDebug>
 #include <iostream>
 #include <QVBoxLayout>
 #include <map>
@@ -11,9 +10,7 @@ MainWindow::MainWindow(World &world, QWidget *parent)
     ui->setupUi(this);
     world.startWorld(this);
     camera = new Camera(world, this);
-    qDebug() << "ran mw";
 
-    //std::map<std::string, QLabel> interactionDrawings;  // () assumes it is func, add to .h
     ui->nounsButton->setVisible(false);
     ui->verbsButton->setVisible(false);
     ui->adjectivesButton->setVisible(false);
@@ -50,7 +47,9 @@ MainWindow::MainWindow(World &world, QWidget *parent)
     secondResult = {"You mostly made Android and Apple users oppose each other. Your total score is ", "You mostly had little or no affect on Android and Apple users. Your total score is ", "You mostly helped Android and Apple users find a middle ground! Your total score is "};
     thirdResult = {"You mostly made BYU and U of U students oppose each other. Your total score is ", "You mostly had little or no affect on BYU and U of U students. Your total score is ", "You mostly helped BYU and U of U students find a middle ground! Your total score is "};
 
-    resultList.push_back(firstResult); resultList.push_back(secondResult); resultList.push_back(thirdResult);
+    resultList.push_back(firstResult);
+    resultList.push_back(secondResult);
+    resultList.push_back(thirdResult);
 }
 
 MainWindow::~MainWindow()
@@ -181,11 +180,11 @@ void MainWindow::editHeadline()
     }
 
     totalScore = totalScore / wordCount;
-    //indexTracker is the number associated with the headline. It indicates which x values need to be updated.
+    // IndexTracker is the number associated with the headline. It indicates which x values need to be updated.
     emit getTotalScore(totalScore, indexTracker);
 
-    //There are three different scores, a score for Kopta vs VCJim, a score for Apple vs Android, and a score for U of U vs BYU.
-    //These scores are at at index 0, index 1, and index 2 in the list respectively.
+    // There are three different scores, a score for Kopta vs VCJim, a score for Apple vs Android, and a score for U of U vs BYU.
+    // These scores are at at index 0, index 1, and index 2 in the list respectively.
     if (indexTracker == 1 || indexTracker == 2 || indexTracker == 7 || indexTracker == 8 || indexTracker == 10)
     {
         scoreList[0] += totalScore;
@@ -212,22 +211,22 @@ void MainWindow::editHeadline()
 
     if (headlineBank.size() == 0)
     {
-        //This sets up the result screen. There are three results that need to be specified based on their
-        //respective scores and the scores themselves need to be displayed as well.
+        // This sets up the result screen. There are three results that need to be specified based on their
+        // respective scores and the scores themselves need to be displayed as well.
         QString str;
         for (int i = 0; i < scoreList.size(); i++)
         {
             if (-200 <= scoreList[i] <= -20)
             {
-                statementList[i+3] = resultList[i][0] + str.setNum(scoreList[i]);
+                statementList[i + 3] = resultList[i][0] + str.setNum(scoreList[i]);
             }
             else if (20 <= scoreList[i] <= 200)
             {
-                statementList[i+3] = resultList[i][2] + str.setNum(scoreList[i]);
+                statementList[i + 3] = resultList[i][2] + str.setNum(scoreList[i]);
             }
             else if (-20 < scoreList[i] < 20)
             {
-                statementList[i+3] = resultList[i][1] + str.setNum(scoreList[i]);
+                statementList[i + 3] = resultList[i][1] + str.setNum(scoreList[i]);
             }
         }
 
@@ -238,43 +237,50 @@ void MainWindow::editHeadline()
     }
 }
 
-// pick color for label based on interaction type (interactions past into world in main)
-void setColor(QLabel *label, std::string interaction) {
-    if (interaction == "shake hands") {
+void setColor(QLabel *label, std::string interaction)
+{
+    // Pick color for label based on interaction type (interactions past into world in main)
+    if (interaction == "shake hands")
+    {
         label->setStyleSheet("QLabel { color : green; }");
     }
-    else if (interaction == "discussion") {
-        label->setStyleSheet("QLabel { color : darkgreen; }");    }
-    else if (interaction == "slander") {
+    else if (interaction == "discussion")
+    {
+        label->setStyleSheet("QLabel { color : darkgreen; }");
+    }
+    else if (interaction == "slander")
+    {
         label->setStyleSheet("QLabel { color : red; }");
     }
-    else if (interaction == "fight") {
+    else if (interaction == "fight")
+    {
         label->setStyleSheet("QLabel { color : darkred; }");
     }
 }
 
-void MainWindow::displayInteraction(QPoint point, std::string interaction, std::string player1,  std::string player2) {
-    // Create new label
-    QLabel* label = new QLabel(this);
+void MainWindow::displayInteraction(QPoint point, std::string interaction, std::string player1, std::string player2)
+{
+    QLabel *label = new QLabel(this);
     label->setText(QString::fromStdString(interaction + " " + player1 + "&" + player2));
     label->move(point);
-    // Set the font to be bold and larger
+
     QFont font = label->font();
-    font.setBold(true); // Make the font bold
-    font.setPointSize(font.pointSize() + 4); // Increase the font size by 4 points
+    font.setBold(true);
+    font.setPointSize(font.pointSize() + 4);
     setColor(label, interaction);
     label->setFont(font);
     label->adjustSize();
     label->show();
+
     // Store the label in the map
     std::string ID = player1 + player2;
     interactionDrawings[ID] = label;
 }
 
-void MainWindow::removeInteraction(std::string player1,  std::string player2)
+void MainWindow::removeInteraction(std::string player1, std::string player2)
 {
     std::string ID = player1 + player2;
-    QLabel* label = interactionDrawings[ID];
+    QLabel *label = interactionDrawings[ID];
     interactionDrawings.erase(ID);
     delete label;
 }
