@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
     MainWindow w(world);
 
     // Get background
-    QPixmap background(":/background.jpg");
+    QPixmap background(":images/background.jpg");
 
     // Resize image to fit the window dimensions
     background = background.scaled(screen->size(), Qt::IgnoreAspectRatio);
