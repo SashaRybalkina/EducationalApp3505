@@ -1,4 +1,35 @@
 <RCC>
-    <qresource prefix="/people"/>
-    <qresource prefix="/"/>
+    <qresource prefix="/people">
+        <file>stick_man.png</file>
+    </qresource>
+    <qresource prefix="/">
+        <file>person.png</file>
+        <file>images/jimAndroidByu.png</file>
+        <file>images/jimAndroidUu.png</file>
+        <file>images/jimAndroidZero.png</file>
+        <file>images/jimAppleByu.png</file>
+        <file>images/jimAppleUu.png</file>
+        <file>images/jimAppleZero.png</file>
+        <file>images/jimZeroByu.png</file>
+        <file>images/jimZeroUu.png</file>
+        <file>images/jimZeroZero.png</file>
+        <file>images/koptaAndroidByu.png</file>
+        <file>images/koptaAndroidUu.png</file>
+        <file>images/koptaAndroidZero.png</file>
+        <file>images/koptaAppleByu.png</file>
+        <file>images/koptaAppleUu.png</file>
+        <file>images/koptaAppleZero.png</file>
+        <file>images/koptaZeroByu.png</file>
+        <file>images/koptaZeroUu.png</file>
+        <file>images/koptaZeroZero.png</file>
+        <file>images/zeroAndroidByu.png</file>
+        <file>images/zeroAndroidUu.png</file>
+        <file>images/zeroAndroidZero.png</file>
+        <file>images/zeroAppleByu.png</file>
+        <file>images/zeroAppleUu.png</file>
+        <file>images/zeroAppleZero.png</file>
+        <file>images/zeroZeroByu.png</file>
+        <file>images/zeroZeroUu.png</file>
+        <file>images/zeroZeroZero.png</file>
+    </qresource>
 </RCC>
