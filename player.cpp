@@ -39,11 +39,14 @@ void Player::paintEvent(QPaintEvent *)
     painter.drawImage(x, y, image);
     playerWidth = image.width();
     playerHeight = image.height();
+
     // Set the painter to draw text in green
     QPen pen(Qt::green);
     painter.setPen(pen);
+
     // Set the font if you want to change the size or style
     QFont font = painter.font();
+
     // font.setPointSize(); // Set the font size if needed
     // font.setBold(true); // Set the font to bold if needed
     painter.setFont(font);
