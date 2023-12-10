@@ -50,6 +50,8 @@ MainWindow::MainWindow(World &world, QWidget *parent)
     resultList.push_back(firstResult);
     resultList.push_back(secondResult);
     resultList.push_back(thirdResult);
+
+    scoreList[0] = 0; scoreList[1] = 0; scoreList[2] = 0;
 }
 
 MainWindow::~MainWindow()
@@ -126,9 +128,16 @@ void MainWindow::editHeadlineSimplifier(QString bracket, QListWidget *list, QStr
 
     splitHeadline[index] = currentString + extra;
 
-    if (splitHeadline[index - 1] == "a" && (splitHeadline[index].mid(0, 1) == 'a' || splitHeadline[index].mid(0, 1) == 'o' || splitHeadline[index].mid(0, 1) == 'i' || splitHeadline[index].mid(0, 1) == 'e'))
+    if ((splitHeadline[index - 1] == "a" || splitHeadline[index - 1] == "A") && (splitHeadline[index].mid(0, 1) == 'a' || splitHeadline[index].mid(0, 1) == 'o' || splitHeadline[index].mid(0, 1) == 'i' || splitHeadline[index].mid(0, 1) == 'e'))
     {
-        splitHeadline[index - 1] = "an";
+        if (splitHeadline[index - 1] == "a")
+        {
+            splitHeadline[index - 1] = "an";
+        }
+        else
+        {
+            splitHeadline[index - 1] = "An";
+        }
     }
 
     totalScore += bank.value(currentString);
@@ -216,15 +225,15 @@ void MainWindow::editHeadline()
         QString str;
         for (int i = 0; i < scoreList.size(); i++)
         {
-            if (-200 <= scoreList[i] <= -20)
+            if (-200 <= scoreList[i] && scoreList[i] <= -20)
             {
                 statementList[i + 3] = resultList[i][0] + str.setNum(scoreList[i]);
             }
-            else if (20 <= scoreList[i] <= 200)
+            else if (20 <= scoreList[i] && scoreList[i] <= 200)
             {
                 statementList[i + 3] = resultList[i][2] + str.setNum(scoreList[i]);
             }
-            else if (-20 < scoreList[i] < 20)
+            else if (-20 < scoreList[i] && scoreList[i] < 20)
             {
                 statementList[i + 3] = resultList[i][1] + str.setNum(scoreList[i]);
             }
