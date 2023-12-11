@@ -64,13 +64,18 @@ void MathEngine::updateXValues(std::array<double, 3> &values, double delta, int 
 {
     for (int i = start; i < end; i++)
     {
+        double yValue = abs(curve(values[i]));
+        if (yValue == 0)
+        {
+            yValue = 1;
+        }
         if (values[i] < 0)
         {
-            values[i] = values[i] + delta;
+            values[i] = values[i] + delta/yValue;
         }
         else if (values[i] > 0)
         {
-            values[i] = values[i] - delta;
+            values[i] = values[i] - delta/yValue;
         }
     }
 }
