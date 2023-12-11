@@ -320,6 +320,7 @@ void MainWindow::restartGame()
     ui->headlineList->setEnabled(false);
     ui->headlineTextBox->setVisible(false);
     ui->explanationLabel->setVisible(false);
+    ui->result->setVisible(false);
 
     currentString = "";
     indexTracker = 0;
