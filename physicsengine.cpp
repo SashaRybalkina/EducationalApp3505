@@ -154,8 +154,8 @@ void PhysicsEngine::updateWorld()
     {
         if (body->GetType() == b2_dynamicBody)
         {
-            float forceX = randomFloat(-10000.0f, 10000.0f);
-            float forceY = randomFloat(-10000.0f, 10000.0f);
+            float forceX = randomFloat(-9000.0f, 9000.0f);
+            float forceY = randomFloat(-9000.0f, 9000.0f);
             b2Vec2 force(forceX, forceY);
             body->ApplyForceToCenter(force, true);
         }
