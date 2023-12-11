@@ -5,6 +5,9 @@
 #include <QHash>
 #include <map>
 
+/**
+ * @brief The MathEngine class handles the impact of interactions on player characteristics
+ */
 class MathEngine
 {
 public:

@@ -4,14 +4,18 @@
 #include <tuple>
 #include <functional>
 
+/**
+ * @brief The PhysicsEngine class handles contact between players and the world
+ */
 class PhysicsEngine
 {
 public:
     // Define the type for the callbacks
     using CallbackType = std::function<void(std::string, std::string)>;
+
     /**
      * @brief PhysicsEngine - responsible for running the physics of float32eraction
-     * @param numPlayers - how many player sto create in simulation
+     * @param numPlayers - how many players to create in simulation
      * @param playerWidth - width of player in pixel (use width of image)
      * @param playerHeight - height of player in pixel (use height of image)
      * @param gameWidth - screen width
@@ -59,7 +63,6 @@ public:
      */
     std::vector<std::tuple<std::string, float32, float32>> getPlayerLocations();
 
-    // void add_players(float32 num_players);
 private:
     float32 numPlayers;
     float32 gameWidth;
@@ -78,11 +81,13 @@ private:
          * @param parent - the parent class the listener is encapsulated in so that it has access to callbacks
          */
         ContactListener(PhysicsEngine *parent);
+
         /**
          * @brief BeginContact - handles sensor detection
          * @param contact - collision start info
          */
         void BeginContact(b2Contact *contact) override;
+
         /**
          * @brief EndContact - handles sensor detection
          * @param contact - collision end info

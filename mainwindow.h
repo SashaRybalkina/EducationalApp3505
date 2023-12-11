@@ -14,11 +14,19 @@ namespace Ui
 }
 QT_END_NAMESPACE
 
+/**
+ * @brief The MainWindow class holds all interactions and orchestrates logic
+ */
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
 public:
+    /**
+     * @brief MainWindow - constructor for main window
+     * @param world -  world object containing information about environment
+     * @param parent - parent widget
+     */
     MainWindow(World &world, QWidget *parent = nullptr);
     ~MainWindow();
 
@@ -28,6 +36,8 @@ private:
     Camera *camera;
     QString currentString = "";
     int indexTracker = 0;
+    int totalScore = 0;
+    int wordCount = 0;
 
     //<> are nouns, {} are verbs, [] are adjectives
     QList<QString> headlineBank = {"1 At 5 pm, a <> is captured between a Kopta supporter and a VCJim supporter, with the Kopta supporter determined to {}, and VCJim supporter determined to {}.",
@@ -40,12 +50,13 @@ private:
                                    "8 A [] U of U student is seen at a nearby park with a [] Kopta supporter, seemingly planning a <> against all BYU students and VCJim supporters.",
                                    "9 Can you believe it? Now BYU students are teaming up with Apple users to {} U of U students and Android users.",
                                    "10 It's a full-blown <>! Now all parties are creating a [] <>, something never before seen in history."};
+    QList<QString> copyForRestart = headlineBank;
 
-    //Used for giving words point values
+    // Used for giving words point values
     QHash<QString, int> const nounBank = {{"fight", -15}, {"feast", 10}, {"war", -20}, {"love", 20}, {"celebration", 20}, {"argument", -10}, {"protest", -15}, {"battle of the GODS", 1000}, {"conversation", 10}, {"movie night", 15}};
     QHash<QString, int> const verbBank = {{"hit", -15}, {"agree", 15}, {"dance", 10}, {"die", -20}, {"seperate", 0}, {"hug", 20}, {"explode", -30}, {"kill", -20}, {"eat. A LOT", 0}, {"love", 20}};
     QHash<QString, int> const adjectiveBank = {{"aggressive", -20}, {"friendly", 20}, {"hot", 10}, {"cool", 10}, {"dumb", -15}, {"smart", 15}, {"extravagant", -5}, {"modest", 5}, {"heroic", 20}, {"villainous", -25}};
-    std::map<std::string, QLabel*> interactionDrawings;
+    std::map<std::string, QLabel *> interactionDrawings;
     std::vector<std::vector<QString>> resultList;
     std::array<int, 3> scoreList;
     QStringList statementList = {"Results!",
@@ -56,24 +67,27 @@ private:
                                  "you took for the headline, since the way that the interaction was painted held all of the "
                                  "power in manipulating the environment. This is how real-life media works as well, with many "
                                  "news articles often using partial lies and specific wording to get a specific agenda across.",
-                                 "Here is how you influenced the environment:", "", "", ""};
+                                 "Here is how you influenced the environment:", "N/A. You ended the game too early, doofus.", "", ""};
 
 public slots:
     /**
      * @brief makeHeadlineVisible allows the player to select a random headline
      */
     void makeHeadlineVisible();
+
     /**
-     * @brief makeButtonsVisible displays nouns, verbs, and adjectives. Disables selected list item and saves
-     * a randomly selected headline and its index to private instance variables.
+     * @brief makeButtonsVisible displays nouns, verbs, and adjectives. saves a randomly selected headline
+     * and its index to private instance variables.
      * @param currentSelection: selected item to be disabled
      */
-    void makeButtonsVisible(QListWidgetItem *currentSelection);
+    void makeButtonsVisible();
+
     /**
      * @brief setString keeps track of the currently selected word to place into the headline later.
      * @param currentSelection: the selected word
      */
     void setString(QListWidgetItem *currentSelection);
+
     /**
      * @brief editHeadline sets specific buttons and lists to be either visible or not visible and uses a
      * helper method to allow the user to insert specific words into specific spots in the headline. Once
@@ -81,6 +95,7 @@ public slots:
      * sent out to edit the stats of the players.
      */
     void editHeadline();
+
     /**
      * @brief editHeadlineSimplifier uses logic to improve sentence coherency when a word is inserted.
      * For example, if the word inserted starts with a vowel and the previous word is "a", this logic will
@@ -94,19 +109,33 @@ public slots:
      * @param index - used for replacing the bracket with a word.
      */
     void editHeadlineSimplifier(QString bracket, QListWidget *list, QStringList &splitHeadline, int &wordCount, int &totalScore, QHash<QString, int> const bank, int index);
+
     /**
      * @brief displayInteraction - displays the 'interactiton' label at the point of collision and stores the label in interactionDrawings
      * @param point - where the collision occured (center point between the two players)
      * @param interaction - label for interaction being had
      * @param ID -unique id of the collision
      */
-    void displayInteraction(QPoint point, std::string interaction, std::string player1,  std::string player2);
+    void displayInteraction(QPoint point, std::string interaction, std::string player1, std::string player2);
+
     /**
      * @brief removeInteraction - remove itneraciton from screen
      * @param player1 - id
      * @param player2 - id
      */
-    void removeInteraction(std::string player1,  std::string player2);
+    void removeInteraction(std::string player1, std::string player2);
+    /**
+     * @brief endGame ends the game by making the result screen visible.
+     */
+    void endGame();
+    /**
+     * @brief restartGame resets all saved score and player values
+     */
+    void restartGame();
+    /**
+     * @brief calculateHeadline specifies the results of the game
+     */
+    void calculateHeadline();
 
 signals:
     /**
