@@ -3,6 +3,14 @@
 #include <cmath>
 #include <random>
 
+float worldRandomFloat(float min, float max)
+{
+    static std::random_device rd;
+    static std::mt19937 gen(rd());
+    std::uniform_real_distribution<> dis(min, max);
+    return dis(gen);
+}
+
 World::World(int gameWidth, int gameHeight, std::array<std::tuple<std::string, int>, 4> interactions, QObject *parent) : QObject(parent),
                                                                                                                          timer(this),
                                                                                                                          gameWidth(gameWidth),
@@ -114,6 +122,7 @@ void World::resetPlayers()
         newValues = {distr(gen), distr(gen), distr(gen)};
         mathEngine->addPlayer(name, newValues);
         player->setScores(mathEngine->updateAndGetNewY(name, 0, 0));  // get new values and update them in player
+        player->setLocation(worldRandomFloat(0, gameWidth), worldRandomFloat(0, gameHeight));
         player->update();
     }
 }
