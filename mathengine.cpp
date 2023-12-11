@@ -1,5 +1,4 @@
 #include "mathengine.h"
-#include <iostream>
 
 MathEngine::MathEngine(CurveFunction curveFunc) : curve(curveFunc)
 {

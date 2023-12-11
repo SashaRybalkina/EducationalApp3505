@@ -103,7 +103,7 @@ void World::collisionEndCallback(std::string player1, std::string player2)
 
 void World::resetPlayers()
 {
-    for (const auto &player : players)
+    for (auto &[name, player] : players)
     {
         std::random_device rd;                               // Obtain a random number from hardware
         std::mt19937 gen(rd());                              // Seed the generator
@@ -111,6 +111,7 @@ void World::resetPlayers()
 
         std::array<double, 3> newValues;
         newValues = {distr(gen), distr(gen), distr(gen)};
-        mathEngine->addPlayer(player.first, newValues);
+        mathEngine->addPlayer(name, newValues);
+        player->update();
     }
 }
