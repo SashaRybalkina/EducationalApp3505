@@ -43,6 +43,7 @@ void World::startWorld(QWidget *parent)
         std::array<double, 3> values;
         values = {distr(gen), distr(gen), distr(gen)}; // 3 random nums (-20, 20)
         mathEngine->addPlayer(name, values);
+        player->setScores(mathEngine->updateAndGetNewY(name, 0, 0));  // get new values and update them in player
         player->show();
         player->lower(); // Moves to bottom of stack among widgets with same parent
         players[name] = player;
@@ -112,6 +113,7 @@ void World::resetPlayers()
         std::array<double, 3> newValues;
         newValues = {distr(gen), distr(gen), distr(gen)};
         mathEngine->addPlayer(name, newValues);
+        player->setScores(mathEngine->updateAndGetNewY(name, 0, 0));  // get new values and update them in player
         player->update();
     }
 }
