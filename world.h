@@ -57,6 +57,10 @@ public:
      * @return set that represents current interactions
      */
     const std::set<std::tuple<std::string, std::string>> &getActiveCollisions() const { return currentInteractions; }
+    /**
+     * @brief resetPlayers gives all players brand new x values when reset button is clicked
+     */
+    void resetPlayers();
 
 public slots:
     /**

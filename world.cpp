@@ -100,3 +100,17 @@ void World::collisionEndCallback(std::string player1, std::string player2)
     currentInteractions.erase(std::make_tuple(player1, player2));
     emit removeInteraction(player1, player2);
 }
+
+void World::resetPlayers()
+{
+    for (const auto &player : players)
+    {
+        std::random_device rd;                               // Obtain a random number from hardware
+        std::mt19937 gen(rd());                              // Seed the generator
+        std::uniform_real_distribution<> distr(-20.0, 20.0); // Define the range
+
+        std::array<double, 3> newValues;
+        newValues = {distr(gen), distr(gen), distr(gen)};
+        mathEngine->addPlayer(player.first, newValues);
+    }
+}

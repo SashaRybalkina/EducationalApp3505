@@ -1,4 +1,5 @@
 #include "mathengine.h"
+#include <iostream>
 
 MathEngine::MathEngine(CurveFunction curveFunc) : curve(curveFunc)
 {
@@ -51,7 +52,6 @@ std::array<double, 3> MathEngine::updateAndGetNewY(const std::string &key, doubl
         {
             updateXValues(values, delta, 0, values.size());
         }
-        // xValues[key] = values;
         std::array<double, 3> yValues;
         yValues[0] = curve(xValues[key][0]);
         yValues[1] = curve(xValues[key][1]);

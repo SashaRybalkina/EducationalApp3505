@@ -29,7 +29,7 @@ MainWindow::MainWindow(World &world, QWidget *parent)
     connect(ui->verbsButton, &QPushButton::clicked, ui->verbList, &QListWidget::setVisible);
     connect(ui->adjectivesButton, &QPushButton::clicked, ui->adjectiveList, &QListWidget::setVisible);
 
-    connect(ui->headlineList, &QListWidget::itemPressed, this, &MainWindow::makeButtonsVisible);
+    connect(ui->headlineList, &QListWidget::clicked, this, &MainWindow::makeButtonsVisible);
     connect(ui->nounList, &QListWidget::itemPressed, this, &MainWindow::setString);
     connect(ui->verbList, &QListWidget::itemPressed, this, &MainWindow::setString);
     connect(ui->adjectiveList, &QListWidget::itemPressed, this, &MainWindow::setString);
@@ -38,6 +38,9 @@ MainWindow::MainWindow(World &world, QWidget *parent)
 
     connect(&world, &World::displayInteraction, this, &MainWindow::displayInteraction);
     connect(&world, &World::removeInteraction, this, &MainWindow::removeInteraction);
+
+    connect(ui->end, &QPushButton::clicked, this, &MainWindow::endGame);
+    connect(ui->restart, &QPushButton::clicked, this, &MainWindow::restartGame);
 
     std::vector<QString> firstResult;
     std::vector<QString> secondResult;
@@ -67,9 +70,8 @@ void MainWindow::makeHeadlineVisible()
     ui->headlineTextBox->setVisible(true);
 }
 
-void MainWindow::makeButtonsVisible(QListWidgetItem *currentSelection)
+void MainWindow::makeButtonsVisible()
 {
-    currentSelection->setFlags(currentSelection->flags() & ~Qt::ItemIsEnabled);
     ui->headlineList->setEnabled(false);
     int headlineIndex = rand() % headlineBank.size();
     QString headline = headlineBank[headlineIndex].mid(2, headlineBank[headlineIndex].length());
@@ -148,8 +150,6 @@ void MainWindow::editHeadlineSimplifier(QString bracket, QListWidget *list, QStr
 
 void MainWindow::editHeadline()
 {
-    int totalScore = 0;
-    int wordCount = 0;
     QStringList splitHeadline = (ui->headlineTextBox->toPlainText()).split(" ");
     for (int i = 0; i < splitHeadline.size(); i++)
     {
@@ -222,6 +222,14 @@ void MainWindow::editHeadline()
     {
         // This sets up the result screen. There are three results that need to be specified based on their
         // respective scores and the scores themselves need to be displayed as well.
+        calculateHeadline();
+    }
+}
+
+void MainWindow::calculateHeadline()
+{
+    if (headlineBank.size() != 10)
+    {
         QString str;
         for (int i = 0; i < scoreList.size(); i++)
         {
@@ -238,12 +246,12 @@ void MainWindow::editHeadline()
                 statementList[i + 3] = resultList[i][1] + str.setNum(scoreList[i]);
             }
         }
-
-        ui->result->setVisible(true);
-
-        QString statementText = statementList.join("\n\n");
-        ui->result->setText(statementText);
     }
+
+    ui->result->setVisible(true);
+
+    QString statementText = statementList.join("\n\n");
+    ui->result->setText(statementText);
 }
 
 void setColor(QLabel *label, std::string interaction)
@@ -292,4 +300,32 @@ void MainWindow::removeInteraction(std::string player1, std::string player2)
     QLabel *label = interactionDrawings[ID];
     interactionDrawings.erase(ID);
     delete label;
+}
+
+void MainWindow::endGame()
+{
+    calculateHeadline();
+}
+
+void MainWindow::restartGame()
+{
+    ui->nounsButton->setVisible(false);
+    ui->verbsButton->setVisible(false);
+    ui->adjectivesButton->setVisible(false);
+    ui->headlineLabel->setVisible(false);
+    ui->nounList->setVisible(false);
+    ui->verbList->setVisible(false);
+    ui->adjectiveList->setVisible(false);
+    ui->headlineList->setVisible(false);
+    ui->headlineList->setEnabled(false);
+    ui->headlineTextBox->setVisible(false);
+    ui->explanationLabel->setVisible(false);
+
+    currentString = "";
+    indexTracker = 0;
+    totalScore = 0;
+    wordCount = 0;
+    scoreList[0] = 0; scoreList[1] = 0; scoreList[2] = 0;
+    headlineBank = copyForRestart;
+    world.resetPlayers();
 }
