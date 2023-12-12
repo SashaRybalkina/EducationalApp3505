@@ -219,6 +219,7 @@ void MainWindow::editHeadline()
     ui->adjectiveList->setVisible(false);
     ui->headlineList->setVisible(false);
     ui->headlineList->setEnabled(false);
+    ui->headlineTextBox->setVisible(false);
     ui->explanationLabel->setVisible(false);
 
     if (headlineBank.size() == 0)
