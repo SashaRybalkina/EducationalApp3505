@@ -188,6 +188,9 @@ void MainWindow::editHeadline()
         }
     }
 
+    QString str;
+    ui->headlineCount->setText("Headlines left:  " + str.setNum(headlineBank.size()));
+
     totalScore = totalScore / wordCount;
     // IndexTracker is the number associated with the headline. It indicates which x values need to be updated.
     emit getTotalScore(totalScore, indexTracker);
@@ -329,4 +332,5 @@ void MainWindow::restartGame()
     scoreList[0] = 0; scoreList[1] = 0; scoreList[2] = 0;
     headlineBank = copyForRestart;
     world.resetPlayers();
+    ui->headlineCount->setText("Headlines left:  10");
 }
